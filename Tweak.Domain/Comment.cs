@@ -12,6 +12,8 @@ namespace Tweak.Domain
     {
         public int Id { get; set; }
         public MembershipUser User { get; set; }
+        public string CommentContent { get; set; }
+        public DateTime DateCreated { get; set; }
 
     }
 }
