@@ -639,6 +639,7 @@
     <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\Custom-bootstrap.css" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
@@ -745,6 +746,7 @@
     <Content Include="Content\Images\social-icons\xanga.png" />
     <Content Include="Content\Images\social-icons\yahoo.png" />
     <Content Include="Content\Images\social-icons\youtube.png" />
+    <Content Include="Content\Images\Tweak\tweaklogo_new.png" />
     <Content Include="Content\jstree\jstree.js" />
     <Content Include="Content\jstree\jstree.min.js" />
     <Content Include="Content\jstree\themes\default\30px.png" />
