@@ -35,6 +35,11 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
+        public ActionResult Forum()
+        {
+            return View();
+        }
+
         public ActionResult Leaderboard()
         {
             return View();

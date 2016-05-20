@@ -6,7 +6,7 @@ namespace Tweak.Domain
     public class Article
     {
         public Guid Id { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime CreateDate { get; set; }
         public DateTime DateModified { get; set; }
         public string Author { get; set; }
         public string Header { get; set; }
