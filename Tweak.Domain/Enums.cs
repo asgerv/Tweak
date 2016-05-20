@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Tweak.Models
+﻿namespace Tweak.Domain
 {
     public enum ArticleType
     {
@@ -12,5 +7,4 @@ namespace Tweak.Models
         Video,
         Unboxing
     }
-
 }
