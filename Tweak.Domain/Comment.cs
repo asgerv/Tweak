@@ -3,7 +3,7 @@ using MVCForum.Domain.DomainModel;
 
 namespace Tweak.Domain
 {
-    internal class Comment
+    public class Comment
     {
         public Guid Id { get; set; }
         public MembershipUser User { get; set; }

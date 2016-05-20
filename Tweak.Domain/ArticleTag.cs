@@ -2,7 +2,7 @@
 
 namespace Tweak.Domain
 {
-    public class Tag
+    public class ArticleTag
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
