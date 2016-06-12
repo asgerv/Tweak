@@ -40,11 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Article.cs" />
-    <Compile Include="ArticleComment.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ArticleTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVCForum.Core\MVCForum.Domain.csproj">
