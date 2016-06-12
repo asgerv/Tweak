@@ -110,6 +110,9 @@
     <Compile Include="Data\Caching\CachingConfiguration.cs" />
     <Compile Include="Data\Context\MVCForumContext.cs" />
     <Compile Include="Data\Mapping\ActivityMapping.cs" />
+    <Compile Include="Data\Mapping\ArticleCommentMapping.cs" />
+    <Compile Include="Data\Mapping\ArticleMapping.cs" />
+    <Compile Include="Data\Mapping\ArticleTagMapping.cs" />
     <Compile Include="Data\Mapping\BadgeMapping.cs" />
     <Compile Include="Data\Mapping\BadgeTypeTimeLastCheckedMapping.cs" />
     <Compile Include="Data\Mapping\BannedEmailMapping.cs" />

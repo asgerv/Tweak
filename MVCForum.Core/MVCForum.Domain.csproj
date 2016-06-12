@@ -90,6 +90,9 @@
     <Compile Include="DomainModel\Attributes\DescriptionAttribute.cs" />
     <Compile Include="DomainModel\Attributes\NameAttribute.cs" />
     <Compile Include="DomainModel\Attributes\IdAttribute.cs" />
+    <Compile Include="DomainModel\CMS\Article.cs" />
+    <Compile Include="DomainModel\CMS\ArticleComment.cs" />
+    <Compile Include="DomainModel\CMS\ArticleTag.cs" />
     <Compile Include="DomainModel\Entities\Badge.cs" />
     <Compile Include="DomainModel\Entities\BannedEmail.cs" />
     <Compile Include="DomainModel\Entities\Category.cs" />
