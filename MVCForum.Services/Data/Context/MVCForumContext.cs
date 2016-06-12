@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.Activity;
+using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.DomainModel.Entities;
 using MVCForum.Domain.Interfaces;
 
@@ -54,7 +55,9 @@ namespace MVCForum.Services.Data.Context
         public DbSet<GlobalPermissionForRole> GlobalPermissionForRole { get; set; }
         public DbSet<Email> Email { get; set; }
         public DbSet<PostEdit> PostEdit { get; set; }
-
+        public DbSet<Article> Article { get; set; }
+        public DbSet<ArticleComment> ArticleComment { get; set; }
+        public DbSet<ArticleTag> ArticleTag { get; set; }
 
         public override int SaveChanges()
         {
