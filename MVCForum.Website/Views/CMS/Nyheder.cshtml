@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Nyheder";
+    Layout = "~/Views/Shared/_CMSLayout.cshtml";
+}
+<h2>Nyheder</h2>
+<link href="~/Content/Tweak/OnOffKnap.css" rel="stylesheet" />
+<div class="onoffswitch">
+    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+    <label class="onoffswitch-label" for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<p>
+    My Editor:<br />
+    <textarea id="editor1" name="editor1">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+    <script type="text/javascript">
+        CKEDITOR.replace('editor1');
+    </script>
+</p>

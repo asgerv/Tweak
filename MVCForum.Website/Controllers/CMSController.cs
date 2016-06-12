@@ -14,6 +14,12 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
+        // GET: Nyheder
+        public ActionResult Nyheder()
+        {
+            return View();
+        }
+
         // GET: CMS/Details/5
         public ActionResult Details(int id)
         {
@@ -85,5 +91,8 @@ namespace MVCForum.Website.Controllers
                 return View();
             }
         }
+
+
+
     }
 }
