@@ -13,7 +13,26 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
-
+        // GET: Nyheder
+        public ActionResult News()
+        {
+            return View();
+        }
+        // GET: Nyheder
+        public ActionResult NewArticle()
+        {
+            return View();
+        }
+        // GET: Nyheder
+        public ActionResult Comments()
+        {
+            return View();
+        }
+        // GET: Nyheder
+        public ActionResult Statistics()
+        {
+            return View();
+        }
         // GET: Nyheder
         public ActionResult Nyheder()
         {

@@ -646,6 +646,9 @@
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\bootstrap\js\npm.js" />
     <Content Include="Content\cache\Cache.txt" />
+    <Content Include="Content\cms\metismenu\metisMenu.css" />
+    <Content Include="Content\cms\metismenu\metisMenu.min.css" />
+    <Content Include="Content\cms\sb-admin-2.css" />
     <Content Include="Content\Emails\EmailNotification.htm" />
     <Content Include="Content\Images\ajaxloader-large.gif" />
     <Content Include="Content\Images\ajaxloader.gif" />
@@ -784,6 +787,9 @@
     <Content Include="Content\tinymce.css" />
     <Content Include="Content\Tweak\OnOffKnap.css" />
     <Content Include="Content\uploads\readme.txt" />
+    <Content Include="Content\font-awesome\font-awesome.css" />
+    <Content Include="Content\font-awesome\font-awesome.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Installer\ManualSql\manualVersionOneSevenToOneEight.sql" />
     <Content Include="Scripts\badges.js" />
     <Content Include="Scripts\bbeditor\emoticons\alien.png" />
@@ -1155,6 +1161,9 @@
     <Content Include="Scripts\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Scripts\ckeditor\skins\moono\images\spinner.gif" />
     <Content Include="Scripts\ckeditor\styles.js" />
+    <Content Include="Scripts\cms\metismenu\metisMenu.js" />
+    <Content Include="Scripts\cms\metismenu\metisMenu.min.js" />
+    <Content Include="Scripts\cms\sb-admin-2.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -1399,6 +1408,15 @@
     <Content Include="Scripts\ckeditor\package.json" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Views\CMS\NewArticle.cshtml" />
+    <Content Include="Views\CMS\Comments.cshtml" />
+    <None Include="Views\CMS\News.cshtml" />
+    <Content Include="Views\CMS\Statistics.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
