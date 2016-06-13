@@ -1164,6 +1164,7 @@
     <Content Include="Scripts\cms\metismenu\metisMenu.js" />
     <Content Include="Scripts\cms\metismenu\metisMenu.min.js" />
     <Content Include="Scripts\cms\sb-admin-2.js" />
+    <Content Include="Scripts\cms\tinymceeditor.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />

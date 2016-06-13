@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/cms/metismenu/metisMenu.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/cms/sb-admin-2.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
 
     @*<link href="~/Content/bootstrap/css/Custom-bootstrap.css" rel="stylesheet" />*@
     @*@Styles.Render("~/Content/css")
@@ -28,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                
+
                 <a class="navbar-brand" href="@Url.Action("Index", "Home", null)">Tweak.dk</a>
             </div>
             <!-- /.navbar-header -->
@@ -263,7 +264,7 @@
                         <li>
                             <a href="@Url.Action("Index", "CMS")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        
+
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Nyheder<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -299,6 +300,9 @@
     <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/Scripts/cms/metismenu/metisMenu.min.js"></script>
     <script src="~/Scripts/cms/sb-admin-2.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script src="~/Scripts/cms/tinymceeditor.js"></script>
+    <script src="~/Scripts/tinymceplugins/ImageUpload/imageupload.js"></script>
     @RenderSection("scripts", false)
 </body>
 </html>

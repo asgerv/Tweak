@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVCForum.Domain.Constants;
 
 namespace MVCForum.Website.Controllers
 {
@@ -21,6 +22,7 @@ namespace MVCForum.Website.Controllers
         // GET: Nyheder
         public ActionResult NewArticle()
         {
+            //ViewBag.ImageUploadType = "forumimageinsert";
             return View();
         }
         // GET: Nyheder
