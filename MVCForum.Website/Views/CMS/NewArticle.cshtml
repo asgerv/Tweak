@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -19,7 +20,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <form method="post">
-                                <div id="newsEditor">Click here to edit!</div>
+                                <div id="newsEditor">Tryk for at skrive</div>
                             </form>
                             @*@Html.Partial("customeditors/tinymceeditor")*@
                         </div>
@@ -36,3 +37,5 @@
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script src="~/Scripts/cms/tinymceeditor.js"></script>
