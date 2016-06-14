@@ -323,6 +323,7 @@
     <Compile Include="Application\Providers\RoleProvider.cs" />
     <Compile Include="Areas\Admin\ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CMSViewModels.cs" />
     <Compile Include="ViewModels\ModerateViewModels.cs" />
     <Compile Include="Application\ScheduledJobs\KepAliveJob.cs" />
     <Compile Include="Application\ScheduledJobs\ScheduledRunner.cs" />
@@ -1589,7 +1590,7 @@
     <Content Include="Views\CMS\Comments.cshtml" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <None Include="Views\CMS\News.cshtml" />
+    <None Include="Views\CMS\Articles.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

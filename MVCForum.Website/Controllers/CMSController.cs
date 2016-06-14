@@ -15,7 +15,7 @@ namespace MVCForum.Website.Controllers
             return View();
         }
         // GET: Nyheder
-        public ActionResult News()
+        public ActionResult Articles()
         {
             return View();
         }
