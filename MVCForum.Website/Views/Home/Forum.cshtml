@@ -1,10 +1,9 @@
-﻿@using MVCForum.Website.Application
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutRightSideBar.cshtml";
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
     ViewBag.MetaDesc = Html.Settings().MetaDesc;
 }
-    
+
 
 @section side
 {
@@ -18,8 +17,6 @@
 @Html.Action("LatestTopics", "Topic")
 
 
-    @*If you want to show categories on the home page instead of topics
+@*If you want to show categories on the home page instead of topics
     Just uncomment this action out and delete this text (And comment out the above action)*@
-    @Html.Action("ListMainCategories", "Category")
-
-
+@Html.Action("ListMainCategories", "Category")

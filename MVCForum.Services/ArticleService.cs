@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces;
@@ -17,6 +16,7 @@ namespace MVCForum.Services
         {
             _context = context as MVCForumContext;
         }
+
         public Article AddNewArticle(Article article, MembershipUser user)
         {
             article.User = user;

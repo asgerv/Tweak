@@ -39,7 +39,6 @@ namespace MVCForum.Website.Controllers
         [HttpPost]
         public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] Article article)
         {
-
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 if (ModelState.IsValid)

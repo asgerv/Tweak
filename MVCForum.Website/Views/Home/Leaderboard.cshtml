@@ -9,15 +9,15 @@
 }
 
 @section Header {
-        @(
+    @(
         Bundle.JavaScript()
-            .Add("~/Scripts/leaderboard.js")            
+            .Add("~/Scripts/leaderboard.js")
             .MvcRender("~/scripts/cache/leaderboard-combined_#.js")
-    )
+          )
 }
 
 <div class="leaderboard">
-    
+
     <div class="row">
         <div class="col-md-6 thisweeksstars">
             <h2>@Html.LanguageString("Leaderboard.ThisWeeksStars")</h2>

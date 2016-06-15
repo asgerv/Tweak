@@ -10,7 +10,6 @@ namespace MVCForum.Services.Data.Mapping
             HasKey(x => x.Id);
             Property(x => x.Id).IsRequired();
             Property(x => x.Name).IsRequired();
-
         }
     }
 }
