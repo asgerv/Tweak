@@ -4,38 +4,76 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
+using MVCForum.Domain.DomainModel;
+using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.Interfaces.Services;
+using MVCForum.Domain.Interfaces.UnitOfWork;
+using MVCForum.Services;
+using MVCForum.Services.Data.Context;
+using MVCForum.Services.Data.UnitOfWork;
 
 namespace MVCForum.Website.Controllers
 {
-    public class CMSController : Controller
+    public class CMSController : BaseController
     {
+        private readonly IArticleService _articleService;
+        public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
+            IMembershipService membershipService, ILocalizationService localizationService,
+            IRoleService roleService, ISettingsService settingsService, IArticleService articleService)
+            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+        {
+            _articleService = articleService;
+        }
+
         // GET: CMS
         public ActionResult Index()
         {
             return View();
         }
-        // GET: Nyheder
         public ActionResult Articles()
         {
             return View();
         }
-        // GET: Nyheder
+        // GET: CMS/NewArticle
         public ActionResult NewArticle()
         {
-            //ViewBag.ImageUploadType = "forumimageinsert";
             return View();
         }
-        // GET: Nyheder
+        // POST: Article
+        [HttpPost]
+        public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] Article article)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    //try
+                    //{
+                        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                        _articleService.AddNewArticle(article, loggedOnUser);
+                        unitOfWork.Commit();
+                        return RedirectToAction("Index");
+                    //}
+                    //catch (Exception ex)
+                    //{
+                        
+                    //    unitOfWork.Rollback();
+                    //    LoggingService.Error(ex);
+                    //    throw;
+                    //}
+                }
+            }
+
+            return View(@article);
+        }
         public ActionResult Comments()
         {
             return View();
         }
-        // GET: Nyheder
         public ActionResult Statistics()
         {
             return View();
         }
-        // GET: Nyheder
         public ActionResult Nyheder()
         {
             return View();
