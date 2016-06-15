@@ -65,6 +65,16 @@ namespace MVCForum.Services.Data.Mapping
             Ignore(x => x.TotalPoints);
             Ignore(x => x.NiceUrl);
 
+            // Tilføjet Article #ændret
+            HasMany(x => x.Articles).WithRequired(x => x.User)
+                .Map(x => x.MapKey("MembershipUser_Id"))
+                .WillCascadeOnDelete(false);
+            // Tilføjet ArticleComment #ændret
+            HasMany(x => x.ArticleComments).WithRequired(x => x.User)
+                .Map(x => x.MapKey("MembershipUser_Id"))
+                .WillCascadeOnDelete(false);
+            
+            
             HasMany(x => x.Topics).WithRequired(x => x.User)
                 .Map(x => x.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete(false);

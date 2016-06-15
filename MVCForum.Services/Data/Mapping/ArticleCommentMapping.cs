@@ -12,6 +12,9 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.CommentBody).IsRequired();
             Property(x => x.DateCreated).IsRequired();
             Property(x => x.IsDeleted).IsRequired();
+
+            HasRequired(t => t.User).WithMany(t => t.ArticleComments).Map(m => m.MapKey("MembershipUser_Id")).WillCascadeOnDelete(false);
+            HasRequired(t => t.Article).WithMany(t => t.Comments).Map(m => m.MapKey("Article_Id")).WillCascadeOnDelete(false);
         }
     }
 }

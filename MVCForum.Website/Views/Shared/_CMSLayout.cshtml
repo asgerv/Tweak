@@ -275,11 +275,24 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+
                         <li>
                             <a href="@Url.Action("Comments", "CMS")"><i class="fa fa-table fa-fw"></i> Kommentare</a>
                         </li>
                         <li>
                             <a href="@Url.Action("Statistics", "CMS")"><i class="fa fa-edit fa-fw"></i> Statistik</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Indstillinger<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("NewArticle", "CMS")">Forside</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Articles", "CMS")">Andet</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
                     </ul>
                 </div>
