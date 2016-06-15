@@ -23,6 +23,7 @@ namespace MVCForum.Services
             article.CreateDate = DateTime.Now;
             article.IsDeleted = false;
             article.IsPublished = true;
+            article.Image = "";
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
         }

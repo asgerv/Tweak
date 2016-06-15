@@ -77,5 +77,15 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
+
+        public ActionResult FrontPageSettings()
+        {
+            return View();
+        }
+
+        public ActionResult Tags()
+        {
+            return View();
+        }
     }
 }

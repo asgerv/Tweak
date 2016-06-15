@@ -38,7 +38,9 @@ else
     if (User.IsInRole(AppConstants.AdminRoleName))
     {
         <li><a href="@Url.Action("Index", "Admin", new {area = "Admin"}, null)">@Html.LanguageString("Layout.Nav.Admin")</a></li>
-    }
+        @* Tilføjet CMS *@
+        <li><a href="@Url.Action("Index", "CMS", "CMS", null)">CMS</a></li>
+}
     <li>@Html.ActionLink(Html.LanguageString("Members.SearchMembers"), "Search", "Members")</li>
     <li>
         <a href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">@Html.LanguageString("Buttons.Edit") @Model.CurrentUser.UserName</a>
