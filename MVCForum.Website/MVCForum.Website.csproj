@@ -642,6 +642,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\Custom-bootstrap.css" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\fonts\Shentox W01 Bold.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\bootstrap\js\npm.js" />
@@ -750,6 +751,7 @@
     <Content Include="Content\Images\social-icons\xanga.png" />
     <Content Include="Content\Images\social-icons\yahoo.png" />
     <Content Include="Content\Images\social-icons\youtube.png" />
+    <Content Include="Content\Images\Tweak\gradient.png" />
     <Content Include="Content\Images\Tweak\tweaklogo_new.png" />
     <Content Include="Content\jstree\jstree.js" />
     <Content Include="Content\jstree\jstree.min.js" />
@@ -1416,6 +1418,10 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Views\CMS\NewArticle.cshtml" />
     <Content Include="Views\CMS\Comments.cshtml" />
+    <Content Include="Content\bootstrap\fonts\Shentox W01 Bold.ttf" />
+    <Content Include="Content\bootstrap\fonts\Shentox W01 Bold.eot" />
+    <Content Include="Content\bootstrap\fonts\Shentox W01 Bold.woff" />
+    <Content Include="Content\bootstrap\fonts\Shentox W01 Bold.woff2" />
     <None Include="Views\CMS\News.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
