@@ -858,6 +858,7 @@
     <Content Include="Content\Images\social-icons\xanga.png" />
     <Content Include="Content\Images\social-icons\yahoo.png" />
     <Content Include="Content\Images\social-icons\youtube.png" />
+    <Content Include="Content\Images\Tweak\gradient.png" />
     <Content Include="Content\Images\Tweak\tweaklogo_new.png" />
     <Content Include="Content\jstree\jstree.js" />
     <Content Include="Content\jstree\jstree.min.js" />
