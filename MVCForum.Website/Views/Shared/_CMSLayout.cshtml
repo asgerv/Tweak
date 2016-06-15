@@ -9,11 +9,9 @@
     <link rel="stylesheet" type="text/css" href="~/Content/cms/metismenu/metisMenu.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/cms/sb-admin-2.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
+    @*<link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />*@
 
-    @*<link href="~/Content/bootstrap/css/Custom-bootstrap.css" rel="stylesheet" />*@
-    @*@Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
+
 
 
 </head>
@@ -266,19 +264,19 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Nyheder<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Artikler<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("NewArticle", "CMS")">Opret nyhed</a>
+                                    <a href="@Url.Action("NewArticle", "CMS")">Opret artikel</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("News", "CMS")">Alle nyheder</a>
+                                    <a href="@Url.Action("Articles", "CMS")">Alle artikler</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="@Url.Action("Comments", "CMS")"><i class="fa fa-table fa-fw"></i> Kommentarer</a>
+                            <a href="@Url.Action("Comments", "CMS")"><i class="fa fa-table fa-fw"></i> Kommentare</a>
                         </li>
                         <li>
                             <a href="@Url.Action("Statistics", "CMS")"><i class="fa fa-edit fa-fw"></i> Statistik</a>
@@ -295,14 +293,19 @@
     <footer>
         <p>&copy; @DateTime.Now.Year - Tweak.dk</p>
     </footer>
-    @*@Scripts.Render("~/bundles/jquery")*@
+
     <script src="~/Scripts/jquery-1.11.3.min.js"></script>
     <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/Scripts/cms/metismenu/metisMenu.min.js"></script>
     <script src="~/Scripts/cms/sb-admin-2.js"></script>
-    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-<script src="~/Scripts/cms/tinymceeditor.js"></script>
-    <script src="~/Scripts/tinymceplugins/ImageUpload/imageupload.js"></script>
+
+
+
+
+    @*<script src="~/Scripts/tinymce/tinymce.min.js"></script>*@
+    @*<script src="~/Scripts/cms/tinymceeditor.js"></script>*@
+    @*<script src="~/Scripts/tinymceplugins/ImageUpload/imageupload.js"></script>*@
+
     @RenderSection("scripts", false)
 </body>
 </html>

@@ -53,6 +53,23 @@ overflow:hidden;
     z-index: 2;
 }
 
+.article-1,
+.article-2,
+.article-3,
+.article-4:hover {
+    color: white;
+overflow:hidden;
+    text-align: left;
+    font-size: 1.5em;
+    border: 2px solid white;
+    background-repeat: no-repeat;
+    background-image: url(../../Images/Tweak/gradient.png);
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+    z-index: 2;
+}
+
+
 .article-1 {
     height: 60vh;
 }
