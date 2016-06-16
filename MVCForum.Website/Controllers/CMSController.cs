@@ -78,7 +78,12 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
-        public ActionResult FrontPageSettings()
+        public ActionResult FrontpageSettings()
+        {
+            return View();
+        }
+
+        public ActionResult GeneralSettings()
         {
             return View();
         }

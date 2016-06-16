@@ -7,12 +7,12 @@ namespace MVCForum.Domain.Interfaces.Services
 {
     public interface IArticleService
     {
-        Article AddNewArticle(Article article, MembershipUser user);
+        Article Add(Article article, MembershipUser user);
+        void Delete(Article article);
         IEnumerable<Article> GetAll();
         Article Get(Guid articleId);
-        int ArticleCount();
-        IList<Article> GetNewestArticles(int amountToTake);
+        int Count();
+        IList<Article> GetNewest(int amountToTake);
         IList<Article> GetByUser(Guid memberId, int amountToTake); // Skal man bruge MemberShipUser?
-        bool Delete(Article article);
     }
 }
