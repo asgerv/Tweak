@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MVCForum.Website.ViewModels.TestViewModel
+@{
     ViewBag.Title = "Tags";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
@@ -17,7 +18,16 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>Text her</p>
+                            @using (Html.BeginForm())
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @Html.EditorFor(model => model.S)
+                                        <input type="submit" value="Test" class="btn btn-success"/>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                         <!-- /.col-lg-6 (nested) -->
                     </div>

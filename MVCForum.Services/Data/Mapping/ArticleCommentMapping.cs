@@ -17,10 +17,10 @@ namespace MVCForum.Services.Data.Mapping
                 .WithMany(t => t.ArticleComments)
                 .Map(m => m.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete(false);
-            HasRequired(t => t.Article)
-                .WithMany(t => t.Comments)
-                .Map(m => m.MapKey("Article_Id"))
-                .WillCascadeOnDelete(false);
+            //HasRequired(t => t.Article)
+            //    .WithMany(t => t.Comments)
+            //    .Map(m => m.MapKey("Article_Id"))
+            //    .WillCascadeOnDelete(false);
         }
     }
 }

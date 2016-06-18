@@ -1,21 +1,28 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
+using MVCForum.Website.ViewModels;
 
 namespace MVCForum.Website.Controllers
 {
     public class CMSController : BaseController
     {
         private readonly IArticleService _articleService;
-
+        private readonly IArticleCommentService _articleCommentService;
+        private readonly IArticleTagService _articleTagService;
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,
-            IRoleService roleService, ISettingsService settingsService, IArticleService articleService)
+            IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
+            IArticleCommentService articleCommentService, IArticleTagService articleTagService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _articleService = articleService;
+            _articleCommentService = articleCommentService;
+            _articleTagService = articleTagService;
         }
 
         // GET: CMS
@@ -43,20 +50,20 @@ namespace MVCForum.Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //try
-                    //{
-                    var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                    _articleService.Add(article, loggedOnUser);
-                    unitOfWork.Commit();
-                    return RedirectToAction("Index");
-                    //}
-                    //catch (Exception ex)
-                    //{
+                    try
+                    {
+                        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                        _articleService.Add(article, loggedOnUser);
+                        unitOfWork.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
 
-                    //    unitOfWork.Rollback();
-                    //    LoggingService.Error(ex);
-                    //    throw;
-                    //}
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
                 }
             }
 
@@ -91,6 +98,33 @@ namespace MVCForum.Website.Controllers
         public ActionResult Tags()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult Tags(TestViewModel vm)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var comments = _articleCommentService.GetByArticle(new Guid("5775e572-bf61-4c53-a180-a626013d35b6"));
+
+                _articleCommentService.Delete(comments.First());
+                unitOfWork.Commit();
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult AddComment(TestViewModel vm)
+        {
+            throw new NotImplementedException();
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                var article = _articleService.GetNewest(1).First();
+                var comment = new ArticleComment { CommentBody = vm.S };
+
+                _articleCommentService.Add(comment, article, loggedOnUser);
+                unitOfWork.Commit();
+                return View();
+            }
         }
     }
 }

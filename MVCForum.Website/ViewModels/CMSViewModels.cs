@@ -13,6 +13,10 @@ namespace MVCForum.Website.ViewModels
         public ArticleComment ArticleComment { get; set; }
         public MembershipUser User { get; set; }
     }
+    public class TestViewModel
+    {
+        public string S { get; set; }
+    }
     public class DashboardViewModel
     {
         

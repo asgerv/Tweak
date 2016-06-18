@@ -21,7 +21,7 @@ namespace MVCForum.Services
 
         public ArticleComment Add(ArticleComment comment, Article article, MembershipUser user)
         {
-            // TODO: TEST
+            // Tilføjer en ArticleComment
             comment.Article = article;
             comment.User = user;
             comment.DateCreated = DateTime.Now;
@@ -31,17 +31,15 @@ namespace MVCForum.Services
 
         public void Delete(ArticleComment articleComment)
         {
-            // TODO: TEST
-            // Fjerner ArticleComment fra Article
+            // Fjerner ArticleComment fra Article - Er dette nødvendigt?
             var article = articleComment.Article;
-            _context.Article.Remove(article);
+            article.Comments.Remove(articleComment);
             // Sletter ArticleComment
             _context.ArticleComment.Remove(articleComment);
         }
 
         public IList<ArticleComment> GetByArticle(Guid articleId)
         {
-            // TODO: TEST
             return _context.ArticleComment
                 .Include(x => x.Article)
                 //.Include(x => x.Article)
