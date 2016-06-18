@@ -46,7 +46,7 @@ namespace MVCForum.Website.Controllers
                     //try
                     //{
                     var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                    _articleService.AddNewArticle(article, loggedOnUser);
+                    _articleService.Add(article, loggedOnUser);
                     unitOfWork.Commit();
                     return RedirectToAction("Index");
                     //}

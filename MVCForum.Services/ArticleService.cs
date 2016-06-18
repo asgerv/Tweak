@@ -15,8 +15,9 @@ namespace MVCForum.Services
         private readonly MVCForumContext _context;
         private readonly IArticleCommentService _articleCommentService;
 
-        public ArticleService(IArticleCommentService articleCommentService, IMVCForumContext contex)
+        public ArticleService(IArticleCommentService articleCommentService, IMVCForumContext context)
         {
+
             _articleCommentService = articleCommentService;
             _context = context as MVCForumContext;
         }
