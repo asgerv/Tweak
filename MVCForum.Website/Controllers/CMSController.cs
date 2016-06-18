@@ -10,9 +10,10 @@ namespace MVCForum.Website.Controllers
 {
     public class CMSController : BaseController
     {
-        private readonly IArticleService _articleService;
         private readonly IArticleCommentService _articleCommentService;
+        private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
+
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
@@ -59,7 +60,6 @@ namespace MVCForum.Website.Controllers
                     }
                     catch (Exception ex)
                     {
-
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
                         throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
@@ -99,6 +99,7 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Tags(TestViewModel vm)
         {
@@ -111,6 +112,7 @@ namespace MVCForum.Website.Controllers
                 return View();
             }
         }
+
         [HttpPost]
         public ActionResult AddComment(TestViewModel vm)
         {
@@ -119,7 +121,7 @@ namespace MVCForum.Website.Controllers
             {
                 var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                 var article = _articleService.GetNewest(1).First();
-                var comment = new ArticleComment { CommentBody = vm.S };
+                var comment = new ArticleComment {CommentBody = vm.S};
 
                 _articleCommentService.Add(comment, article, loggedOnUser);
                 unitOfWork.Commit();

@@ -8,7 +8,10 @@ namespace MVCForum.Domain.Interfaces.Services
     public interface IArticleCommentService
     {
         ArticleComment Add(ArticleComment comment, Article article, MembershipUser user);
+        void DeleteFromDb(ArticleComment articleComment);
         void Delete(ArticleComment articleComment);
+        void Update(ArticleComment articleComment);
+        void UpdateBody(string newBody, Guid articleCommentId);
         IList<ArticleComment> GetByArticle(Guid articleId);
     }
 }

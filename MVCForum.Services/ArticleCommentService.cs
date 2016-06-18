@@ -29,13 +29,35 @@ namespace MVCForum.Services
             return _context.ArticleComment.Add(comment);
         }
 
-        public void Delete(ArticleComment articleComment)
+        public void DeleteFromDb(ArticleComment articleComment)
         {
             // Fjerner ArticleComment fra Article - Er dette nødvendigt?
             var article = articleComment.Article;
             article.Comments.Remove(articleComment);
             // Sletter ArticleComment
             _context.ArticleComment.Remove(articleComment);
+        }
+
+        public void Delete(ArticleComment articleComment)
+        {
+            articleComment.IsDeleted = true;
+            Update(articleComment);
+        }
+
+        public void Update(ArticleComment articleComment)
+        {
+            _context.ArticleComment.Attach(articleComment);
+            _context.Entry(articleComment).State = EntityState.Modified;
+        }
+
+        public void UpdateBody(string newBody, Guid articleCommentId)
+        {
+            var article = _context.ArticleComment.FirstOrDefault(a => a.Id == articleCommentId);
+            if (article != null)
+            {
+                article.CommentBody = newBody;
+                Update(article);
+            }
         }
 
         public IList<ArticleComment> GetByArticle(Guid articleId)

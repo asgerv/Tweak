@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces;
 using MVCForum.Domain.Interfaces.Services;
@@ -20,6 +17,31 @@ namespace MVCForum.Services
         }
 
         public ArticleTag Add(ArticleTag articleTag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(ArticleTag articleTag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ArticleTag Get(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ArticleTag Get(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateTagName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ArticleTag> GetAll()
         {
             throw new NotImplementedException();
         }

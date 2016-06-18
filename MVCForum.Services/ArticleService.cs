@@ -12,12 +12,11 @@ namespace MVCForum.Services
 {
     public class ArticleService : IArticleService
     {
-        private readonly MVCForumContext _context;
         private readonly IArticleCommentService _articleCommentService;
+        private readonly MVCForumContext _context;
 
         public ArticleService(IArticleCommentService articleCommentService, IMVCForumContext context)
         {
-
             _articleCommentService = articleCommentService;
             _context = context as MVCForumContext;
         }
