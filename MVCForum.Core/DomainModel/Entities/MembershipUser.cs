@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.DomainModel.Entities;
 using MVCForum.Utilities;
 
@@ -84,6 +85,11 @@ namespace MVCForum.Domain.DomainModel
         public string Latitude { get; set; }
         public string Longitude { get; set; }
 
+        // Tilføjet Article #ændret
+        public virtual IList<Article> Articles { get; set; }
+        // Tilføjet ArticleComment #ændret
+        public virtual IList<ArticleComment> ArticleComments { get; set; }
+        
         public virtual IList<MembershipRole> Roles { get; set; }
         public virtual IList<Post> Posts { get; set; }
         public virtual IList<Topic> Topics { get; set; }

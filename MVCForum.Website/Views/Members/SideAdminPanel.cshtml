@@ -9,7 +9,7 @@
             {
                 if (Model.ModerateCount > 0)
                 {
-                    <span class="badge">@Model.ModerateCount</span> 
+                    <span class="badge">@Model.ModerateCount</span>
                 }
                 if (Model.NewPrivateMessageCount > 0)
                 {
@@ -35,16 +35,19 @@ else
 
 @helper DropDownContents()
 {
-    if (User.IsInRole(AppConstants.AdminRoleName))
-    {
+if (User.IsInRole(AppConstants.AdminRoleName))
+{
         <li><a href="@Url.Action("Index", "Admin", new {area = "Admin"}, null)">@Html.LanguageString("Layout.Nav.Admin")</a></li>
-    }
+        @* Tilføjet CMS *@
+        <li><a href="@Url.Action("Index", "CMS", "CMS", null)">CMS</a></li>
+}
+
     <li>@Html.ActionLink(Html.LanguageString("Members.SearchMembers"), "Search", "Members")</li>
     <li>
         <a href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">@Html.LanguageString("Buttons.Edit") @Model.CurrentUser.UserName</a>
     </li>
-    if (Model.CanViewPrivateMessages)
-    {
+if (Model.CanViewPrivateMessages)
+{
         <li>
             <a href="@Url.Action("Index", "PrivateMessage")">
                 @Html.LanguageString("PM.PrivateMessages")
@@ -55,8 +58,8 @@ else
             </a>
         </li>
 }
-    if (Model.ModerateCount > 0)
-    {
+if (Model.ModerateCount > 0)
+{
         <li>
             <a href="@Url.Action("Index", "Moderate")" class="moderatepanelnav" data-name="@Html.Lang("Moderate.NavText")">
                 @Html.LanguageString("Moderate.NavText")
@@ -66,7 +69,7 @@ else
                 }
             </a>
         </li>
-    }
+}
 
     <li>@Html.ActionLink(Html.LanguageString("LogOn.LogOff"), "LogOff", "Members")</li>
 }

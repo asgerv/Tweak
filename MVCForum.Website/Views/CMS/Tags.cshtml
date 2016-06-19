@@ -1,11 +1,12 @@
-﻿@{
-    ViewBag.Title = "Kommentarer";
+﻿@model MVCForum.Website.ViewModels.TestViewModel
+@{
+    ViewBag.Title = "Tags";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Kommentare</h1>
+            <h1 class="page-header">Tags</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -13,11 +14,20 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Alle kommentare</div>
+                <div class="panel-heading">Tags</div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>Text her</p>
+                            @using (Html.BeginForm())
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @Html.EditorFor(model => model.S)
+                                        <input type="submit" value="Test" class="btn btn-success"/>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                         <!-- /.col-lg-6 (nested) -->
                     </div>

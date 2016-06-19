@@ -1,28 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MVCForum.Domain.Constants;
-using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
-using MVCForum.Services;
-using MVCForum.Services.Data.Context;
-using MVCForum.Services.Data.UnitOfWork;
+using MVCForum.Website.ViewModels;
 
 namespace MVCForum.Website.Controllers
 {
     public class CMSController : BaseController
     {
+        private readonly IArticleCommentService _articleCommentService;
         private readonly IArticleService _articleService;
+        private readonly IArticleTagService _articleTagService;
+
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,
-            IRoleService roleService, ISettingsService settingsService, IArticleService articleService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
+            IArticleCommentService articleCommentService, IArticleTagService articleTagService)
+            : base(
+                loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _articleService = articleService;
+            _articleCommentService = articleCommentService;
+            _articleTagService = articleTagService;
         }
 
         // GET: CMS
@@ -30,15 +31,18 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
+
         public ActionResult Articles()
         {
             return View();
         }
+
         // GET: CMS/NewArticle
         public ActionResult NewArticle()
         {
             return View();
         }
+
         // POST: Article
         [HttpPost]
         public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] Article article)
@@ -47,111 +51,82 @@ namespace MVCForum.Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //try
-                    //{
+                    try
+                    {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        _articleService.AddNewArticle(article, loggedOnUser);
+                        _articleService.Add(article, loggedOnUser);
                         unitOfWork.Commit();
                         return RedirectToAction("Index");
-                    //}
-                    //catch (Exception ex)
-                    //{
-                        
-                    //    unitOfWork.Rollback();
-                    //    LoggingService.Error(ex);
-                    //    throw;
-                    //}
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
                 }
             }
 
-            return View(@article);
+            return View(article);
         }
+
         public ActionResult Comments()
         {
             return View();
         }
+
         public ActionResult Statistics()
         {
             return View();
         }
+
         public ActionResult Nyheder()
         {
             return View();
         }
 
-        // GET: CMS/Details/5
-        public ActionResult Details(int id)
+        public ActionResult FrontpageSettings()
         {
             return View();
         }
 
-        // GET: CMS/Create
-        public ActionResult Create()
+        public ActionResult GeneralSettings()
         {
             return View();
         }
 
-        // POST: CMS/Create
+        public ActionResult Tags()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Tags(TestViewModel vm)
         {
-            try
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                // TODO: Add insert logic here
+                var comments = _articleCommentService.GetByArticle(new Guid("5775e572-bf61-4c53-a180-a626013d35b6"));
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                _articleCommentService.Delete(comments.First());
+                unitOfWork.Commit();
                 return View();
             }
         }
 
-        // GET: CMS/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CMS/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult AddComment(TestViewModel vm)
         {
-            try
+            throw new NotImplementedException();
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                // TODO: Add update logic here
+                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                var article = _articleService.GetNewest(1).First();
+                var comment = new ArticleComment {CommentBody = vm.S};
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                _articleCommentService.Add(comment, article, loggedOnUser);
+                unitOfWork.Commit();
                 return View();
             }
         }
-
-        // GET: CMS/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CMS/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
-
     }
 }

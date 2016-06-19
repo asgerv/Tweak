@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces;
@@ -10,50 +12,68 @@ namespace MVCForum.Services
 {
     public class ArticleService : IArticleService
     {
+        private readonly IArticleCommentService _articleCommentService;
         private readonly MVCForumContext _context;
 
-        public ArticleService(IMVCForumContext context)
+        public ArticleService(IArticleCommentService articleCommentService, IMVCForumContext context)
         {
+            _articleCommentService = articleCommentService;
             _context = context as MVCForumContext;
         }
-        public Article AddNewArticle(Article article, MembershipUser user)
+
+        public Article Add(Article article, MembershipUser user)
         {
             article.User = user;
             article.CreateDate = DateTime.Now;
             article.IsDeleted = false;
             article.IsPublished = true;
+            article.Image = "";
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
         }
 
+        public void Delete(Article article)
+        {
+            // Fjern alle comments
+            foreach (var comment in article.Comments.ToList())
+            {
+                _articleCommentService.Delete(comment);
+            }
+            // Slet article
+            _context.Article.Remove(article);
+        }
+
         public IEnumerable<Article> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Article;
         }
 
         public Article Get(Guid articleId)
         {
-            throw new NotImplementedException();
+            return _context.Article.FirstOrDefault(x => x.Id == articleId);
         }
 
-        public int ArticleCount()
+        public int Count()
         {
-            throw new NotImplementedException();
+            return _context.Article.Count();
         }
 
-        public IList<Article> GetNewestArticles(int amountToTake)
+        public IList<Article> GetNewest(int amountToTake)
         {
-            throw new NotImplementedException();
+            return _context.Article
+                .Where(x => x.IsDeleted == false)
+                .OrderByDescending(x => x.CreateDate)
+                .Take(amountToTake)
+                .ToList();
         }
 
         public IList<Article> GetByUser(Guid memberId, int amountToTake)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(Article article)
-        {
-            throw new NotImplementedException();
+            return _context.Article
+                .Include(x => x.User)
+                .Where(x => x.User.Id == memberId)
+                .Take(amountToTake)
+                .ToList();
         }
     }
 }

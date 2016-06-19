@@ -90,6 +90,10 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IPostEditService, PostEditService>();
             // Tilføjet Article #ændring
             container.BindInRequestScope<IArticleService, ArticleService>();
+            // Tilføjet ArticleComment #ændring
+            container.BindInRequestScope<IArticleCommentService, ArticleCommentService>();
+            // Tilføjet Articletag #ændring
+            container.BindInRequestScope<IArticleTagService, ArticleTagService>();
 
             CustomBindings(container);
 

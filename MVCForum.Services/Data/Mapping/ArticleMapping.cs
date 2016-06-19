@@ -13,9 +13,14 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.Header).IsRequired();
             Property(x => x.Description).IsRequired();
             Property(x => x.Body).IsRequired();
+            Property(x => x.Image).IsRequired();
             Property(x => x.IsDeleted).IsRequired();
             Property(x => x.IsPublished).IsRequired();
 
+            HasRequired(t => t.User)
+                .WithMany(t => t.Articles)
+                .Map(m => m.MapKey("MembershipUser_Id"))
+                .WillCascadeOnDelete(false);
             HasMany(a => a.Comments)
                 .WithRequired(c => c.Article)
                 .Map(x => x.MapKey("Article_Id"));
