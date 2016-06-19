@@ -7,7 +7,6 @@
 
 
 
-
 /*This section is NAVBAR SECTION, this overwrites standard navbar*/
 /* navbar */
 @font-face {
@@ -44,25 +43,47 @@
     color: white;
 overflow:hidden;
     text-align: left;
-    font-size: 1.5em;
     border: 2px solid white;
-    background-repeat: no-repeat;
     background-image: url(../../Images/Tweak/gradient.png);
+    background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: 50% 50%;
     z-index: 2;
+   -webkit-transition: all .4s ease;
+       -moz-transition: all .4s ease;
+         -o-transition: all .4s ease;
+            transition: all .4s ease;
 }
 
 .article-1:hover,
 .article-2:hover,
 .article-3:hover,
 .article-4:hover {
-
-    background-image:none;
-
+  
+    opacity:.4;
     z-index: 2;
+ -webkit-box-shadow:  5px 5px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    5px 5px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         5px 5px 5px 6px #ccc; 
 }
 
+.article-title{
+    font-family:Shentox;
+    color:white;
+       position: absolute;
+   bottom: 80px;
+   left: 20px;
+   z-index:2;
+   overflow:hidden;
+   font-size:3.2vh;
+   
+}
+.article-title:hover{
+text-decoration:none;
+z-index:2;
+   opacity:1;
+
+}
 
 .article-1 {
     height: 60vh;
@@ -82,7 +103,9 @@ overflow:hidden;
 }
 
 .small-article{
-
+        background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
 }
 
 .small-article-text{
