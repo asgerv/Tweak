@@ -317,5 +317,26 @@ namespace MVCForum.Website.Controllers
                 return new GoogleSitemapResult(sitemap);
             }
         }
+
+
+        public ActionResult Video()
+        {
+            return View();
+        }
+
+        public ActionResult Review()
+        {
+            return View();
+        }
+
+        public ActionResult _ArticleMain()
+        {
+            return PartialView();
+        }
+        public ActionResult _Article_Grid4x2()
+        {
+            return PartialView();
+        }
+
     }
 }
