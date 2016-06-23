@@ -1,134 +1,136 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="The description of my page" />
+    <meta charset="utf-8"/>
+    <meta name="description" content="The description of my page"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tweak - CMS</title>
-    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/cms/metismenu/metisMenu.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/cms/sb-admin-2.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/font-awesome.min.css" />
-    @*<link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />*@
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/cms/metismenu/metisMenu.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/cms/sb-admin-2.css"/>
 
+    <link href="~/css/font-awesome.min.css" rel="stylesheet"/>
 
-
-
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/responsive.dataTables.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet"/>
 </head>
 <body>
-    <div id="wrapper">
+<div id="wrapper">
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <a class="navbar-brand" href="@Url.Action("Index", "Home", null)">Tweak.dk</a>
-            </div>
-            <!-- /.navbar-header -->
-            <div class="collapse navbar-collapse" id="mvcforum-nav">
-                <ul class="nav navbar-top-links navbar-right">
-                    @if (!User.Identity.IsAuthenticated)
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home", null)">Tweak.dk</a>
+        </div>
+        <!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="mvcforum-nav">
+            <ul class="nav navbar-top-links navbar-right">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    if (Html.Settings().SuspendRegistration != true)
                     {
-                        if (Html.Settings().SuspendRegistration != true)
-                        {
-                            <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
-                        }
-                        <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
+                        <li>
+                            <a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a>
+                        </li>
                     }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
-                    }
-                </ul>
-            </div>
-            <!-- /.navbar-top-links -->
-
-
-
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
+                    <li>
+                        <a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a>
+                    </li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.Action("SideAdminPanel", "Members", new {isDropDown = true})
+                }
+            </ul>
+        </div>
+        <!-- /.navbar-top-links -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "CMS")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "CMS")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Artikler<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="@Url.Action("NewArticle", "CMS")">Opret artikel</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Articles", "CMS")">Alle artikler</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+                    <li>
+                        <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Artikler<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="@Url.Action("NewArticle", "CMS")" class="fa fa-file"> Opret artikel</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Articles", "CMS")" class="fa fa-table"> Alle artikler</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
 
-                        <li>
-                            <a href="@Url.Action("Comments", "CMS")"><i class="fa fa-table fa-fw"></i> Kommentare</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Statistics", "CMS")"><i class="fa fa-edit fa-fw"></i> Statistik</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Tags", "CMS")"><i class="fa fa-edit fa-fw"></i> Tags</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Indstillinger<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="@Url.Action("FrontpageSettings", "CMS")">Forside</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("GeneralSettings", "CMS")">Generelt</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
+                    <li>
+                        <a href="@Url.Action("Comments", "CMS")"><i class="fa fa-table fa-fw"></i> Kommentarer</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Statistics", "CMS")"><i class="fa fa-area-chart fa-fw"></i> Statistik</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Tags", "CMS")"><i class="fa fa-tags fa-fw"></i> Tags</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Indstillinger<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="@Url.Action("FrontpageSettings", "CMS")">Forside</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("GeneralSettings", "CMS")">Generelt</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
             </div>
-            <!-- /.navbar-static-side -->
-        </nav>
-        @RenderBody()
-    </div>
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Tweak.dk</p>
-    </footer>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+    @RenderBody()
+</div>
+<hr/>
+<footer>
+    <p>&copy; @DateTime.Now.Year - Tweak.dk</p>
+</footer>
+<script src="~/Scripts/jquery-1.11.3.min.js"></script>
+<script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Scripts/cms/metismenu/metisMenu.min.js"></script>
+<script src="~/Scripts/cms/sb-admin-2.js"></script>
 
-    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
-    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/cms/metismenu/metisMenu.min.js"></script>
-    <script src="~/Scripts/cms/sb-admin-2.js"></script>
 
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/dataTables.responsive.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+<script>
+    $(document)
+        .ready(function() {
+            $('#hello123').DataTable();
+        });
+</script>
 
-
-
-    @*<script src="~/Scripts/tinymce/tinymce.min.js"></script>*@
-    @*<script src="~/Scripts/cms/tinymceeditor.js"></script>*@
-    @*<script src="~/Scripts/tinymceplugins/ImageUpload/imageupload.js"></script>*@
-
-    @RenderSection("scripts", false)
+@RenderSection("scripts", false)
 </body>
 </html>
