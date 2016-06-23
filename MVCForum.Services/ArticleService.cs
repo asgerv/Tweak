@@ -20,14 +20,23 @@ namespace MVCForum.Services
             _articleCommentService = articleCommentService;
             _context = context as MVCForumContext;
         }
-
-        public Article Add(Article article, MembershipUser user)
+        public Article Add(Article article)
         {
-            article.User = user;
-            article.CreateDate = DateTime.Now;
-            article.IsDeleted = false;
-            article.IsPublished = true;
-            article.Image = "";
+            return _context.Article.Add(article);
+        }
+        public Article AddNewArticle(string header, string description, string body, string image, bool isPublished, MembershipUser user)
+        {
+            var article = new Article
+            {
+                Header = header,
+                Description = description,
+                Body = body,
+                User = user,
+                CreateDate = DateTime.Now,
+                IsDeleted = false,
+                IsPublished = isPublished,
+                Image = image
+            };            
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
         }
