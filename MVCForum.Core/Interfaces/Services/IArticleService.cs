@@ -7,7 +7,7 @@ namespace MVCForum.Domain.Interfaces.Services
 {
     public interface IArticleService
     {
-        Article Add(Article article); //hej
+        Article Add(Article article);
         Article AddNewArticle(string header, string description, string body, string image, bool isPublished, MembershipUser user);
         void Delete(Article article);
         IEnumerable<Article> GetAll();
