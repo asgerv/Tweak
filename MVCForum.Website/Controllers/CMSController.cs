@@ -45,8 +45,9 @@ namespace MVCForum.Website.Controllers
 
         // POST: Article
         [HttpPost]
-        public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] Article article)
+        public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] CreateArticleViewModel createArticleViewModel)
         {
+            Article newArticle;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 if (ModelState.IsValid)
@@ -54,7 +55,11 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        _articleService.Add(article, loggedOnUser);
+
+                        newArticle = _articleService.AddNewArticle(createArticleViewModel.Header,
+                            createArticleViewModel.Description, createArticleViewModel.Body,
+                            createArticleViewModel.Image, createArticleViewModel.IsPublished, loggedOnUser);
+
                         unitOfWork.Commit();
                         return RedirectToAction("Index");
                     }
@@ -67,7 +72,7 @@ namespace MVCForum.Website.Controllers
                 }
             }
 
-            return View(article);
+            return View();
         }
 
         public ActionResult Comments()
