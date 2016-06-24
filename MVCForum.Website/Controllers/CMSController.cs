@@ -5,6 +5,8 @@ using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
+using System.Web;
+using System.IO;
 
 namespace MVCForum.Website.Controllers
 {
@@ -135,6 +137,33 @@ namespace MVCForum.Website.Controllers
                 unitOfWork.Commit();
                 return View();
             }
+        }
+
+        public string Upload(HttpPostedFileBase file)
+        {
+            string path;
+            string saveloc = "~/Images/";
+            string relativeloc = "/Images/";
+            string filename = file.FileName;
+
+            if (file != null && file.ContentLength > 0 )
+            {
+                try
+                {
+                    path = Path.Combine(HttpContext.Server.MapPath(saveloc), Path.GetFileName(filename));
+                    file.SaveAs(path);
+                }
+                catch (Exception e)
+                {
+                    return "<script>alert('Failed: " + e + "');</script>";
+                }
+            }
+            else
+            {
+                return "<script>alert('Failed: Unkown Error. This form only accepts valid images.');</script>";
+            }
+
+            return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename + "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
     }
 }
