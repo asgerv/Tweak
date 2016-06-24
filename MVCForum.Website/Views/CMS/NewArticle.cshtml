@@ -1,9 +1,10 @@
-﻿@model MVCForum.Domain.DomainModel.CMS.Article
+﻿@model MVCForum.Website.ViewModels.AddArticleViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
+<link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet" />
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -41,7 +42,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Description,new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -49,8 +50,30 @@
                                         @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
 
-                                            @Html.TextAreaFor(model => model.Body, new { htmlAttributes = new { @class = "form-control mceEditor", id = "my_editor" } })
+                                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control mceEditor", id = "my_editor"})
                                             @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Image, "Artikel billede URL", new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+
+                                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsPublished, "Status", new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+
+                                            <div class="onoffswitch">
+                                            @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-control onoffswitch-checkbox", id = "onoffswitch"})
+                                                <label class="onoffswitch-label" for="onoffswitch">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.IsPublished, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="form-group">
