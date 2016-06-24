@@ -1,12 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
-using System.Web;
-using System.IO;
 
 namespace MVCForum.Website.Controllers
 {
@@ -71,60 +72,61 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View();
+            return View(); // Gå til artikel "newArticle"
         }
 
 
-        [HttpGet]
-        public ActionResult editArticle(int id)
+        [HttpGet] // Er du sikker på det skal bruges?
+        public ActionResult EditArticle(Guid? id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var article = _articleService.Get(id.Value);
+            if (article == null)
+                return HttpNotFound();
+            return View(article);
         }
 
         [HttpPost]
-        public ActionResult editArticle(AddArticleViewModel model)
+        public ActionResult EditArticle(AddArticleViewModel model)
         {
             return View();
         }
 
-
+        public ActionResult DeleteArticle()
+        {
+            return View();
+        }
         public ActionResult Articles()
         {
             var viewmodel = new ArticlesViewModel();
             viewmodel.Articles = _articleService.GetAll();
             return View(viewmodel);
         }
-
         public ActionResult Comments()
         {
             return View();
         }
-
         public ActionResult Statistics()
         {
             return View();
         }
-
         public ActionResult Nyheder()
         {
             return View();
         }
-
         public ActionResult FrontpageSettings()
         {
             return View();
         }
-
         public ActionResult GeneralSettings()
         {
             return View();
         }
-
         public ActionResult Tags()
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Tags(TestViewModel vm)
         {
@@ -147,22 +149,21 @@ namespace MVCForum.Website.Controllers
             {
                 var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                 var article = _articleService.GetNewest(1).First();
-                var comment = new ArticleComment {CommentBody = vm.S};
+                var comment = new ArticleComment { CommentBody = vm.S };
 
                 _articleCommentService.Add(comment, article, loggedOnUser);
                 unitOfWork.Commit();
                 return View();
             }
         }
-
         public string Upload(HttpPostedFileBase file)
         {
             string path;
-            string saveloc = "~/Images/";
-            string relativeloc = "/Images/";
-            string filename = file.FileName;
+            var saveloc = "~/Images/";
+            var relativeloc = "/Images/";
+            var filename = file.FileName;
 
-            if (file != null && file.ContentLength > 0 )
+            if (file != null && file.ContentLength > 0)
             {
                 try
                 {
@@ -179,7 +180,8 @@ namespace MVCForum.Website.Controllers
                 return "<script>alert('Failed: Unkown Error. This form only accepts valid images.');</script>";
             }
 
-            return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename + "').closest('.mce-window').find('.mce-primary').click();</script>";
+            return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename +
+                   "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
     }
 }

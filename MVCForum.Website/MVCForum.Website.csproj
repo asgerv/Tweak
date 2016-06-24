@@ -1601,7 +1601,8 @@
     <Content Include="Views\Home\Video.cshtml" />
     <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorCMS.cshtml" />
-    <Content Include="Views\CMS\editArticle.cshtml" />
+    <Content Include="Views\CMS\EditArticle.cshtml" />
+    <Content Include="Views\CMS\DeleteArticle.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

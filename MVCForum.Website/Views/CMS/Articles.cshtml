@@ -66,11 +66,11 @@
                                         <td>@comments</td>
                                         <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
                                         <td>
-                                            @Html.ActionLink("Rediger", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Slet", "Delete", new { id = item.Id })
+                                            @Html.ActionLink("Rediger", "EditArticle", new { id = item.Id }) |
+                                            @Html.ActionLink("Slet", "DeleteArticle", new { id = item.Id })
                                         </td>
                                     </tr>
-                                }
+                                            }
                             </tbody>
                         </table>
                     </div>
