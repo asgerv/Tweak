@@ -35,7 +35,8 @@
                                     <th>Sidst ændret</th>
                                     <th>Skrevet af</th>
                                     <th>Kommentarer</th>
-                                    <th>Publiceret</th>
+                                    <th>Aktiv</th>
+                                    <th>Kontrol</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -45,7 +46,8 @@
                                     <th>Sidst ændret</th>
                                     <th>Skrevet af</th>
                                     <th>Kommentarer</th>
-                                    <th>Publiceret</th>
+                                    <th>Aktiv</th>
+                                    <th>Kontrol</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -63,6 +65,10 @@
                                         <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
                                         <td>@comments</td>
                                         <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
+                                        <td>
+                                            @Html.ActionLink("Rediger", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Slet", "Delete", new { id = item.Id })
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
