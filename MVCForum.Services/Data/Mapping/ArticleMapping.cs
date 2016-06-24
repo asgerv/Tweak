@@ -14,7 +14,6 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.Description).IsRequired();
             Property(x => x.Body).IsRequired();
             Property(x => x.Image).IsRequired();
-            Property(x => x.IsDeleted).IsRequired();
             Property(x => x.IsPublished).IsRequired();
 
             HasRequired(t => t.User)

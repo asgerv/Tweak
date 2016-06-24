@@ -36,7 +36,6 @@
                                     <th>Skrevet af</th>
                                     <th>Kommentarer</th>
                                     <th>Publiceret</th>
-                                    <th>Slettet</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -47,7 +46,6 @@
                                     <th>Skrevet af</th>
                                     <th>Kommentarer</th>
                                     <th>Publiceret</th>
-                                    <th>Slettet</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -65,7 +63,6 @@
                                         <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
                                         <td>@comments</td>
                                         <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
                                     </tr>
                                 }
                             </tbody>
@@ -110,8 +107,8 @@
                         "order": [[1, "desc"]],
                         // Define
                         "columnDefs": [
-                            { "type": "string", "targets": [5, 6] },
-                            { "width": "5%", "targets": [4, 5, 6] }
+                            { "type": "string", "targets": 5 },
+                            { "width": "5%", "targets": [4, 5] }
                         ]
                     });
             });
