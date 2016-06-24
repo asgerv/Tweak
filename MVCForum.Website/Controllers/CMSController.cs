@@ -32,12 +32,7 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
-        public ActionResult Articles()
-        {
-            return View();
-        }
-
-        // GET: CMS/NewArticle
+        // GET: /cms/newarticle/
         public ActionResult NewArticle()
         {
             return View();
@@ -45,7 +40,8 @@ namespace MVCForum.Website.Controllers
 
         // POST: Article
         [HttpPost]
-        public ActionResult NewArticle([Bind(Include = "Header, Description, Body")] CreateArticleViewModel createArticleViewModel)
+        public ActionResult NewArticle(
+            [Bind(Include = "Header, Description, Body")] AddArticleViewModel addArticleViewModel)
         {
             Article newArticle;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -56,9 +52,9 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
 
-                        newArticle = _articleService.AddNewArticle(createArticleViewModel.Header,
-                            createArticleViewModel.Description, createArticleViewModel.Body,
-                            createArticleViewModel.Image, createArticleViewModel.IsPublished, loggedOnUser);
+                        newArticle = _articleService.AddNewArticle(addArticleViewModel.Header,
+                            addArticleViewModel.Description, addArticleViewModel.Body,
+                            addArticleViewModel.Image, addArticleViewModel.IsPublished, loggedOnUser);
 
                         unitOfWork.Commit();
                         return RedirectToAction("Index");
@@ -71,8 +67,14 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-
             return View();
+        }
+
+        public ActionResult Articles()
+        {
+            var viewmodel = new ArticlesViewModel();
+            viewmodel.Articles = _articleService.GetAll();
+            return View(viewmodel);
         }
 
         public ActionResult Comments()
@@ -108,6 +110,7 @@ namespace MVCForum.Website.Controllers
         [HttpPost]
         public ActionResult Tags(TestViewModel vm)
         {
+            throw new NotImplementedException();
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 var comments = _articleCommentService.GetByArticle(new Guid("5775e572-bf61-4c53-a180-a626013d35b6"));

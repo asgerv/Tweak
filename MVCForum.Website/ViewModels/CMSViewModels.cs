@@ -1,6 +1,7 @@
-﻿using MVCForum.Domain.DomainModel;
-using MVCForum.Domain.DomainModel.CMS;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using MVCForum.Domain.DomainModel;
+using MVCForum.Domain.DomainModel.CMS;
 
 namespace MVCForum.Website.ViewModels
 {
@@ -20,18 +21,20 @@ namespace MVCForum.Website.ViewModels
     {
     }
 
-    public class CreateArticleViewModel
+    public class AddArticleViewModel
     {
         public string Header { get; set; }
-        public string Description { get; set; }        
+        public string Description { get; set; }
         public string Image { get; set; }
         public bool IsPublished { get; set; }
+
         [AllowHtml]
         public string Body { get; set; }
     }
 
     public class ArticlesViewModel
     {
+        public IEnumerable<Article> Articles { get; set; }
     }
 
     public class CommentsViewModel
