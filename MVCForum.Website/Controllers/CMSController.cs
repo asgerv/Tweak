@@ -58,6 +58,8 @@ namespace MVCForum.Website.Controllers
                             addArticleViewModel.Description, addArticleViewModel.Body,
                             addArticleViewModel.Image, addArticleViewModel.IsPublished, loggedOnUser);
 
+                        // TODO: Tilføj tags.
+
                         unitOfWork.Commit();
                         return RedirectToAction("Index");
                     }

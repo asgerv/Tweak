@@ -33,7 +33,6 @@ namespace MVCForum.Services
                 Body = body,
                 User = user,
                 CreateDate = DateTime.Now,
-                IsDeleted = false,
                 IsPublished = isPublished,
                 Image = image
             };            
@@ -70,7 +69,6 @@ namespace MVCForum.Services
         public IList<Article> GetNewest(int amountToTake)
         {
             return _context.Article
-                .Where(x => x.IsDeleted == false)
                 .OrderByDescending(x => x.CreateDate)
                 .Take(amountToTake)
                 .ToList();
