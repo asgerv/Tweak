@@ -1,8 +1,10 @@
-﻿@model MVCForum.Website.ViewModels.AddArticleViewModel
+﻿@model MVCForum.Domain.DomainModel.CMS.Article
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "editArticle";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
+
 <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
 <link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet" />
 <div id="page-wrapper">
@@ -42,7 +44,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Description,new { @class = "form-control" })
+                                            @Html.EditorFor(model => model.Description, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -50,7 +52,7 @@
                                         @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
 
-                                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control mceEditor", id = "my_editor"})
+                                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control mceEditor", id = "my_editor" })
                                             @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -67,7 +69,7 @@
                                         <div class="col-md-10">
 
                                             <div class="onoffswitch">
-                                            @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-control onoffswitch-checkbox", id = "onoffswitch"})
+                                                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-control onoffswitch-checkbox", id = "onoffswitch" })
                                                 <label class="onoffswitch-label" for="onoffswitch">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -102,3 +104,10 @@
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

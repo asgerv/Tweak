@@ -43,7 +43,7 @@ namespace MVCForum.Website.Controllers
         // POST: Article
         [HttpPost]
         public ActionResult NewArticle(
-            [Bind(Include = "Header, Description, Body, Image , IsPublished")] AddArticleViewModel addArticleViewModel)
+            [Bind(Include = "Header, Description, Body, Image, IsPublished")] AddArticleViewModel addArticleViewModel)
         {
             Article newArticle;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -73,6 +73,20 @@ namespace MVCForum.Website.Controllers
             }
             return View();
         }
+
+
+        [HttpGet]
+        public ActionResult editArticle(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult editArticle(AddArticleViewModel model)
+        {
+            return View();
+        }
+
 
         public ActionResult Articles()
         {
