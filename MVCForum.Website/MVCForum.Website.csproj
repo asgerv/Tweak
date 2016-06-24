@@ -894,7 +894,7 @@
     <Content Include="Content\spectrum\spectrum.css" />
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
-    <Content Include="Content\Tweak\OnOffKnap.css" />
+    <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\uploads\readme.txt" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
