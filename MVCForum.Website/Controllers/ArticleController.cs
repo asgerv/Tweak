@@ -9,12 +9,12 @@ using MVCForum.Website.ViewModels;
 
 namespace MVCForum.Website.Controllers
 {
-    public class HomeController : BaseController
+    public class ArticleController : BaseController
     {
         private readonly IArticleCommentService _articleCommentService;
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
-        public HomeController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService,
+        public ArticleController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService,
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
             IArticleCommentService articleCommentService, IArticleTagService articleTagService)
             : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
@@ -23,23 +23,21 @@ namespace MVCForum.Website.Controllers
             _articleCommentService = articleCommentService;
             _articleTagService = articleTagService;
         }
-
-        // GET: Home
-        public ActionResult Index()
+        public ActionResult _ArticleMain()
         {
+            ArticlesPreviewViewModel viewmodel = new ArticlesPreviewViewModel();
+            viewmodel.Articles = _articleService.GetNewest(4);
 
-            return View();
+
+            return PartialView(viewmodel);
+        }
+        public ActionResult _Article_Grid4x2()
+        {
+            ArticlesPreviewViewModel viewmodel = new ArticlesPreviewViewModel();
+            viewmodel.Articles = _articleService.GetNewest(12).Skip(4);
+            return PartialView(viewmodel);
         }
 
-        public ActionResult Video()
-        {
-            return View();
-        }
-
-        public ActionResult Review()
-        {
-            return View();
-        }
-
+        
     }
 }

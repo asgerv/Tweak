@@ -265,6 +265,7 @@
     <Compile Include="Areas\Admin\Controllers\BatchController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CMSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModerateController.cs" />
@@ -1597,8 +1598,8 @@
     <Content Include="Views\CMS\GeneralSettings.cshtml" />
     <Content Include="Views\CMS\Tags.cshtml" />
     <Content Include="Views\CMS\FrontpageSettings.cshtml" />
-    <Content Include="Views\Shared\_ArticleMain.cshtml" />
-    <Content Include="Views\Shared\_Article_Grid4x2.cshtml" />
+    <Content Include="Views\Article\_ArticleMain.cshtml" />
+    <Content Include="Views\Article\_Article_Grid4x2.cshtml" />
     <Content Include="Views\Home\Video.cshtml" />
     <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorCMS.cshtml" />
