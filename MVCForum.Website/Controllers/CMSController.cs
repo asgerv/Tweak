@@ -72,7 +72,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View(); // Gå til artikel "newArticle"
+            return View(); // TODO: Gå til artikel "newArticle"
         }
 
 
