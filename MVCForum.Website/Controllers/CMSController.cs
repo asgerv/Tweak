@@ -82,7 +82,7 @@ namespace MVCForum.Website.Controllers
         }
 
         [HttpPost]
-        public ActionResult editArticle(AddArticleViewModel model)
+        public ActionResult editArticle(Article model)
         {
             return View();
         }
