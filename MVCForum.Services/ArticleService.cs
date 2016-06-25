@@ -40,7 +40,7 @@ namespace MVCForum.Services
             return _context.Article.Add(article);
         }
 
-        public void Delete(Article article)
+        public bool Delete(Article article)
         {
             // Fjern alle comments
             foreach (var comment in article.Comments.ToList())
@@ -49,6 +49,7 @@ namespace MVCForum.Services
             }
             // Slet article
             _context.Article.Remove(article);
+            return false;
         }
 
         public IEnumerable<Article> GetAll()
