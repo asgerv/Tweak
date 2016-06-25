@@ -20,11 +20,13 @@ namespace MVCForum.Services
 
         public ArticleTag Add(ArticleTag articleTag)
         {
+            // TODO: TEST
             return _context.ArticleTag.Add(articleTag);
         }
 
         public void Add(string tags, Article article)
         {
+            // TODO: TEST
             if (!string.IsNullOrEmpty(tags))
             {
                 tags = StringUtils.SafePlainText(tags);
