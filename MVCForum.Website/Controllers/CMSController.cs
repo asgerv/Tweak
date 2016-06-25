@@ -72,7 +72,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View(); // Gå til artikel "newArticle"
+            return View(); // TODO: Gå til artikel "newArticle"
         }
 
 
@@ -92,9 +92,43 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
-
-        public ActionResult DeleteArticle()
+        
+        // GET: cms/deletearticle/id
+        [HttpGet]
+        public ActionResult DeleteArticle(Guid? id)
         {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var article = _articleService.Get(id.Value);
+            if (article == null)
+                return HttpNotFound();
+            return View(article);
+        }
+        // POST: cms/deletearticle/id
+        [HttpPost, ActionName("DeleteArticle")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteArticleConfirmed(Guid id)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        // Vi skal have noget logging over hvem der har slettet artikler
+                       
+                        _articleService.Delete(_articleService.Get(id));
+                        unitOfWork.Commit();
+                        return RedirectToAction("Articles");
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
             return View();
         }
         public ActionResult Articles()

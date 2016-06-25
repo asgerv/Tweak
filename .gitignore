@@ -53,3 +53,4 @@ MVCForum.Website/App_Data/MVCForum.sdf
 Tweak/.vs/config/applicationhost.config
 .vs/config/applicationhost.config
 .vs/
+.vs/*
