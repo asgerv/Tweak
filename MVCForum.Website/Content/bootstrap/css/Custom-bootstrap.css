@@ -31,7 +31,7 @@
 }
 
 .article-image {
-    background-size: contain cover;
+    background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
@@ -67,6 +67,8 @@ overflow:hidden;
   box-shadow:         5px 5px 5px 6px #ccc; 
 }
 
+
+
 .article-title{
     font-family:Shentox;
     color:white;
@@ -76,6 +78,17 @@ overflow:hidden;
    z-index:2;
    overflow:hidden;
    font-size:3.2vh;
+   
+}
+.article-desciption{
+    font-family:Shentox;
+    color:white;
+       position: absolute;
+   bottom: 110px;
+   left: 20px;
+   z-index:2;
+   overflow:hidden;
+   font-size:3.8vh;
    
 }
 .article-title:hover{

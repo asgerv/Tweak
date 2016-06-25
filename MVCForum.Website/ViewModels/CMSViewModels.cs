@@ -44,4 +44,9 @@ namespace MVCForum.Website.ViewModels
     public class StatisticsViewModel
     {
     }
+
+    public class ArticlesPreviewViewModel
+    {
+        public IEnumerable<Article> Articles { get; set; }
+    }
 }

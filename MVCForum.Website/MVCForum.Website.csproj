@@ -266,6 +266,7 @@
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\CMSController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModerateController.cs" />
     <Compile Include="Areas\Admin\ViewModels\AdminBadgeViewModels.cs" />
     <Compile Include="Areas\Admin\ViewModels\AjaxAdminViewModels.cs" />
@@ -305,7 +306,7 @@
     <Compile Include="Controllers\SnippetsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\PointController.cs" />
@@ -1553,7 +1554,7 @@
     </Content>
     <Content Include="Views\Post\MovePost.cshtml" />
     <Content Include="Themes\Metro\Content\Styles\Theme.scss" />
-    <Content Include="Views\Home\TermsAndConditions.cshtml" />
+    <Content Include="Views\Forum\TermsAndConditions.cshtml" />
     <Content Include="Views\Post\GetPostEditHistory.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
@@ -1567,7 +1568,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Areas\Admin\Views\Account\ManageUserPoints.cshtml" />
     <Content Include="Themes\Metro\Content\Styles\Theme.css.map" />
-    <Content Include="Views\Home\Forum.cshtml" />
+    <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_CMSLayout.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
@@ -1603,6 +1604,7 @@
     <Content Include="Views\Shared\customeditors\tinymceeditorCMS.cshtml" />
     <Content Include="Views\CMS\EditArticle.cshtml" />
     <Content Include="Views\CMS\DeleteArticle.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1725,10 +1727,9 @@
     <Content Include="Views\Category\ListMainCategories.cshtml" />
     <Content Include="Views\Category\Show.cshtml" />
     <Content Include="Views\Closed\Index.cshtml" />
-    <Content Include="Views\Home\Activity.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Forum\Activity.cshtml" />
     <Content Include="Views\Topic\LatestTopics.cshtml" />
-    <Content Include="Views\Home\Leaderboard.cshtml" />
+    <Content Include="Views\Forum\Leaderboard.cshtml" />
     <Content Include="Views\Members\AdminMemberProfileTools.cshtml" />
     <Content Include="Views\Members\ChangePassword.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
@@ -1775,8 +1776,8 @@
     <Content Include="Views\Category\GetSubscribedCategories.cshtml" />
     <Content Include="Views\Shared\_Category.cshtml" />
     <Content Include="Views\Topic\GetSubscribedTopics.cshtml" />
-    <Content Include="Views\Home\Following.cshtml" />
-    <Content Include="Views\Home\PostedIn.cshtml" />
+    <Content Include="Views\Forum\Following.cshtml" />
+    <Content Include="Views\Forum\PostedIn.cshtml" />
     <Content Include="Views\Shared\SubNavigation.cshtml" />
     <Content Include="Views\Topic\TopicsMemberHasPostedIn.cshtml" />
     <Content Include="Views\Favourite\Index.cshtml" />
