@@ -34,7 +34,7 @@ namespace MVCForum.Website.Controllers
         public ActionResult _Article_Grid4x2()
         {
             ArticlesPreviewViewModel viewmodel = new ArticlesPreviewViewModel();
-            viewmodel.Articles = _articleService.GetNewest(12).Skip(4);
+            viewmodel.Articles = _articleService.GetNewest(4);
             return PartialView(viewmodel);
         }
 

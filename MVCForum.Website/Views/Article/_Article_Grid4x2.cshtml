@@ -3,39 +3,61 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-                <h2>A title</h2>
+                <img src="@Model.Articles.ElementAt(0).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(0).Header</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisici elit,
-                    <br>sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                    <br>Ut enim ad minim veniam, quis nostrud
+                 @Model.Articles.ElementAt(0).Description
+                </p>
+       </div>
+            <div class="col-md-3">
+                <img src="@Model.Articles.ElementAt(1).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(1).Header</h2>
+                <p>
+                    @Model.Articles.ElementAt(1).Description
                 </p>
             </div>
             <div class="col-md-3">
-                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-                <h2>A title</h2>
+                <img src="@Model.Articles.ElementAt(2).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(2).Header</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisici elit,
-                    <br>sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                    <br>Ut enim ad minim veniam, quis nostrud
+                    @Model.Articles.ElementAt(2).Description
                 </p>
             </div>
             <div class="col-md-3">
-                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive img-rounded">
-                <h2>A title</h2>
+                <img src="@Model.Articles.ElementAt(3).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(3).Header</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisici elit,
-                    <br>sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                    <br>Ut enim ad minim veniam, quis nostrud
+                    @Model.Articles.ElementAt(3).Description
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="@Model.Articles.ElementAt(0).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(0).Header</h2>
+                <p>
+                    @Model.Articles.ElementAt(0).Description
                 </p>
             </div>
             <div class="col-md-3">
-                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-                <h2>A title</h2>
+                <img src="@Model.Articles.ElementAt(1).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(1).Header</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisici elit,
-                    <br>sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
-                    <br>Ut enim ad minim veniam, quis nostrud
+                    @Model.Articles.ElementAt(1).Description
+                </p>
+            </div>
+            <div class="col-md-3">
+                <img src="@Model.Articles.ElementAt(2).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(2).Header</h2>
+                <p>
+                    @Model.Articles.ElementAt(2).Description
+                </p>
+            </div>
+            <div class="col-md-3">
+                <img src="@Model.Articles.ElementAt(3).Image" class="img-responsive grid-image">
+                <h2>@Model.Articles.ElementAt(3).Header</h2>
+                <p>
+                    @Model.Articles.ElementAt(3).Description
                 </p>
             </div>
         </div>

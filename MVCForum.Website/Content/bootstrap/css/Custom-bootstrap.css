@@ -36,6 +36,13 @@
     background-repeat: no-repeat;
 }
 
+.grid-image {
+    max-height: 20vh;
+    width:100%;
+}
+
+
+
 .article-1,
 .article-2,
 .article-3,
