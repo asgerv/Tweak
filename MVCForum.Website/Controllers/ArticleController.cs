@@ -31,9 +31,11 @@ namespace MVCForum.Website.Controllers
 
             return PartialView(viewmodel);
         }
-        public ActionResult _Article_Grid4x2()
+
+        public ActionResult _Article_Grid4x2(int? number)
         {
             ArticlesPreviewViewModel viewmodel = new ArticlesPreviewViewModel();
+            viewmodel.Tag = "Chosen Tag";
             viewmodel.Articles = _articleService.GetNewest(4);
             return PartialView(viewmodel);
         }
