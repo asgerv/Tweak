@@ -42,10 +42,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Description, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.Description, new {@class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Tags, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Tags, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="form-group">

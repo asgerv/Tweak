@@ -11,7 +11,9 @@ namespace MVCForum.Domain.Interfaces.Services
         void DeleteFromDb(ArticleComment articleComment);
         void Delete(ArticleComment articleComment);
         void Update(ArticleComment articleComment);
+
         void UpdateBody(string newBody, Guid articleCommentId);
         IList<ArticleComment> GetByArticle(Guid articleId);
+        IEnumerable<ArticleComment> GetAll();
     }
 }

@@ -13,5 +13,6 @@ namespace MVCForum.Domain.Interfaces.Services
         ArticleTag Get(Guid guid);
         void UpdateTagName();
         IEnumerable<ArticleTag> GetAll();
+        void CreateTestTags();
     }
 }

@@ -15,5 +15,7 @@ namespace MVCForum.Domain.Interfaces.Services
         int Count();
         IList<Article> GetNewest(int amountToTake);
         IList<Article> GetByUser(Guid memberId, int amountToTake); // Skal man bruge MemberShipUser?
+        void WipeDatabase();
+        void CreateTestData(MembershipUser user);
     }
 }

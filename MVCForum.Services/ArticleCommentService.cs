@@ -67,5 +67,10 @@ namespace MVCForum.Services
                 //.Include(x => x.Article)
                 .Where(x => x.Article.Id == articleId).ToList();
         }
+
+        public IEnumerable<ArticleComment> GetAll()
+        {
+            return _context.ArticleComment;
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace MVCForum.Website.Controllers
         // POST: Article
         [HttpPost]
         public ActionResult NewArticle(
-            [Bind(Include = "Header, Description, Body, Image, IsPublished")] AddArticleViewModel addArticleViewModel)
+            [Bind(Include = "Header, Description, Body, Tags, Image, IsPublished")] AddArticleViewModel vm)
         {
             Article newArticle;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -54,13 +54,11 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-
-                        newArticle = _articleService.AddNewArticle(addArticleViewModel.Header,
-                            addArticleViewModel.Description, addArticleViewModel.Body,
-                            addArticleViewModel.Image, addArticleViewModel.IsPublished, loggedOnUser);
-
-                        // TODO: Tilføj tags.
-
+                        newArticle = _articleService.AddNewArticle(vm.Header,
+                            vm.Description, vm.Body,
+                            vm.Image, vm.IsPublished, loggedOnUser);
+                        unitOfWork.SaveChanges();
+                        _articleTagService.Add(vm.Tags, newArticle);
                         unitOfWork.Commit();
                         return RedirectToAction("Index");
                     }
@@ -92,7 +90,7 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
-        
+
         // GET: cms/deletearticle/id
         [HttpGet]
         public ActionResult DeleteArticle(Guid? id)
@@ -104,6 +102,7 @@ namespace MVCForum.Website.Controllers
                 return HttpNotFound();
             return View(article);
         }
+
         // POST: cms/deletearticle/id
         [HttpPost, ActionName("DeleteArticle")]
         //[ValidateAntiForgeryToken]
@@ -116,7 +115,7 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         // Vi skal have noget logging over hvem der har slettet artikler
-                       
+
                         _articleService.Delete(_articleService.Get(id));
                         unitOfWork.Commit();
                         return RedirectToAction("Articles");
@@ -131,48 +130,66 @@ namespace MVCForum.Website.Controllers
             }
             return View();
         }
+
         public ActionResult Articles()
         {
             var viewmodel = new ArticlesViewModel();
             viewmodel.Articles = _articleService.GetAll();
             return View(viewmodel);
         }
+
         public ActionResult Comments()
         {
             return View();
         }
+
         public ActionResult Statistics()
         {
             return View();
         }
+
         public ActionResult Nyheder()
         {
             return View();
         }
+
         public ActionResult FrontpageSettings()
         {
             return View();
         }
+
         public ActionResult GeneralSettings()
         {
             return View();
         }
+
         public ActionResult Tags()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Tags(TestViewModel vm)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                var comments = _articleCommentService.GetByArticle(new Guid("5775e572-bf61-4c53-a180-a626013d35b6"));
-
-                _articleCommentService.Delete(comments.First());
+                _articleService.WipeDatabase();
                 unitOfWork.Commit();
-                return View();
             }
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                _articleTagService.CreateTestTags();
+                unitOfWork.Commit();
+            }
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                _articleService.CreateTestData(loggedOnUser);
+                unitOfWork.Commit();
+            }
+            return View();
         }
 
         [HttpPost]
@@ -183,13 +200,14 @@ namespace MVCForum.Website.Controllers
             {
                 var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                 var article = _articleService.GetNewest(1).First();
-                var comment = new ArticleComment { CommentBody = vm.S };
+                var comment = new ArticleComment {CommentBody = vm.S};
 
                 _articleCommentService.Add(comment, article, loggedOnUser);
                 unitOfWork.Commit();
                 return View();
             }
         }
+
         public string Upload(HttpPostedFileBase file)
         {
             string path;
