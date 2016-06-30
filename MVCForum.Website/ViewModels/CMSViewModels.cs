@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel;
@@ -35,8 +36,24 @@ namespace MVCForum.Website.ViewModels
         public string Image { get; set; }
         public string Tags { get; set; }
         public bool IsPublished { get; set; }
+
         [AllowHtml]
         public string Body { get; set; }
+    }
+
+    public class EditArticleViewModel
+    {
+        public Guid Id { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime? DateModified { get; set; }
+        public string Header { get; set; }
+        public string Description { get; set; }
+        [AllowHtml]
+        public string Body { get; set; }
+        public string Image { get; set; }
+        public bool IsPublished { get; set; }
+        public virtual MembershipUser User { get; set; }
+        public string Tags { get; set; }
     }
 
     public class ArticlesViewModel

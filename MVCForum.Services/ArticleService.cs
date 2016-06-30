@@ -30,7 +30,7 @@ namespace MVCForum.Services
         }
 
         public Article AddNewArticle(string header, string description, string body, string image, bool isPublished,
-            MembershipUser user)
+            DateTime publishdate, MembershipUser user)
         {
             var article = new Article
             {
@@ -39,6 +39,7 @@ namespace MVCForum.Services
                 Body = body,
                 User = user,
                 CreateDate = DateTime.Now,
+                PublishDate = publishdate,
                 IsPublished = isPublished,
                 Image = image
             };
@@ -90,6 +91,11 @@ namespace MVCForum.Services
                 .ToList();
         }
 
+        public void Edit(Article article)
+        {
+            //EntityState
+        }
+
         public void WipeDatabase()
         {
             //_context.Database.ExecuteSqlCommand("TRUNCATE TABLE [ArticleComments]");
@@ -124,6 +130,8 @@ namespace MVCForum.Services
                     Body = "Body",
                     CreateDate = createDate,
                     Image = "/Images/Default.jpeg",
+                    PublishDate = createDate,
+                
                     IsPublished = true,
                     User = user,
                     Comments = new List<ArticleComment>()
@@ -157,6 +165,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
+                    PublishDate = createDate,
                     Image = "Imagepath",
                     IsPublished = true,
                     User = user,
@@ -191,6 +200,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
+                    PublishDate = createDate,
                     Image = "Imagepath",
                     IsPublished = true,
                     User = user,
