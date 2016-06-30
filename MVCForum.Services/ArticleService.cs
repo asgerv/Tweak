@@ -123,7 +123,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
-                    Image = "Imagepath",
+                    Image = "/Images/Default.jpeg",
                     IsPublished = true,
                     User = user,
                     Comments = new List<ArticleComment>()
