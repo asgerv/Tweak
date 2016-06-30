@@ -29,9 +29,9 @@ namespace MVCForum.Website.ViewModels
         {
             Image = "/Images/Default.jpeg";
         }
-        [StringLength(20, ErrorMessage = "Header cannot be longer than 40 characters.")]
+        [StringLength(70, ErrorMessage = "Header cannot be longer than 70 characters.")]
         public string Header { get; set; }
-        [StringLength(140, ErrorMessage = "Description cannot be longer than 40 characters.")]
+        [StringLength(240, ErrorMessage = "Description cannot be longer than 240 characters.")]
         public string Description { get; set; }
         public string Image { get; set; }
         public string Tags { get; set; }
