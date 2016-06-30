@@ -90,6 +90,11 @@ namespace MVCForum.Services
                 .ToList();
         }
 
+        public void Edit(Article article)
+        {
+            //EntityState
+        }
+
         public void WipeDatabase()
         {
             //_context.Database.ExecuteSqlCommand("TRUNCATE TABLE [ArticleComments]");

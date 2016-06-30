@@ -46,7 +46,7 @@ namespace MVCForum.Services
 
         public void Update(ArticleComment articleComment)
         {
-            _context.ArticleComment.Attach(articleComment);
+            //if (TryUpdateModel)
             _context.Entry(articleComment).State = EntityState.Modified;
         }
 

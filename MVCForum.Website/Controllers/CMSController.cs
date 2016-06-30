@@ -82,11 +82,31 @@ namespace MVCForum.Website.Controllers
             var article = _articleService.Get(id.Value);
             if (article == null)
                 return HttpNotFound();
-            return View(article);
+            // Laver List<ArticleTag> om til string
+            var stringTags = "";
+            foreach (var tag in article.Tags)
+            {
+                stringTags = stringTags + tag.Name + ", ";
+            }
+            // Opretter viewmodel
+            var editArticleViewModel = new EditArticleViewModel
+            {
+                Id = article.Id,
+                CreateDate = article.CreateDate,
+                DateModified = article.DateModified,
+                Header = article.Header,
+                Description = article.Description,
+                Body = article.Body,
+                Image = article.Image,
+                IsPublished = article.IsPublished,
+                User = article.User,
+                Tags = stringTags,
+            };
+            return View(editArticleViewModel);
         }
 
         [HttpPost]
-        public ActionResult EditArticle(AddArticleViewModel model)
+        public ActionResult EditArticle(EditArticleViewModel model)
         {
             return View();
         }
