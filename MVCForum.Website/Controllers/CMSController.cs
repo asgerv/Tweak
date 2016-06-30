@@ -56,7 +56,7 @@ namespace MVCForum.Website.Controllers
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         newArticle = _articleService.AddNewArticle(vm.Header,
                             vm.Description, vm.Body,
-                            vm.Image, vm.IsPublished, loggedOnUser);
+                            vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
                         unitOfWork.SaveChanges();
                         _articleTagService.Add(vm.Tags, newArticle);
                         unitOfWork.Commit();

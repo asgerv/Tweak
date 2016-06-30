@@ -30,7 +30,7 @@ namespace MVCForum.Services
         }
 
         public Article AddNewArticle(string header, string description, string body, string image, bool isPublished,
-            MembershipUser user)
+            DateTime publishdate, MembershipUser user)
         {
             var article = new Article
             {
@@ -39,6 +39,7 @@ namespace MVCForum.Services
                 Body = body,
                 User = user,
                 CreateDate = DateTime.Now,
+                PublishDate = publishdate,
                 IsPublished = isPublished,
                 Image = image
             };
@@ -128,6 +129,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
+                    PublishDate = createDate,
                     Image = "Imagepath",
                     IsPublished = true,
                     User = user,
@@ -162,6 +164,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
+                    PublishDate = createDate,
                     Image = "Imagepath",
                     IsPublished = true,
                     User = user,
@@ -196,6 +199,7 @@ namespace MVCForum.Services
                     Description = "Beskrivelse",
                     Body = "Body",
                     CreateDate = createDate,
+                    PublishDate = createDate,
                     Image = "Imagepath",
                     IsPublished = true,
                     User = user,
