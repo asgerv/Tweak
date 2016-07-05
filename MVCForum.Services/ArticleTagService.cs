@@ -44,7 +44,7 @@ namespace MVCForum.Services
 
                 foreach (var newTag in newTagNames.Distinct())
                 {
-                    var tag = GetTagName(newTag);
+                    var tag = Get(newTag);
                     if (tag != null)
                     {
                         // Exists
@@ -71,12 +71,16 @@ namespace MVCForum.Services
 
         public void Delete(ArticleTag articleTag)
         {
-            throw new NotImplementedException();
+            _context.ArticleTag.Remove(articleTag);
         }
 
         public ArticleTag Get(string tag)
         {
-            throw new NotImplementedException();
+            var newtag = StringUtils.SafePlainText(tag);
+            var testArticleTag = _context.ArticleTag.FirstOrDefault();
+            var articleTag =
+                _context.ArticleTag.FirstOrDefault(s => s.Name.Equals(newtag, StringComparison.OrdinalIgnoreCase));
+            return articleTag;
         }
 
         public ArticleTag Get(Guid guid)
@@ -91,7 +95,55 @@ namespace MVCForum.Services
 
         public IEnumerable<ArticleTag> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.ArticleTag;
+        }
+
+        public void CreateTestTags()
+        {
+            var tags = new List<ArticleTag>
+            {
+                new ArticleTag
+                {
+                    Name = "Windows"
+                },
+                new ArticleTag
+                {
+                    Name = "OS"
+                },
+                new ArticleTag
+                {
+                    Name = "Linux"
+                },
+                new ArticleTag
+                {
+                    Name = "Testtag"
+                },
+                new ArticleTag
+                {
+                    Name = "BenQ"
+                },
+                new ArticleTag
+                {
+                    Name = "Monitor"
+                },
+                new ArticleTag
+                {
+                    Name = "Højtalere"
+                },
+                new ArticleTag
+                {
+                    Name = "Bose"
+                },
+                new ArticleTag
+                {
+                    Name = "Lyd"
+                },
+                new ArticleTag
+                {
+                    Name = "Chromecast"
+                }
+            };
+            _context.ArticleTag.AddRange(tags);
         }
 
         public ArticleTag GetTagName(string tag)

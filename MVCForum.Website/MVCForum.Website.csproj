@@ -902,6 +902,7 @@
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="Images\Default.jpeg" />
     <Content Include="Installer\ManualSql\manualVersionOneSevenToOneEight.sql" />
     <Content Include="Scripts\badges.js" />
     <Content Include="Scripts\bbeditor\emoticons\alien.png" />
@@ -1798,7 +1799,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\languagepacks\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

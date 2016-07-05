@@ -46,7 +46,7 @@ namespace MVCForum.Services
 
         public void Update(ArticleComment articleComment)
         {
-            _context.ArticleComment.Attach(articleComment);
+            //if (TryUpdateModel)
             _context.Entry(articleComment).State = EntityState.Modified;
         }
 
@@ -66,6 +66,11 @@ namespace MVCForum.Services
                 .Include(x => x.Article)
                 //.Include(x => x.Article)
                 .Where(x => x.Article.Id == articleId).ToList();
+        }
+
+        public IEnumerable<ArticleComment> GetAll()
+        {
+            return _context.ArticleComment;
         }
     }
 }
