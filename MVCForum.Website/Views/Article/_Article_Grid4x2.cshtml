@@ -1,7 +1,8 @@
 ﻿@model MVCForum.Website.ViewModels.ArticlesPreviewViewModel
+<link href="~/Content/Tweak/_Article_Grid4x2.css" rel="stylesheet" />
 <div class="section">
     <div class="container">
-        <h1>@Model.Tag</h1>
+        <h1 class="shentox">@Model.Tag</h1>
         <div class="row">
             <div class="col-md-3">
                 <img src="@Model.Articles.ElementAt(0).Image" class="img-responsive grid-image">

@@ -21,6 +21,10 @@
     font-family: Shentox;
 }
 
+.shentox {
+    font-family:Shentox;
+}
+
 #logo {
     bottom: 50px;
     padding: 0;
@@ -36,10 +40,6 @@
     background-repeat: no-repeat;
 }
 
-.grid-image {
-    max-height: 20vh;
-    width:100%;
-}
 
 
 

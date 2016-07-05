@@ -1,0 +1,13 @@
+﻿@font-face {
+	font-family: Shentox-W01-Bold;
+	src: url('../bootstrap/fonts/Shentox-W01-Bold.eot'), url('../bootstrap/fonts/Shentox-W01-Bold.ttf') format('truetype'), url('../bootstrap/fonts/Shentox-W01-Bold.woff');
+}
+
+body {
+}
+
+
+.grid-image {
+    max-height: 20vh;
+    width:100%;
+}
