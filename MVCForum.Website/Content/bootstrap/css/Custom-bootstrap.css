@@ -21,6 +21,10 @@
     font-family: Shentox;
 }
 
+.shentox {
+    font-family:Shentox;
+}
+
 #logo {
     bottom: 50px;
     padding: 0;
@@ -34,14 +38,8 @@
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
+    background-size:cover;
 }
-
-.grid-image {
-    max-height: 20vh;
-    width:100%;
-}
-
-
 
 .article-1,
 .article-2,

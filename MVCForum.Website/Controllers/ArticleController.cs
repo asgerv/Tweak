@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
+using MVCForum.Domain.DomainModel.CMS;
 
 namespace MVCForum.Website.Controllers
 {
@@ -38,6 +39,15 @@ namespace MVCForum.Website.Controllers
             viewmodel.Tag = "Chosen Tag";
             viewmodel.Articles = _articleService.GetNewest(4);
             return PartialView(viewmodel);
+        }
+
+
+        public ActionResult Nyhed(Guid id)
+        {
+            Article viewmodel = new Article();
+            viewmodel = _articleService.Get(id);
+
+            return View(viewmodel);
         }
 
         

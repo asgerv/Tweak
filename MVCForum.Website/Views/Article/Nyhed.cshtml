@@ -1,0 +1,71 @@
+﻿@model MVCForum.Domain.DomainModel.CMS.Article
+
+@{
+    ViewBag.Title = "Nyhed";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    string str = Model.Body;
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div>
+
+            <dl class="dl-horizontal">
+     
+
+                @Html.Raw(str)
+               Skrevet den: @Html.DisplayFor(model => model.CreateDate)
+            </dl>
+
+            @Html.DisplayFor(model => model.DateModified)
+
+
+
+            <dd>
+                @Html.DisplayFor(model => model.PublishDate)
+            </dd>
+
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Header)
+            </dd>
+
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Body)
+            </dd>
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Image)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsPublished)
+            </dd>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
