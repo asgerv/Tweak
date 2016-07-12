@@ -1,0 +1,13 @@
+﻿body {
+}
+
+
+@font-face {
+    font-family: 'Shentox';
+    src: url('../../fonts/Shentox-W01-Bold.eot');
+    src: url('../../fonts/Shentox-W01-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Shentox-W01-Bold.woff2') format('woff2'), url('../fonts/Shentox-W01-Bold.woff') format('woff'), url('../fonts/Shentox-W01-Bold.ttf') format('truetype'), url('../fonts/Shentox-W01-Bold.svg#Shentox_W01_Bold') format('svg');
+}
+
+.article-info {
+    font-family: Shentox;
+}

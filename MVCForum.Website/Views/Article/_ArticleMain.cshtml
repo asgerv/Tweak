@@ -1,38 +1,50 @@
 ﻿@model  MVCForum.Website.ViewModels.ArticlesPreviewViewModel
 <div class="row">
     <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(0).Image);">
-        <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(0).Id })">
-            <div class="article-1">
-            </div>
-            <div class="article-desciption">Artikel titel 1</div>
-            <div class="article-title">@Model.Articles.ElementAt(0).Description</div>
-        </a>
+        <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(0).Id })" class="article-1">
+      
+                
+              
+                    <div class="article-desciption">Artikel titel 1</div>
+                    <div class="article-title">@Model.Articles.ElementAt(0).Description</div>
+             
+      
+</a>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 marg article-image" style="background-image:url(@Model.Articles.ElementAt(1).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(1).Id })">
-                    <div class="article-2">
-                    </div>
-                    <div class="article-desciption">@Model.Articles.ElementAt(1).Header</div>
-                    <div class="article-title">@Model.Articles.ElementAt(1).Description</div>
+                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(1).Id })" class="article-2">
+                 
+
+                     
+                            <div class="article-desciption">@Model.Articles.ElementAt(1).Header</div>
+                            <div class="article-title">@Model.Articles.ElementAt(1).Description</div>
+                    
+           
                 </a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(2).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(2).Id })">
-                    <div class="article-3">
-                    </div>
-                    <div class="article-desciption">@Model.Articles.ElementAt(2).Header</div>
-                    <div class="article-title">@Model.Articles.ElementAt(2).Description</div>
-                </a>
+                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(2).Id })" class="article-3">
+                  
+
+               
+                            <div class="article-desciption">@Model.Articles.ElementAt(2).Header</div>
+                            <div class="article-title">@Model.Articles.ElementAt(2).Description</div>
+                 
+                
+</a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(3).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(3).Id })">
-                    <div class="article-4">
-                    </div>
-                    <div class="article-desciption">@Model.Articles.ElementAt(3).Header</div>
-                    <div class="article-title">@Model.Articles.ElementAt(3).Description</div>
-                </a>
+                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(3).Id })" class="article-4">
+            
+
+               
+                            <div class="article-desciption">@Model.Articles.ElementAt(3).Header</div>
+                            <div class="article-title">@Model.Articles.ElementAt(3).Description</div>
+              
+                 
+</a>
             </div>
         </div>
     </div>

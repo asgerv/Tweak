@@ -10,62 +10,32 @@
 
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
 
     </div>
-    <div class="col-md-6">
-        <div>
-
-            <dl class="dl-horizontal">
-     
-
-                @Html.Raw(str)
-               Skrevet den: @Html.DisplayFor(model => model.CreateDate)
-            </dl>
-
-            @Html.DisplayFor(model => model.DateModified)
+    <div class="col-md-4">
+        <div style="">
+            <h1>@Html.DisplayFor(model => model.Header)</h1>
+            <p class="shentox"> Skrevet den: @Html.DisplayFor(model => model.CreateDate), af: @Html.DisplayFor(model => model.User.UserName) </p>
 
 
 
-            <dd>
-                @Html.DisplayFor(model => model.PublishDate)
-            </dd>
+            @Html.Raw(str)
 
-
-
-            <dd>
-                @Html.DisplayFor(model => model.Header)
-            </dd>
-
-
-
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-
-
-
-            <dd>
-                @Html.DisplayFor(model => model.Body)
-            </dd>
-
-
-            <dd>
-                @Html.DisplayFor(model => model.Image)
-            </dd>
-
-            <dd>
-                @Html.DisplayFor(model => model.IsPublished)
-            </dd>
+            <br/>
+            @Html.DisplayFor(model => model.Comments.FirstOrDefault().CommentBody)
+<p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+   
+        
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
 
     </div>
 </div>
 
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

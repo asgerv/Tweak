@@ -125,8 +125,8 @@ namespace MVCForum.Services
                 var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*13);
                 var article = new Article
                 {
-                    Header = "Test Article " + NumberToWords(i),
-                    Description = "Beskrivelse",
+                    Header = "Lorem ipsum dolor sit amet, consectetur adipiscing elit volutpat." + NumberToWords(i),
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere posuere metus nec dignissim. Curabitur eget enim ac ex sodales mollis nec aliquet urna. Mauris ut ultrices sapien. Curabitur tempor sem non dapibus volutpat.",
                     Body = "Body",
                     CreateDate = createDate,
                     Image = "/Images/Default.jpeg",

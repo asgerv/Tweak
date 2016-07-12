@@ -897,6 +897,7 @@
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
     <Content Include="Content\Tweak\FlipSwitch.css" />
+    <Content Include="Content\Tweak\Nyhed.css" />
     <Content Include="Content\Tweak\_Article_Grid4x2.css" />
     <Content Include="Content\uploads\readme.txt" />
     <Content Include="css\font-awesome.css" />
