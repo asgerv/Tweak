@@ -37,7 +37,7 @@ namespace MVCForum.Website.Controllers
         {
             ArticlesPreviewViewModel viewmodel = new ArticlesPreviewViewModel();
             viewmodel.Tag = "Chosen Tag";
-            viewmodel.Articles = _articleService.GetNewest(4);
+            viewmodel.Articles = _articleService.GetNewest(13);
             return PartialView(viewmodel);
         }
 

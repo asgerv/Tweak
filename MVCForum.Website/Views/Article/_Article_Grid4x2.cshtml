@@ -1,68 +1,42 @@
 ﻿@model MVCForum.Website.ViewModels.ArticlesPreviewViewModel
+    @{ 
+        int counter = 0;
+    }
 <link href="~/Content/Tweak/_Article_Grid4x2.css" rel="stylesheet" />
 <div class="section">
     <div class="container">
         <h1 class="shentox">@Model.Tag</h1>
+
+        <h1>FOR EACH TEST</h1>
         <div class="row">
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(0).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(0).Header</h2>
-                <p>
-                 @Model.Articles.ElementAt(0).Description
-                </p>
-       </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(1).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(1).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(1).Description
-                </p>
-            </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(2).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(2).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(2).Description
-                </p>
-            </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(3).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(3).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(3).Description
-                </p>
+            @foreach (var item in Model.Articles)
+            {
+
+             
+
+
+
+                <div class="col-md-3">
+                    <img src="@item.Image" class="img-responsive grid-image">
+                    <h2>@item.Header</h2>
+                    <p>
+                        @item.Description
+                    </p>
+                </div>
+
+  
+
+            }
             </div>
         </div>
-        <br />
-        <div class="row">
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(0).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(0).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(0).Description
-                </p>
-            </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(1).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(1).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(1).Description
-                </p>
-            </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(2).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(2).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(2).Description
-                </p>
-            </div>
-            <div class="col-md-3">
-                <img src="@Model.Articles.ElementAt(3).Image" class="img-responsive grid-image">
-                <h2>@Model.Articles.ElementAt(3).Header</h2>
-                <p>
-                    @Model.Articles.ElementAt(3).Description
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+
+                </div>
+   @*if (counter == 0)
+                { Html.Raw("<div class=\"row\">"); }
+
+                                if (counter == 4)
+                                {
+                                counter = 0;
+                                @Html.Raw("</div>");
+
+                                }*@
