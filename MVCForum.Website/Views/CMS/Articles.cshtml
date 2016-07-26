@@ -56,7 +56,9 @@
                                     <tr>
                                         @{
                                             var createDate = item.CreateDate.ToString("yyyy/MM/dd HH:mm");
+                                            // Sætter datemodified til createdate, hvis der ikke er nogen
                                             var dateModified = item.DateModified.HasValue ? item.DateModified.Value.ToString("yyyy/MM/dd HH:mm") : createDate;
+                                            // Sætter comments til 0 hvis der ikke er nogen
                                             var comments = item.Comments.Any() ? item.Comments.Count : 0;
                                         }
                                         <td>@Html.DisplayFor(modelItem => item.Header)</td>
@@ -93,9 +95,13 @@
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
     <script src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script src="~/Scripts/admin/moment.min.js"></script>
+    <script src="~/Scripts/admin/datetime-moment.js"></script>
     <script>
         $(document)
             .ready(function () {
+                $.fn.dataTable.moment('yyyy/MM/dd HH:mm');
+                $.fn.dataTable.moment('yyyy/MM/dd HH:mm');
                 $('#articlesTable')
                     .DataTable({
                         // kun et row kan vælges
