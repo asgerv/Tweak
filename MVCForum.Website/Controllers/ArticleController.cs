@@ -46,7 +46,6 @@ namespace MVCForum.Website.Controllers
         {
             Article viewmodel = new Article();
             viewmodel = _articleService.Get(id);
-
             return View(viewmodel);
         }
 
