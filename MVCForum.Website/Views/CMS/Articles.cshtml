@@ -1,9 +1,9 @@
 ﻿@model MVCForum.Website.ViewModels.ArticlesViewModel
 @section css
 {
-    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/select.dataTables.min.css" rel="stylesheet"/>
 }
 @{
     ViewBag.Title = "CMS - Alle nyheder";
@@ -29,50 +29,50 @@
                     <div class="dataTable_wrapper">
                         <table id="articlesTable" class="table table-striped table-bordered">
                             <thead>
-                                <tr>
-                                    <th>Titel</th>
-                                    <th>Oprettet</th>
-                                    <th>Sidst ændret</th>
-                                    <th>Skrevet af</th>
-                                    <th>Kommentarer</th>
-                                    <th>Aktiv</th>
-                                    <th>Kontrol</th>
-                                </tr>
+                            <tr>
+                                <th>Titel</th>
+                                <th>Oprettet</th>
+                                <th>Sidst ændret</th>
+                                <th>Skrevet af</th>
+                                <th>Kommentarer</th>
+                                <th>Aktiv</th>
+                                <th>Kontrol</th>
+                            </tr>
                             </thead>
                             <tfoot>
-                                <tr>
-                                    <th>Titel</th>
-                                    <th>Oprettet</th>
-                                    <th>Sidst ændret</th>
-                                    <th>Skrevet af</th>
-                                    <th>Kommentarer</th>
-                                    <th>Aktiv</th>
-                                    <th>Kontrol</th>
-                                </tr>
+                            <tr>
+                                <th>Titel</th>
+                                <th>Oprettet</th>
+                                <th>Sidst ændret</th>
+                                <th>Skrevet af</th>
+                                <th>Kommentarer</th>
+                                <th>Aktiv</th>
+                                <th>Kontrol</th>
+                            </tr>
                             </tfoot>
                             <tbody>
-                                @foreach (var item in Model.Articles)
-                                {
-                                    <tr>
-                                        @{
-                                            var createDate = item.CreateDate.ToString("yyyy/MM/dd HH:mm");
-                                            // Sætter datemodified til createdate, hvis der ikke er nogen
-                                            var dateModified = item.DateModified.HasValue ? item.DateModified.Value.ToString("yyyy/MM/dd HH:mm") : createDate;
-                                            // Sætter comments til 0 hvis der ikke er nogen
-                                            var comments = item.Comments.Any() ? item.Comments.Count : 0;
-                                        }
-                                        <td>@Html.DisplayFor(modelItem => item.Header)</td>
-                                        <td>@createDate</td>
-                                        <td>@dateModified</td>
-                                        <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
-                                        <td>@comments</td>
-                                        <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
-                                        <td>
-                                            @Html.ActionLink("Rediger", "EditArticle", new { id = item.Id }) |
-                                            @Html.ActionLink("Slet", "DeleteArticle", new { id = item.Id })
-                                        </td>
-                                    </tr>
-                                            }
+                            @foreach (var item in Model.Articles)
+                            {
+                                <tr>
+                                    @{
+                                        var createDate = item.CreateDate.ToString("yyyy/MM/dd HH:mm");
+                                        // Sætter datemodified til createdate, hvis der ikke er nogen
+                                        var dateModified = item.DateModified.HasValue ? item.DateModified.Value.ToString("yyyy/MM/dd HH:mm") : createDate;
+                                        // Sætter comments til 0 hvis der ikke er nogen
+                                        var comments = item.Comments.Any() ? item.Comments.Count : 0;
+                                    }
+                                    <td>@Html.DisplayFor(modelItem => item.Header)</td>
+                                    <td>@createDate</td>
+                                    <td>@dateModified</td>
+                                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                                    <td>@comments</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
+                                    <td>
+                                        @Html.ActionLink("Rediger", "EditArticle", new {id = item.Id}) |
+                                        @Html.ActionLink("Slet", "DeleteArticle", new {id = item.Id})
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -99,7 +99,7 @@
     <script src="~/Scripts/admin/datetime-moment.js"></script>
     <script>
         $(document)
-            .ready(function () {
+            .ready(function() {
                 $.fn.dataTable.moment('yyyy/MM/dd HH:mm');
                 $.fn.dataTable.moment('yyyy/MM/dd HH:mm');
                 $('#articlesTable')
@@ -110,7 +110,7 @@
                         },
                         // sprog
                         language: {
-                            url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json",
+                            url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Danish.json", // TODO: lokalt
                             select: {
                                 rows: ""
                             }

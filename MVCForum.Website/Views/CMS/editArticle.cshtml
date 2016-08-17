@@ -1,16 +1,18 @@
 ﻿@model MVCForum.Website.ViewModels.EditArticleViewModel
 
 @{
-    ViewBag.Title = "editArticle";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
-
-<link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
-<link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet" />
+@section css
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css"/>
+    <link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet"/>
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" type="text/css"/>
+}
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Opret nyhed</h1>
+            <h1 class="page-header">Rediger nyhed</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -19,78 +21,86 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Opret en nyhed</div>
+                <div class="panel-heading">Rediger nyhed</div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            @using (Html.BeginForm("EditArticle", "CMS", FormMethod.Post))
+                            @using (Html.BeginForm())
                             {
                                 <div class="form-horizontal">
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
+                                    @* Header *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Header, new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.Header, new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Header, new{htmlAttributes = new{@class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Header, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.Header, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.Header, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
+                                    @* /Header *@
+
+                                    @* Description *@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Description, new {@class = "form-control"})
+                                            @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
                                             @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
+                                    @* /Description *@
+
+                                    @* Tags *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Tags, new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.SelectedTags, new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Tags, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
+                                            @Html.ListBoxFor(m => m.SelectedTags, Model.AvailableTags, new {style = "width:100%"})
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
+                                    @* /Tags *@
 
-                                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control mceEditor", id = "my_editor" })
-                                            @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                                    @* Body *@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Body, new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Body, new {@class = "form-control mceEditor", id = "my_editor"})
+                                            @Html.ValidationMessageFor(model => model.Body, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Image, "Artikel billede URL", new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
+                                    @* /Body *@
 
-                                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                    @* Image *@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Image, new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Image, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.Image, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.IsPublished, "Status", new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
+                                    @* /Image *@
 
+                                    @* IsPublished *@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsPublished, new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
                                             <div class="onoffswitch">
-                                                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-control onoffswitch-checkbox", id = "onoffswitch" })
+                                                @Html.CheckBoxFor(model => model.IsPublished, new {@class = "form-control onoffswitch-checkbox", id = "onoffswitch"})
                                                 <label class="onoffswitch-label" for="onoffswitch">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
                                                 </label>
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.IsPublished, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.IsPublished, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
+                                    @* /IsPublished *@
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-10">
-
-                                            <input type="submit" value="Opret" class="btn btn-success" />
+                                            <input type="submit" value="Gem" class="btn btn-success"/>
                                         </div>
                                     </div>
                                 </div>
                             }
-                            <form method="post">
-                                <div id="newsEditor">Tryk for at skrive</div>
-                            </form>
-
                         </div>
                         <!-- /.col-lg-6 (nested) -->
                     </div>
@@ -105,9 +115,15 @@
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+@section scripts
+{
+    <script src="~/Scripts/select2.min.js"></script>
+    <script type="text/javascript">
+        $('#SelectedTags')
+            .select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Tilføj tags her"
+            });
+    </script>
+}

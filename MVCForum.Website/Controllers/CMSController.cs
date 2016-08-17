@@ -38,13 +38,16 @@ namespace MVCForum.Website.Controllers
         // GET: /cms/newarticle/
         public ActionResult NewArticle()
         {
-            return View();
+            var vm = new AddArticleViewModel
+            {
+                AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name))
+            };
+            return View(vm);
         }
 
         // POST: Article
         [HttpPost]
-        public ActionResult NewArticle(
-            [Bind(Include = "Header, Description, Body, Tags, Image, IsPublished")] AddArticleViewModel vm)
+        public ActionResult NewArticle(AddArticleViewModel vm)
         {
             Article newArticle;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -54,13 +57,23 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        newArticle = _articleService.AddNewArticle(vm.Header,
-                            vm.Description, vm.Body,
-                            vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
-                        unitOfWork.SaveChanges();
-                        _articleTagService.Add(vm.Tags, newArticle);
-                        unitOfWork.Commit();
-                        return RedirectToAction("Index");
+
+                    newArticle = _articleService.AddNewArticle(vm.Header,
+                        vm.Description, vm.Body,
+                        vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
+
+                    // Gemmer article i database, så comments kan oprettes på den
+                    unitOfWork.SaveChanges();
+
+                    // Tilføj tags
+                    if (vm.SelectedTags != null)
+                    {
+                        string tagsString = string.Join(",", vm.SelectedTags);
+                        _articleTagService.Add(tagsString, newArticle);
+                    }
+                    // Commit
+                    unitOfWork.Commit();
+                    return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
@@ -70,7 +83,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View(); // TODO: Gå til artikel "newArticle"
+            return RedirectToAction("Articles"); // TODO: Gå til artikel "newArticle"
         }
 
 
@@ -78,37 +91,63 @@ namespace MVCForum.Website.Controllers
         public ActionResult EditArticle(Guid? id)
         {
             if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Articles");
             var article = _articleService.Get(id.Value);
             if (article == null)
                 return HttpNotFound();
-            // Laver List<ArticleTag> om til string
-            var stringTags = "";
-            foreach (var tag in article.Tags)
-            {
-                stringTags = stringTags + tag.Name + ", ";
-            }
-            // Opretter viewmodel
+
             var editArticleViewModel = new EditArticleViewModel
             {
                 Id = article.Id,
-                CreateDate = article.CreateDate,
-                DateModified = article.DateModified,
                 Header = article.Header,
                 Description = article.Description,
                 Body = article.Body,
                 Image = article.Image,
                 IsPublished = article.IsPublished,
-                User = article.User,
-                Tags = stringTags,
+                AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name)),
+                SelectedTags = article.Tags.Select(x => x.Name)
             };
             return View(editArticleViewModel);
         }
 
         [HttpPost]
-        public ActionResult EditArticle(EditArticleViewModel model)
+        public ActionResult EditArticle(EditArticleViewModel vm)
+            //[Bind(Include = "Id, Header, Description, Body, Tags, Image, IsPublished, CreateDate, User")]
         {
-            return View();
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        // Henter article fra Id fra viewmodel
+                        var article = _articleService.Get(vm.Id);
+
+                        // Overfører data
+                        article.Header = vm.Header;
+                        article.Description = vm.Description;
+                        article.Body = vm.Body;
+                        article.DateModified = DateTime.Now;
+                        article.Image = vm.Image;
+                        article.IsPublished = vm.IsPublished;
+                        _articleService.Edit(article);
+
+                        // Tilføj tags
+                        string tagsString = string.Join(",", vm.SelectedTags);
+                        _articleTagService.Add(tagsString, article);
+
+                        // Commit
+                        unitOfWork.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
+            return RedirectToAction("Articles");
         }
 
         // GET: cms/deletearticle/id
@@ -134,7 +173,7 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-                        // Vi skal have noget logging over hvem der har slettet artikler
+                        // TODO: Vi skal have noget logging over hvem der har slettet artikler
 
                         _articleService.Delete(_articleService.Get(id));
                         unitOfWork.Commit();
@@ -153,8 +192,7 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Articles()
         {
-            var viewmodel = new ArticlesViewModel();
-            viewmodel.Articles = _articleService.GetAll();
+            var viewmodel = new ArticlesViewModel {Articles = _articleService.GetAll()};
             return View(viewmodel);
         }
 
@@ -212,6 +250,7 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult AddComment(TestViewModel vm)
         {
@@ -227,6 +266,7 @@ namespace MVCForum.Website.Controllers
                 return View();
             }
         }
+
 
         public string Upload(HttpPostedFileBase file)
         {
