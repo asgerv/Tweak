@@ -10,29 +10,29 @@
 
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6" style="overflow-wrap: break-word; overflow: hidden">
         <div style="">
             <h1>@Html.DisplayFor(model => model.Header)</h1>
             <p class="shentox"> Skrevet den: @Html.DisplayFor(model => model.CreateDate), af: @Html.DisplayFor(model => model.User.UserName) </p>
 
 
 
+
             @Html.Raw(str)
 
             <br/>
-            @Html.DisplayFor(model => model.Comments.FirstOrDefault().CommentBody)
-<p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>
-   
-        
+
+
+            @{ Html.RenderPartial("_Comments", Model.Comments);  }
+
+
+
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
 
     </div>
 </div>

@@ -49,7 +49,6 @@ namespace MVCForum.Website.Controllers
             // TODO ??
             var viewmodel = new Article();
             viewmodel = _articleService.Get(id);
-
             return View(viewmodel);
         }
     }

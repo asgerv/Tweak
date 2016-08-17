@@ -16,5 +16,8 @@ namespace MVCForum.Domain.DomainModel.CMS
         public bool IsDeleted { get; set; }
         public MembershipUser User { get; set; }
         public virtual Article Article { get; set; }
+        public Guid? InReplyTo { get; set; }
+
+
     }
 }

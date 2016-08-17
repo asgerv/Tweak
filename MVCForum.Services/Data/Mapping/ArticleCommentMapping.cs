@@ -12,6 +12,7 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.CommentBody).IsRequired();
             Property(x => x.DateCreated).IsRequired();
             Property(x => x.IsDeleted).IsRequired();
+            Property(x => x.InReplyTo).IsOptional();
 
             HasRequired(t => t.User)
                 .WithMany(t => t.ArticleComments)
