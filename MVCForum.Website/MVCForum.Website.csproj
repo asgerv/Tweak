@@ -652,8 +652,6 @@
     <Content Include="Content\cms\metismenu\metisMenu.css" />
     <Content Include="Content\cms\metismenu\metisMenu.min.css" />
     <Content Include="Content\cms\sb-admin-2.css" />
-    <Content Include="Content\css\arrow.png" />
-    <Content Include="Content\css\close.png" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />

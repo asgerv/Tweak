@@ -223,32 +223,38 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Tags()
         {
-            return View();
+            var vm = new TagsViewModel {ArticleTags = _articleTagService.GetAll().ToList()};
+            return View(vm);
         }
 
-        [HttpPost]
-        public ActionResult Tags(TestViewModel vm)
+        public ActionResult DeleteTag(Guid? id)
         {
-            //throw new NotImplementedException();
-
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            {
-                _articleService.WipeDatabase();
-                unitOfWork.Commit();
-            }
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            {
-                _articleTagService.CreateTestTags();
-                unitOfWork.Commit();
-            }
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            {
-                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                _articleService.CreateTestData(loggedOnUser);
-                unitOfWork.Commit();
-            }
-            return View();
+            return View("Index");
         }
+
+        //[HttpPost]
+        //public ActionResult Tags(TestViewModel vm)
+        //{
+        //    //throw new NotImplementedException();
+
+        //    using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+        //    {
+        //        _articleService.WipeDatabase();
+        //        unitOfWork.Commit();
+        //    }
+        //    using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+        //    {
+        //        _articleTagService.CreateTestTags();
+        //        unitOfWork.Commit();
+        //    }
+        //    using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+        //    {
+        //        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+        //        _articleService.CreateTestData(loggedOnUser);
+        //        unitOfWork.Commit();
+        //    }
+        //    return View();
+        //}
 
 
         [HttpPost]

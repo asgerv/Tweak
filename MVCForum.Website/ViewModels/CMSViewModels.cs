@@ -79,6 +79,10 @@ namespace MVCForum.Website.ViewModels
     {
     }
 
+    public class TagsViewModel
+    {
+        public List<ArticleTag> ArticleTags { get; set; }
+    }
     public class StatisticsViewModel
     {
     }
