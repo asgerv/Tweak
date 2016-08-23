@@ -653,6 +653,8 @@
     <Content Include="Content\cms\metismenu\metisMenu.css" />
     <Content Include="Content\cms\metismenu\metisMenu.min.css" />
     <Content Include="Content\cms\sb-admin-2.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.dataTables.css" />
@@ -1347,6 +1349,15 @@
     <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
+    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.0.js" />
+    <Content Include="Scripts\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.0.js" />
+    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -1542,7 +1553,6 @@
     <Content Include="Areas\Admin\Views\AdminSpam\SpamReporting.cshtml" />
     <Content Include="Areas\Admin\Views\Settings\CustomCode.cshtml" />
     <Content Include="Areas\Admin\Views\AdminTag\MoveTags.cshtml" />
-    <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Scripts\language.js" />
     <Content Include="Scripts\notifications.js" />
     <Content Include="Scripts\plugins.js" />
@@ -1601,6 +1611,8 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Views\Article\Nyhed.cshtml" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.0.min.map" />
     <None Include="Views\CMS\Articles.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <Content Include="Views\CMS\GeneralSettings.cshtml" />
@@ -1808,6 +1820,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\languagepacks\" />
+    <Folder Include="Content\themes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

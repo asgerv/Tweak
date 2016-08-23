@@ -93,7 +93,7 @@ namespace MVCForum.Services
 
         public void Edit(Article article)
         {
-            //EntityState
+            _context.Entry(article).State = EntityState.Modified;
         }
 
         public void WipeDatabase()
@@ -126,12 +126,12 @@ namespace MVCForum.Services
                 var article = new Article
                 {
                     Header = "Lorem ipsum dolor sit amet, consectetur adipiscing elit volutpat." + NumberToWords(i),
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere posuere metus nec dignissim. Curabitur eget enim ac ex sodales mollis nec aliquet urna. Mauris ut ultrices sapien. Curabitur tempor sem non dapibus volutpat.",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere posuere metus nec dignissim. Curabitur eget enim ac ex sodales mollis nec aliquet urna. Mauris ut ultrices sapien. Curabitur tempor sem non dapibus volutpat.",
                     Body = "Body",
                     CreateDate = createDate,
                     Image = "/Images/Default.jpeg",
                     PublishDate = createDate,
-                
                     IsPublished = true,
                     User = user,
                     Comments = new List<ArticleComment>()

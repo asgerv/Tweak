@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
 
@@ -29,31 +30,44 @@ namespace MVCForum.Website.ViewModels
         {
             Image = "/Images/Default.jpeg";
         }
+        //[Required] <-- ??
+        [Display(Name = "Overskrift")]
         [StringLength(70, ErrorMessage = "Header cannot be longer than 70 characters.")]
         public string Header { get; set; }
+        [Display(Name = "Beskrivelse")]
         [StringLength(240, ErrorMessage = "Description cannot be longer than 240 characters.")]
         public string Description { get; set; }
-        public string Image { get; set; }
-        public string Tags { get; set; }
-        public bool IsPublished { get; set; }
-
+        [Display(Name = "Brødtekst")]
         [AllowHtml]
         public string Body { get; set; }
+        [Display(Name = "Billede (URL)")]
+        public string Image { get; set; }
+        [Display(Name = "Status")]
+        public bool IsPublished { get; set; }
+        [Display(Name = "Tags")]
+        public IEnumerable<string> SelectedTags { get; set; }
+        public IEnumerable<SelectListItem> AvailableTags { get; set; }
     }
 
     public class EditArticleViewModel
     {
         public Guid Id { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime? DateModified { get; set; }
+        [Display(Name = "Overskrift")]
+        [StringLength(70, ErrorMessage = "Header cannot be longer than 70 characters.")]
         public string Header { get; set; }
+        [Display(Name = "Beskrivelse")]
+        [StringLength(240, ErrorMessage = "Description cannot be longer than 240 characters.")]
         public string Description { get; set; }
+        [Display(Name = "Brødtekst")]
         [AllowHtml]
         public string Body { get; set; }
+        [Display(Name = "Billede (URL)")]
         public string Image { get; set; }
+        [Display(Name = "Status")]
         public bool IsPublished { get; set; }
-        public virtual MembershipUser User { get; set; }
-        public string Tags { get; set; }
+        [Display(Name = "Tags")]
+        public IEnumerable<string> SelectedTags { get; set; }
+        public IEnumerable<SelectListItem> AvailableTags { get; set; }
     }
 
     public class ArticlesViewModel
@@ -65,6 +79,10 @@ namespace MVCForum.Website.ViewModels
     {
     }
 
+    public class TagsViewModel
+    {
+        public List<ArticleTag> ArticleTags { get; set; }
+    }
     public class StatisticsViewModel
     {
     }

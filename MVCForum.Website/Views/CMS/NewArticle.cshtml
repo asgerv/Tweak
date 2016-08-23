@@ -1,14 +1,14 @@
 ﻿@model MVCForum.Website.ViewModels.AddArticleViewModel
+@{
+    Layout = "~/Views/Shared/_CMSLayout.cshtml";
+}
 @section css
 {
     <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css"/>
     <link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet"/>
-}
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_CMSLayout.cshtml";
-}
+    <link href="~/Content/css/select2.min.css" rel="stylesheet"/>
 
+}
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -48,10 +48,9 @@
                                     </div>
                                     @* Tags *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Tags, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.SelectedTags, new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Tags, new {htmlAttributes = new {@class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Tags, "", new {@class = "text-danger"})
+                                            @Html.ListBoxFor(m => m.SelectedTags, Model.AvailableTags, new {style = "width:100%"})
                                         </div>
                                     </div>
                                     @* Body *@
@@ -109,7 +108,16 @@
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-@*@section scripts
+@section scripts
 {
-   
-}*@
+    <script src="~/Scripts/select2.min.js"></script>
+    <script type="text/javascript">
+        $('#SelectedTags')
+            .select2({
+                tags: true,
+                tokenSeparators: [','],
+                placeholder: "Tilføj tags her"
+            });
+    </script>
+
+}
