@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Nyhed";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    string str = Model.Body;
 }
 
 
@@ -21,14 +20,14 @@
 
 
 
-            @Html.Raw(str)
+            @Html.Raw(Model.Body)
 
             <br/>
 
 
             @{ Html.RenderPartial("_Comments", Model.Comments);  }
 
-
+            @{ Html.RenderAction("_Comment", Model);  }
 
         </div>
     </div>

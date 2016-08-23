@@ -52,7 +52,7 @@ namespace MVCForum.Services
             // Fjern alle comments
             foreach (var comment in article.Comments.ToList())
             {
-                _articleCommentService.Delete(comment);
+                //_articleCommentService.Delete(comment);
             }
             // Slet article
             _context.Article.Remove(article);

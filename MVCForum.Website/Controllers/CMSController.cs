@@ -222,7 +222,7 @@ namespace MVCForum.Website.Controllers
                 var article = _articleService.GetNewest(1).First();
                 var comment = new ArticleComment {CommentBody = vm.S};
 
-                _articleCommentService.Add(comment, article, loggedOnUser);
+                //_articleCommentService.Add(comment, article, loggedOnUser);
                 unitOfWork.Commit();
                 return View();
             }

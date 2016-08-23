@@ -9,31 +9,40 @@
     <ul id="comments-list" class="comments-list">
         @foreach (var comment in Model)
         {
+
             <li>
-                <div class="comment-main-level">
-                    <!-- Avatar -->
-                    <div class="comment-avatar">
-                        <img src="@comment.User.MemberImage(SiteConstants.Instance.GravatarTopicSize)" alt="">
-                    </div>
-                    <!-- Contenedor del Comentario -->
-                    <div class="comment-box">
-                        <div class="comment-head">
-                            <h6 class="comment-name "><a href="">@comment.User.UserName</a></h6>
-                            <span>
-                                skrevet den: @comment.DateCreated
-                            </span>
-                                <a href=""><i class="fa fa-reply"></i></a>
-                                <i class="fa fa-heart"></i>
-                            
+                @if (comment.InReplyTo == null && comment.IsDeleted != true)
+                {
+                    <div class="comment-main-level">
+                        <!-- Avatar -->
+                        <div class="comment-avatar">
+                            <img src="@comment.User.MemberImage(SiteConstants.Instance.GravatarTopicSize)" alt="">
                         </div>
-                        <div class="comment-content">
-                           @comment.CommentBody
-                           
+                        <!-- Contenedor del Comentario -->
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name "><a href="">@comment.User.UserName</a></h6>
+                                @Html.Hidden(comment.Id.ToString())
+                                <span>
+                                    skrevet den: @comment.DateCreated
+                                    <i onclick="return reply('@comment.User.UserName','@comment.Id')" class="fa fa-reply"></i>
+                                    @if (comment.User.UserName == User.Identity.Name)
+                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Id})"><i class="fa fa-trash"></i></a> }
+
+</span>
+
+
+                            </div>
+                            <div class="comment-content">
+
+                                @Html.Raw(comment.CommentBody)
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
                 <!-- Respuestas de los comentarios -->
-                @foreach (var reply in Model.Where(x => x.InReplyTo == comment.Id))
+                @foreach (var reply in Model.Where(x => x.InReplyTo == comment.Id && x.IsDeleted != true))
                 {
                     <ul class="comments-list reply-list">
                         <li>
@@ -45,11 +54,15 @@
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a href="">@reply.User.UserName</a></h6>
-                                    <span>skrevet den: @reply.DateCreated</span>
-                                    <i class="fa fa-reply"></i>
+                                    <span>
+                                        skrevet den: @reply.DateCreated
+                                        @if (reply.User.UserName == User.Identity.Name)
+                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = reply.Id, @ArticleId = reply.Article.Id})"><i class="fa fa-trash"></i></a> }
+                                    </span>
                                 </div>
                                 <div class="comment-content">
-                                    @reply.CommentBody
+
+                                    @Html.Raw(reply.CommentBody)
                                 </div>
                             </div>
                         </li>
@@ -58,35 +71,19 @@
                     </ul>
                 }
 
- 
+
             </li>
         }
 
-
-        <li>
-            <div class="comment-main-level">
-                <!-- Avatar -->
-                <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
-                </div>
-                <!-- Contenedor del Comentario -->
-                <div class="comment-box">
-                    <div class="comment-head">
-                        <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
-                        <span>hace 10 minutos</span>
-                        <i class="fa fa-reply"></i>
-                        <i class="fa fa-heart"></i>
-                    </div>
-                    <div class="comment-content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                    </div>
-                </div>
-            </div>
-        </li>
     </ul>
+
 </div>
+<script type="text/javascript">
+        function reply(name, id)
+        {
+            
+            document.getElementById('InReplyTo').value = id;
+            document.getElementById('InReplyToName').innerHTML = "svar til: " + name;
 
-
-@foreach (var item in Model)
-{
-    <p>@item.CommentBody</p>
-}
+        };
+</script>
