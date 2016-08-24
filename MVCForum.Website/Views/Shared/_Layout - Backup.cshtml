@@ -26,77 +26,80 @@
     @RenderSection("SocialMeta", false)
     @ViewBag.Canonical
     @Html.Partial("_StyleSheets", theme)
-    <link href="~/Content/Tweak/MainLayout.css" rel="stylesheet" />
-
     <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <link rel="shortcut icon" href="@Url.Content(theme.ThemePath + "/content/images/favicon.ico")">
     <link rel="apple-touch-icon-precomposed" href="@Url.Content(theme.ThemePath + "/content/images/apple-touch-icon-57-precomposed.png")">
     @Html.Partial("_JavaScript", theme)
-    <script src="~/Scripts/StickyNavTop.js"></script>
     @RenderSection("Header", false)
     @if (!string.IsNullOrEmpty(Html.Settings().CustomHeaderCode))
     {
         @Html.Raw(Html.Settings().CustomHeaderCode)
     }
-
 </head>
 
 <body class="@TempData[AppConstants.GlobalClass].ToString() loggedin-@(User.Identity.IsAuthenticated.ToString().ToLower())">
-
-
+    
+    <nav class="pushy pushy-left">
+        <ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.Action("SideAdminPanel", "Members", new { isDropDown  = false})
+            }
+            else
+            {
+                if (Html.Settings().SuspendRegistration != true)
+                {
+                    <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                }
+                <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
+            }
+            <li><a href="@Url.Action("Index", "Category")">@Html.LanguageString("Category.AllCategories")</a></li>
+            @Html.Partial("SubNavigation")
+        </ul>
+    </nav>
+    <div class="site-overlay"></div>    
 
     <header>
-        <div class="blackbar">
-            <ul>
-                <li>@Html.ActionLink("Om", "Index", "Home")</li>
-                <li>@Html.ActionLink("Team", "Index", "Home")</li>
-                <li>@Html.ActionLink("Kontakt", "Index", "Home")</li>
-            </ul>
-        </div>
-        <div class="navcustom">
-            @* navbar navbar-default navbar-fixed-top *@
-            <div class="container-fullwidth">
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <button type="button" class="navbar-toggle menu-btn">
+                        <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="@Url.Action("Index", "Home", null)" class="img-responsive" id="logo">
-                        @*<img src="~/Content/Images/Tweak/tweaklogo_new.png" id="logo" />*@
-                        TWEAK
+                    <a class="navbar-brand" href="@Url.Action("Index", "Forum")">
+                        <img src="@Url.Content(theme.ThemePath + "/content/images/logo.png")" alt="@Html.Lang("Site.MvcForum")" class="logoimg"/>                        
                     </a>
                 </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Nyheder", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Videoer", "Video", "Home")</li>
-                        <li>@Html.ActionLink("Tests", "Review", "Home")</li>
-                        <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+
+                <div class="collapse navbar-collapse" id="mvcforum-nav">
+    
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            if (Html.Settings().SuspendRegistration != true)
+                            {
+                                <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                            }
+                            <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
+                        }                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
+                        }
                     </ul>
-                    <div class="collapse navbar-collapse" id="mvcforum-nav">
-                        <ul class="nav navbar-nav navbar-right">
-                            @if (!User.Identity.IsAuthenticated)
-                            {
-                                if (Html.Settings().SuspendRegistration != true)
-                                {
-                                    <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
-                                }
-                                <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
-                            }
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
-                            }
-                        </ul>
-                    </div>
+
+
                 </div>
             </div>
-        </div>
-
+        </nav>
     </header>
+
     <section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
         <div class="container sub-nav-container">
             <div class="row">
@@ -108,7 +111,6 @@
             </div>
         </div>
     </section>
-
 
     <section class="container main-section">
         @Html.Partial("_GenericMessage")
@@ -156,6 +158,6 @@
     @if (!string.IsNullOrEmpty(Html.Settings().CustomFooterCode))
     {
         @Html.Raw(Html.Settings().CustomFooterCode)
-    }
+    }    
 </body>
 </html>

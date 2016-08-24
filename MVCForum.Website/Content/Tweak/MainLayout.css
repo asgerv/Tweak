@@ -1,0 +1,50 @@
+﻿/*body {
+    margin: 0 auto;
+	padding: 0; 
+}*/
+
+.blackbar > ul {
+    list-style-type: none;
+    overflow: hidden;
+    padding: 5px 0;
+	background-color: black;
+}
+.blackbar > ul > li {
+    float: right;
+    display: block;
+    color: white;
+    text-align: center;
+    padding-right: 15px;
+    text-decoration: none;
+}
+.navcustom {
+	padding: 1px 0;
+	background-color: white;
+	position: -webkit-sticky;
+	top: 45px;
+	z-index: 1;
+}
+.header, .navcustom {
+	text-align: center;
+	color: #fff;
+}
+/*.content {
+	width: 600px;
+	margin: 10px auto 100px;
+}*/
+.sticky {
+	position: fixed;
+	width: 100%;
+    padding: 5px 0;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	border-top: 0;
+    -moz-transition: padding 0.3s ease-in;
+    -o-transition: padding 0.3s ease-in;
+    -webkit-transition: padding 0.3s ease-in;
+    transition: padding 0.3s ease-in;
+}
+.navbar-toggle .icon-bar {
+    background-color: black;
+}

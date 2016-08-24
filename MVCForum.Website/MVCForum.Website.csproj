@@ -325,7 +325,6 @@
     <Compile Include="Application\Providers\RoleProvider.cs" />
     <Compile Include="Areas\Admin\ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ArticleViewModels.cs" />
     <Compile Include="ViewModels\CMSViewModels.cs" />
     <Compile Include="ViewModels\ModerateViewModels.cs" />
     <Compile Include="Application\ScheduledJobs\KepAliveJob.cs" />
@@ -899,6 +898,8 @@
     <Content Include="Content\spectrum\spectrum.css" />
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
+    <Content Include="Content\Tweak\Frontpage.css" />
+    <Content Include="Content\Tweak\MainLayout.css" />
     <Content Include="Content\Tweak\_Comments.css" />
     <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\Tweak\Nyhed.css" />
@@ -1358,6 +1359,7 @@
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\StickyNavTop.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -1627,8 +1629,7 @@
     <Content Include="Views\CMS\DeleteArticle.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Comments.cshtml" />
-    <Content Include="Views\Shared\_Comment.cshtml" />
-    <Content Include="Views\Shared\customeditors\tinymceeditorForum.cshtml" />
+    <Content Include="Views\Shared\_Layout - Backup.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -1,17 +1,19 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Tweak";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section css{
+    <link href="~/Content/Tweak/Frontpage.css" rel="stylesheet" />
+}
 
-
-@Html.Action("_ArticleMain","Article")
+@Html.Action("_ArticleMain", "Article")
 
 <br />
 <br />
 <br />
 @* Small-Article *@
 @Html.Action("_Article_Grid4x2", "Article", 1)
-@Html.Action("_Article_Grid4x2","Article", 1)
+@Html.Action("_Article_Grid4x2", "Article", 1)
 @Html.Action("_Article_Grid4x2", "Article", 2)
 @Html.Action("_Article_Grid4x2", "Article", 3)
 @Html.Action("_Article_Grid4x2", "Article", 4)
