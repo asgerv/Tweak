@@ -1,5 +1,8 @@
 ﻿using System;
 using MVCForum.Utilities;
+using MVCForum.Domain.Constants;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCForum.Domain.DomainModel.CMS
 {
@@ -11,6 +14,7 @@ namespace MVCForum.Domain.DomainModel.CMS
         }
 
         public Guid Id { get; set; }
+        [UIHint(AppConstants.EditorType), AllowHtml]
         public string CommentBody { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsDeleted { get; set; }

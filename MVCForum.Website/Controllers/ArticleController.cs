@@ -4,6 +4,8 @@ using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
+using MVCForum.Domain.DomainModel.CMS;
+using static MVCForum.Website.ViewModels.ArticleViewModels;
 
 namespace MVCForum.Website.Controllers
 {
@@ -51,5 +53,74 @@ namespace MVCForum.Website.Controllers
             viewmodel = _articleService.Get(id);
             return View(viewmodel);
         }
+
+        [HttpGet]
+        public ActionResult _Comment(Article model)
+        {
+            CommentViewModel viewmodel = new CommentViewModel();
+            viewmodel.ArticleId = model.Id;
+            return PartialView(viewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult _Comment(CommentViewModel vm)
+        {
+            ArticleComment newComment;
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        
+                        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                        newComment = _articleCommentService.Add(vm.CommentBody,vm.InReplyTo, vm.ArticleId, loggedOnUser);
+                        unitOfWork.SaveChanges();
+                        unitOfWork.Commit();
+                        return RedirectToAction("nyhed", newComment.Article);
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
+
+            return View("home");
+        }
+
+
+        public ActionResult _CommentsDelete(Guid commentId, Guid ArticleId)
+        {
+            Article article;
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+
+                        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                        _articleCommentService.Delete(commentId);
+                        article = _articleService.Get(ArticleId);
+                        unitOfWork.SaveChanges();
+                        unitOfWork.Commit();
+                        return RedirectToAction("nyhed", article);
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
+
+            return View("home");
+        }
+
+        
     }
 }

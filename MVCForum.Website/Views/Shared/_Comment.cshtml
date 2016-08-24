@@ -1,0 +1,15 @@
+﻿@model MVCForum.Website.ViewModels.ArticleViewModels.CommentViewModel
+
+<h1 id="InReplyToName">Kommentér</h1>
+@using (Html.BeginForm("_Comment", "Article"))
+{
+    @Html.HiddenFor(Model => Model.InReplyTo, new { id = "InReplyTo" })
+    @Html.HiddenFor(Model => Model.ArticleId)
+
+
+
+
+@Html.Partial("~/Views/Shared/customeditors/tinymceeditorForum.cshtml")
+@Html.TextAreaFor(Model => Model.CommentBody, new { @class = "form-control mceEditor", id = "my_editor" })
+<input type="submit" class="btn btn-success" value="Besvar" />
+}

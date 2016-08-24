@@ -19,13 +19,18 @@ namespace MVCForum.Services
             _context = context as MVCForumContext;
         }
 
-        public ArticleComment Add(ArticleComment comment, Article article, MembershipUser user)
+        public ArticleComment Add(string commentBody,Guid? InReplyTo, Guid? ArticleId, MembershipUser user)
         {
             // Tilføjer en ArticleComment
-            comment.Article = article;
+            ArticleComment comment = new ArticleComment();
+            comment.Article = _context.Article.Find(ArticleId);
             comment.User = user;
             comment.DateCreated = DateTime.Now;
             comment.IsDeleted = false;
+            var reply = _context.ArticleComment.FirstOrDefault(x => x.Id == InReplyTo);
+            if(reply != null)
+            comment.InReplyTo = _context.ArticleComment.Find(InReplyTo).Id;
+            comment.CommentBody = commentBody;
             return _context.ArticleComment.Add(comment);
         }
 
@@ -38,8 +43,9 @@ namespace MVCForum.Services
             _context.ArticleComment.Remove(articleComment);
         }
 
-        public void Delete(ArticleComment articleComment)
+        public void Delete(Guid articleCommentId)
         {
+            ArticleComment articleComment = _context.ArticleComment.Find(articleCommentId);
             articleComment.IsDeleted = true;
             Update(articleComment);
         }

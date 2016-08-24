@@ -7,9 +7,9 @@ namespace MVCForum.Domain.Interfaces.Services
 {
     public interface IArticleCommentService
     {
-        ArticleComment Add(ArticleComment comment, Article article, MembershipUser user);
+        ArticleComment Add(string commentBody, Guid? InReplyTo, Guid? ArticleId, MembershipUser user);
         void DeleteFromDb(ArticleComment articleComment);
-        void Delete(ArticleComment articleComment);
+        void Delete(Guid articleComment);
         void Update(ArticleComment articleComment);
 
         void UpdateBody(string newBody, Guid articleCommentId);
