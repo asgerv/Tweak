@@ -1,0 +1,119 @@
+﻿/*body {
+    padding-top: 60px;
+    padding-left: 15px;
+        padding-right: 15px;
+}*/
+@font-face {
+    font-family: 'Shentox';
+    src: url('../fonts/Shentox-W01-Bold.eot');
+    src: url('../fonts/Shentox-W01-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Shentox-W01-Bold.woff2') format('woff2'), url('../fonts/Shentox-W01-Bold.woff') format('woff'), url('../fonts/Shentox-W01-Bold.ttf') format('truetype'), url('../fonts/Shentox-W01-Bold.svg#Shentox_W01_Bold') format('svg');
+}
+.shentox {
+    font-family:Shentox;
+}
+
+#logo {
+    bottom: 50px;
+    padding-right: 20px;
+    font-size: 30px;
+    display: block;
+    text-decoration: none;
+}
+
+.article-image {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size:cover;
+
+}
+
+.article-1,
+.article-2,
+.article-3,
+.article-4 {
+    color: white;
+    text-align: left;
+    background-image: url(../bootstrap/../Images/Tweak/gradient.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: 2;
+   -webkit-transition: all .4s ease;
+       -moz-transition: all .4s ease;
+         -o-transition: all .4s ease;
+            transition: all .4s ease;
+    position: relative;
+    display: block;
+    overflow: hidden;
+ 
+
+
+
+}
+
+.article-1:hover,
+.article-2:hover,
+.article-3:hover,
+.article-4:hover {
+    text-decoration: none;
+    opacity:.2;
+    z-index: 2;
+ -webkit-box-shadow:  5px 5px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    5px 5px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         5px 5px 5px 6px #ccc;
+    position: relative;
+}
+
+.article-title{
+    font-family:Shentox;
+    color:white;
+   z-index:3;
+   font-size:1.9vh;
+    position: relative;
+    padding-left: 5px;
+        padding-bottom: 5px;
+   
+}
+.article-desciption{
+    font-family:Shentox;
+    color:white;
+   overflow:hidden;
+   font-size:3.8vh;
+     position: relative;
+    z-index: 3;
+        padding-left: 5px;
+        
+    padding-bottom: 5px;
+   
+}
+
+/*Article-text i <a> i morgen*/
+
+.article-1 {
+    height: 60vh;
+}
+
+.article-2,
+.article-3,
+.article-4 {
+    height: 30vh;
+}
+
+.marg {
+    padding: 0px;
+}
+
+.small-article{
+        background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+}
+
+.small-article-text{
+
+}
+.small-article-title{
+
+}
+.small-article-description{
+
+}
