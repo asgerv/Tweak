@@ -27,7 +27,9 @@
 
             @{ Html.RenderPartial("_Comments", Model.Comments);  }
 
-            @{ Html.RenderAction("_Comment", Model);  }
+
+            @if(User.Identity.IsAuthenticated)
+            { Html.RenderAction("_Comment", Model);  }
 
         </div>
     </div>
