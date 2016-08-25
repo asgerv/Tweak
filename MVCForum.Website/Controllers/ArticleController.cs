@@ -4,7 +4,6 @@ using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
-using MVCForum.Domain.DomainModel.CMS;
 using static MVCForum.Website.ViewModels.ArticleViewModels;
 
 namespace MVCForum.Website.Controllers
@@ -46,11 +45,12 @@ namespace MVCForum.Website.Controllers
         }
 
 
-        public ActionResult Nyhed(Guid id)
+        public ActionResult Nyhed(Guid? id)
         {
             // TODO ??
+            Guid test = (Guid)id;
             var viewmodel = new Article();
-            viewmodel = _articleService.Get(id);
+            viewmodel = _articleService.Get(test);
             return View(viewmodel);
         }
 
@@ -77,7 +77,7 @@ namespace MVCForum.Website.Controllers
                         newComment = _articleCommentService.Add(vm.CommentBody,vm.InReplyTo, vm.ArticleId, loggedOnUser);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", newComment.Article);
+                        return RedirectToAction("nyhed", new { id = newComment.Article.Id });
                     }
                     catch (Exception ex)
                     {
@@ -107,7 +107,7 @@ namespace MVCForum.Website.Controllers
                         article = _articleService.Get(ArticleId);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", article);
+                        return RedirectToAction("nyhed", new { id = article.Id });
                     }
                     catch (Exception ex)
                     {
