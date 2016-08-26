@@ -14,6 +14,8 @@ namespace MVCForum.Domain.Interfaces.Services
 
         void UpdateBody(string newBody, Guid articleCommentId);
         IList<ArticleComment> GetByArticle(Guid articleId);
+
+        ArticleComment GetComment(Guid? commentId);
         IEnumerable<ArticleComment> GetAll();
     }
 }

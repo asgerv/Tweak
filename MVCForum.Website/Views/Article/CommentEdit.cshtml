@@ -1,0 +1,19 @@
+﻿@model MVCForum.Website.ViewModels.ArticleViewModels.CommentViewModel
+@{
+    ViewBag.Title = "_CommentEdit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1 id="InReplyToName">Kommentar</h1>
+@using (Html.BeginForm("CommentEdit", "Article"))
+{
+   
+    @Html.HiddenFor(Model => Model.ArticleId)
+    @Html.HiddenFor(Model => Model.CommentId)
+
+
+
+@Html.Partial("~/Views/Shared/customeditors/tinymceeditorForum.cshtml")
+@Html.TextAreaFor(Model => Model.CommentBody, new { @class = "form-control mceEditor", id = "my_editor" })
+<input type="submit" class="btn btn-success" value="Rediger" />
+}

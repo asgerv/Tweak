@@ -1636,6 +1636,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Comments.cshtml" />
     <Content Include="Views\Shared\_Layout - Backup.cshtml" />
+    <Content Include="Views\Article\CommentEdit.cshtml" />
+    <Content Include="Views\Shared\_Comment.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

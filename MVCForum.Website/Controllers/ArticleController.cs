@@ -121,6 +121,54 @@ namespace MVCForum.Website.Controllers
             return View("home");
         }
 
-        
+        public ActionResult CommentEdit(Guid commentId)
+        {
+            if (commentId == null)
+                return RedirectToAction("Articles");
+            var comment = _articleCommentService.GetComment(commentId);
+            if (comment == null)
+                return HttpNotFound();
+
+            var vm = new CommentViewModel
+            {
+                CommentBody = comment.CommentBody,
+                CommentId = comment.Id,
+                ArticleId = comment.Article.Id
+                
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult CommentEdit(CommentViewModel comment)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        // Henter comment fra Id fra viewmodel
+                        var Comment = _articleCommentService.GetComment(comment.CommentId);
+
+                        // Overfører data
+                        Comment.CommentBody = comment.CommentBody;
+
+                        _articleCommentService.Update(Comment);
+
+                        // Commit
+                        unitOfWork.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
+            return RedirectToAction("nyhed", new { id = comment.ArticleId });
+        }
+
     }
 }

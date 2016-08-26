@@ -20,6 +20,10 @@
     text-decoration: none;
 }
 
+.article-cover{
+   padding:20px;
+}
+
 .article-image {
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -36,17 +40,15 @@
     background-image: url(../bootstrap/../Images/Tweak/gradient.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    z-index: 2;
    -webkit-transition: all .4s ease;
        -moz-transition: all .4s ease;
          -o-transition: all .4s ease;
             transition: all .4s ease;
-    position: relative;
+
     display: block;
     overflow: hidden;
- 
-
-
+        /*position: relative;*/
+           border: 3px solid white
 
 }
 
@@ -60,7 +62,7 @@
  -webkit-box-shadow:  5px 5px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    5px 5px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         5px 5px 5px 6px #ccc;
-    position: relative;
+    /*position: relative;*/
 }
 
 .article-title{
