@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "file": "common.css",
+  "sources": ["common.scss"],
+  "names": [],
+  "mappings": "AACA,GAAG,gBACF,SAAU,MACV,IAAK,IACL,KAAM,IACN,MAAO,MACP,WAAY,OACZ,YAAa,OACb,iBAAkB,MAClB,OAAQ,eACR,WAAY,4BACZ,cAAe,IACf,WAAY,OACZ,QAAS,IAAV,GAAG,gBAAgB,GAGjB,QAAS,MACT,OAAQ,EACR,YAAa,OACb,cAAe,eACf,iBAAkB,SACpB,GAAG,gBAAkB,IAGnB,QAAS"
+}
