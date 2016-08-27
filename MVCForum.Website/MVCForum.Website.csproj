@@ -1631,7 +1631,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="Views\Article\Nyhed.cshtml" />
+    <Content Include="Views\Article\Show.cshtml" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Themes\Tweak\Content\Fonts\mvcforumli.eot" />

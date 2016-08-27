@@ -17,7 +17,7 @@
 
 
                 <div class="col-md-3">
-                    <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(2).Id })"> <img src="@item.Image" class="img-responsive grid-image"></a>
+                    <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(2).Id })"> <img src="@item.Image" class="img-responsive grid-image"></a>
                     <h2>@item.Header</h2>
                     <p>
                         @item.Description

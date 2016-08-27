@@ -46,6 +46,15 @@ namespace MVCForum.Website
                 string.Concat(SiteConstants.Instance.TagsUrlIdentifier, "/{tag}"), // URL with parameters
                 new { controller = "Topic", action = "TopicsByTag", tag = UrlParameter.Optional } // Parameter defaults
             );
+            // Custom
+
+            routes.MapRoute(
+                "articleUrls", // Route name
+                "nyhed/{id}", // URL with parameters
+                new { controller = "Article", action = "Show", id = UrlParameter.Optional } // Parameter defaults
+            );
+
+            // End på custom
 
             routes.MapRoute(
                 "topicXmlSitemap", // Route name
@@ -70,6 +79,7 @@ namespace MVCForum.Website
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
+            
             //.RouteHandler = new SlugRouteHandler()
         }
     }
