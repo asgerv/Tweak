@@ -50,6 +50,13 @@ namespace MVCForum.Services
             Update(articleComment);
         }
 
+        public void Edit(Guid articleCommentId, string commentBody )
+        {
+            ArticleComment articleComment = _context.ArticleComment.Find(articleCommentId);
+            articleComment.CommentBody = commentBody;
+            Update(articleComment);
+        }
+
         public void Update(ArticleComment articleComment)
         {
             //if (TryUpdateModel)
@@ -72,6 +79,11 @@ namespace MVCForum.Services
                 .Include(x => x.Article)
                 //.Include(x => x.Article)
                 .Where(x => x.Article.Id == articleId).ToList();
+        }
+
+        public ArticleComment GetComment(Guid? commentId)
+        {
+            return _context.ArticleComment.Find(commentId);
         }
 
         public IEnumerable<ArticleComment> GetAll()

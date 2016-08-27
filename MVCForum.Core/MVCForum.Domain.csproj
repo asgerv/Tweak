@@ -94,6 +94,7 @@
     <Compile Include="DomainModel\CMS\Article.cs" />
     <Compile Include="DomainModel\CMS\ArticleComment.cs" />
     <Compile Include="DomainModel\CMS\ArticleTag.cs" />
+    <Compile Include="DomainModel\CMS\CMSSettings.cs" />
     <Compile Include="DomainModel\Entities\Badge.cs" />
     <Compile Include="DomainModel\Entities\BannedEmail.cs" />
     <Compile Include="DomainModel\Entities\Category.cs" />

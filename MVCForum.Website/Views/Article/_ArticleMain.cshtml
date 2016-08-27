@@ -1,11 +1,11 @@
 ﻿@model  MVCForum.Website.ViewModels.ArticlesPreviewViewModel
-<div class="row">
+<div class="row article-cover">
     <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(0).Image);">
         <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(0).Id })" class="article-1">
       
                 
               
-                    <div class="article-desciption">Artikel titel 1</div>
+                    <div class="article-desciption">@Model.Articles.ElementAt(0).Header</div>
             
              
       

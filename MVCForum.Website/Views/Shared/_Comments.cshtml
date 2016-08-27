@@ -1,4 +1,7 @@
 ﻿@model  IEnumerable<MVCForum.Domain.DomainModel.CMS.ArticleComment>
+
+@if(Model.Any())
+{ 
 <link href="~/Content/Tweak/_Comments.css" rel="stylesheet" />
 
 <div class="comments-container">
@@ -26,10 +29,14 @@
                                 <span>
                                     skrevet den: @comment.DateCreated
                                     <i onclick="return reply('@comment.User.UserName','@comment.Id')" class="fa fa-reply"></i>
+                                    @if (comment.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
+                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Id})"><i class="fa fa-trash"></i></a>
+                                    }
                                     @if (comment.User.UserName == User.Identity.Name)
-                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Id})"><i class="fa fa-trash"></i></a> }
+                                    { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})"><i class="fa fa-pencil"></i></a>
+                                    }
 
-</span>
+                                </span>
 
 
                             </div>
@@ -87,3 +94,8 @@
 
         };
 </script>
+}
+else {
+
+    <h1>Der er endnu ikke nogen kommentarer til dette indlæg.</h1>
+}
