@@ -1,7 +1,7 @@
 ﻿@model  MVCForum.Website.ViewModels.ArticlesPreviewViewModel
 <div class="row article-cover">
     <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(0).Image);">
-        <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(0).Id })" class="article-1">
+        <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(0).Id })" class="article-1">
       
                 
               
@@ -14,7 +14,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 marg article-image" style="background-image:url(@Model.Articles.ElementAt(1).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(1).Id })" class="article-2">
+                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(1).Id })" class="article-2">
                  
 
                      
@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(2).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(2).Id })" class="article-3">
+                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(2).Id })" class="article-3">
                   
 
                
@@ -36,7 +36,7 @@
 </a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(3).Image)">
-                <a href="@Url.Action("Nyhed", "Article", new { id = @Model.Articles.ElementAt(3).Id })" class="article-4">
+                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(3).Id })" class="article-4">
             
 
                

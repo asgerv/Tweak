@@ -44,8 +44,7 @@ namespace MVCForum.Website.Controllers
             return PartialView(viewmodel);
         }
 
-
-        public ActionResult Nyhed(Guid? id)
+        public ActionResult Show(Guid? id)
         {
             // TODO ??
             Guid test = (Guid)id;
