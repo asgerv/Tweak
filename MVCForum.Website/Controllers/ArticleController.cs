@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
+using MVCForum.Utilities;
 using MVCForum.Website.ViewModels;
 using static MVCForum.Website.ViewModels.ArticleViewModels;
 
@@ -46,12 +47,33 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Show(string slug)
         {
-            if (slug == null)
-                return RedirectToAction("Index", "Home"); // TODO: Lav fejlside ("Artikel blev ikke fundet")
-            var article = _articleService.Get(slug);
-            if (article == null)
-                return HttpNotFound();
-            return View(article);
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (slug == null)
+                    return RedirectToAction("Index", "Home"); // TODO: Lav fejlside ("Artikel blev ikke fundet")
+                var article = _articleService.Get(slug);
+                if (article == null)
+                    return HttpNotFound();
+                try
+                {
+                    // Do all logic here
+                    if (!BotUtils.UserIsBot())
+                        article.Views++;
+                    // Commit the transaction
+                    unitOfWork.Commit();
+                    return View(article);
+                }
+                catch (Exception ex)
+                {
+                    // Roll back database changes 
+                    unitOfWork.Rollback();
+                    // Log the error
+                    LoggingService.Error(ex);
+
+                    // Do what you want
+                    return RedirectToAction("Index", "Home");
+                }
+            }
         }
 
         [HttpGet]

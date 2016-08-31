@@ -18,6 +18,7 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.Image).IsRequired();
             Property(x => x.IsPublished).IsRequired();
             Property(x => x.PublishDate).IsRequired();
+            Property(x => x.Views).IsOptional();
 
             Property(x => x.Slug).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index",
                                    new IndexAnnotation(new IndexAttribute("IX_Article_Slug", 1) { IsUnique = true }));
