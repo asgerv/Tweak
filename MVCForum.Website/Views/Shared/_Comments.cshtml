@@ -63,8 +63,12 @@
                                     <h6 class="comment-name"><a href="">@reply.User.UserName</a></h6>
                                     <span>
                                         skrevet den: @reply.DateCreated
+                                        @if (reply.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
+                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Id})"><i class="fa fa-trash"></i></a>
+                                        }
                                         @if (reply.User.UserName == User.Identity.Name)
-                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = reply.Id, @ArticleId = reply.Article.Id})"><i class="fa fa-trash"></i></a> }
+                                        { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})"><i class="fa fa-pencil"></i></a>
+                                        }
                                     </span>
                                 </div>
                                 <div class="comment-content">
