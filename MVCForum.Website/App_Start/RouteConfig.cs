@@ -46,12 +46,13 @@ namespace MVCForum.Website
                 string.Concat(SiteConstants.Instance.TagsUrlIdentifier, "/{tag}"), // URL with parameters
                 new { controller = "Topic", action = "TopicsByTag", tag = UrlParameter.Optional } // Parameter defaults
             );
+
             // Custom
 
             routes.MapRoute(
                 "articleUrls", // Route name
-                "nyhed/{id}", // URL with parameters
-                new { controller = "Article", action = "Show", id = UrlParameter.Optional } // Parameter defaults
+                "nyhed/{slug}", // URL with parameters
+                new { controller = "Article", action = "Show", slug = UrlParameter.Optional } // Parameter defaults
             );
 
             // End på custom

@@ -1,42 +1,32 @@
 ﻿@model MVCForum.Website.ViewModels.ArticlesPreviewViewModel
-    @{ 
-        int counter = 0;
-    }
+@*@{
+    int counter = 0;
+}*@
 <link href="~/Content/Tweak/_Article_Grid4x2.css" rel="stylesheet" />
 <div class="section">
     <div class="container">
         <h1 class="shentox">@Model.Tag</h1>
-
-        <h1>FOR EACH TEST</h1>
+        @*<h1>FOR EACH TEST</h1>*@
         <div class="row">
             @foreach (var item in Model.Articles)
             {
-
-             
-
-
-
                 <div class="col-md-3">
-                    <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(2).Id })"> <img src="@item.Image" class="img-responsive grid-image"></a>
+                    <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(2).Slug })"> <img src="@item.Image" class="img-responsive grid-image"></a>
                     <h2>@item.Header</h2>
                     <p>
                         @item.Description
                     </p>
                 </div>
-
-  
-
             }
-            </div>
         </div>
+    </div>
+</div>
+@*if (counter == 0)
+    { Html.Raw("<div class=\"row\">"); }
 
-                </div>
-   @*if (counter == 0)
-                { Html.Raw("<div class=\"row\">"); }
+                    if (counter == 4)
+                    {
+                    counter = 0;
+                    @Html.Raw("</div>");
 
-                                if (counter == 4)
-                                {
-                                counter = 0;
-                                @Html.Raw("</div>");
-
-                                }*@
+                    }*@

@@ -41,10 +41,19 @@ namespace MVCForum.Services
                 CreateDate = DateTime.Now,
                 PublishDate = publishdate,
                 IsPublished = isPublished,
-                Image = image
+                Image = image,
+                Slug =
+                    ServiceHelpers.GenerateSlug(header, GetArticleBySlugLike(ServiceHelpers.CreateUrl(header)), null)
             };
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
+        }
+
+        public IList<Article> GetArticleBySlugLike(string slug)
+        {
+            return _context.Article
+                .Where(x => x.Slug.Contains(slug))
+                .ToList();
         }
 
         public bool Delete(Article article)
@@ -67,6 +76,10 @@ namespace MVCForum.Services
         public Article Get(Guid articleId)
         {
             return _context.Article.FirstOrDefault(x => x.Id == articleId);
+        }
+        public Article Get(string slug)
+        {
+            return _context.Article.FirstOrDefault(x => x.Slug == slug);
         }
 
         public int Count()
@@ -93,6 +106,8 @@ namespace MVCForum.Services
 
         public void Edit(Article article)
         {
+            article.Slug = ServiceHelpers.GenerateSlug(article.Header,
+                GetArticleBySlugLike(ServiceHelpers.CreateUrl(article.Header)), article.Slug);
             _context.Entry(article).State = EntityState.Modified;
         }
 
@@ -122,7 +137,7 @@ namespace MVCForum.Services
             // Opret 20
             for (var i = 0; i < 20; i++)
             {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*13);
+                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i * 13);
                 var article = new Article
                 {
                     Header = "Lorem ipsum dolor sit amet, consectetur adipiscing elit volutpat." + NumberToWords(i),
@@ -158,7 +173,7 @@ namespace MVCForum.Services
             // Opret 20
             for (var i = 80; i < 100; i++)
             {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*7);
+                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i * 7);
                 var article = new Article
                 {
                     Header = "En anden test artikel " + NumberToWords(i),
@@ -193,7 +208,7 @@ namespace MVCForum.Services
             // Opret 10
             for (var i = 20; i < 30; i++)
             {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*23);
+                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i * 23);
                 var article = new Article
                 {
                     Header = "En tredje test artikel " + NumberToWords(i),
@@ -237,21 +252,21 @@ namespace MVCForum.Services
 
             var words = "";
 
-            if (number/1000000 > 0)
+            if (number / 1000000 > 0)
             {
-                words += NumberToWords(number/1000000) + " million ";
+                words += NumberToWords(number / 1000000) + " million ";
                 number %= 1000000;
             }
 
-            if (number/1000 > 0)
+            if (number / 1000 > 0)
             {
-                words += NumberToWords(number/1000) + " thousand ";
+                words += NumberToWords(number / 1000) + " thousand ";
                 number %= 1000;
             }
 
-            if (number/100 > 0)
+            if (number / 100 > 0)
             {
-                words += NumberToWords(number/100) + " hundred ";
+                words += NumberToWords(number / 100) + " hundred ";
                 number %= 100;
             }
 
@@ -272,9 +287,9 @@ namespace MVCForum.Services
                     words += unitsMap[number];
                 else
                 {
-                    words += tensMap[number/10];
-                    if (number%10 > 0)
-                        words += "-" + unitsMap[number%10];
+                    words += tensMap[number / 10];
+                    if (number % 10 > 0)
+                        words += "-" + unitsMap[number % 10];
                 }
             }
 

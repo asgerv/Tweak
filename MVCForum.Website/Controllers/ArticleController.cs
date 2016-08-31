@@ -44,13 +44,14 @@ namespace MVCForum.Website.Controllers
             return PartialView(viewmodel);
         }
 
-        public ActionResult Show(Guid? id)
+        public ActionResult Show(string slug)
         {
-            // TODO ??
-            Guid test = (Guid)id;
-            var viewmodel = new Article();
-            viewmodel = _articleService.Get(test);
-            return View(viewmodel);
+            if (slug == null)
+                return RedirectToAction("Index", "Home"); // TODO: Lav fejlside ("Artikel blev ikke fundet")
+            var article = _articleService.Get(slug);
+            if (article == null)
+                return HttpNotFound();
+            return View(article);
         }
 
         [HttpGet]

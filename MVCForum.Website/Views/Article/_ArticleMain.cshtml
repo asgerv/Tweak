@@ -1,50 +1,26 @@
 ﻿@model  MVCForum.Website.ViewModels.ArticlesPreviewViewModel
 <div class="row article-cover">
     <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(0).Image);">
-        <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(0).Id })" class="article-1">
-      
-                
-              
-                    <div class="article-desciption">@Model.Articles.ElementAt(0).Header</div>
-            
-             
-      
-</a>
+        <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(0).Slug })" class="article-1">
+            <div class="article-desciption">@Model.Articles.ElementAt(0).Header</div>
+        </a>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12 marg article-image" style="background-image:url(@Model.Articles.ElementAt(1).Image)">
-                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(1).Id })" class="article-2">
-                 
-
-                     
-                            <div class="article-desciption">@Model.Articles.ElementAt(1).Header</div>
-                      
-                    
-           
+                <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(1).Slug })" class="article-2">
+                    <div class="article-desciption">@Model.Articles.ElementAt(1).Header</div>
                 </a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(2).Image)">
-                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(2).Id })" class="article-3">
-                  
-
-               
-                            <div class="article-desciption">@Model.Articles.ElementAt(2).Header</div>
-                       
-                 
-                
-</a>
+                <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(2).Slug })" class="article-3">
+                    <div class="article-desciption">@Model.Articles.ElementAt(2).Header</div>
+                </a>
             </div>
             <div class="col-md-6 marg article-image" style="background-image:url(@Model.Articles.ElementAt(3).Image)">
-                <a href="@Url.Action("Show", "Article", new { id = @Model.Articles.ElementAt(3).Id })" class="article-4">
-            
-
-               
-                            <div class="article-desciption">@Model.Articles.ElementAt(3).Header</div>
-                
-              
-                 
-</a>
+                <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(3).Slug })" class="article-4">
+                    <div class="article-desciption">@Model.Articles.ElementAt(3).Header</div>
+                </a>
             </div>
         </div>
     </div>
