@@ -58,22 +58,22 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
 
-                    newArticle = _articleService.AddNewArticle(vm.Header,
-                        vm.Description, vm.Body,
-                        vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
+                        newArticle = _articleService.AddNewArticle(vm.Header,
+                            vm.Description, vm.Body,
+                            vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
 
-                    // Gemmer article i database, så comments kan oprettes på den
-                    unitOfWork.SaveChanges();
+                        // Gemmer article i database, så comments kan oprettes på den
+                        unitOfWork.SaveChanges();
 
-                    // Tilføj tags
-                    if (vm.SelectedTags != null)
-                    {
-                        string tagsString = string.Join(",", vm.SelectedTags);
-                        _articleTagService.Add(tagsString, newArticle);
-                    }
-                    // Commit
-                    unitOfWork.Commit();
-                    return RedirectToAction("Index");
+                        // Tilføj tags
+                        if (vm.SelectedTags != null)
+                        {
+                            var tagsString = string.Join(",", vm.SelectedTags);
+                            _articleTagService.Add(tagsString, newArticle);
+                        }
+                        // Commit
+                        unitOfWork.Commit();
+                        return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
@@ -133,7 +133,7 @@ namespace MVCForum.Website.Controllers
                         _articleService.Edit(article);
 
                         // Tilføj tags
-                        string tagsString = string.Join(",", vm.SelectedTags);
+                        var tagsString = string.Join(",", vm.SelectedTags);
                         _articleTagService.Add(tagsString, article);
 
                         // Commit
@@ -229,7 +229,28 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult DeleteTag(Guid? id)
         {
-            return View("Index");
+            if (id == null)
+                return RedirectToAction("Tags");
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    var articleTag = _articleTagService.Get(id.Value);
+                    if (articleTag == null)
+                        return HttpNotFound();
+
+                    _articleTagService.Delete(articleTag);
+
+                    unitOfWork.Commit();
+                    return RedirectToAction("Tags");
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
         }
 
         //[HttpPost]

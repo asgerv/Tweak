@@ -10,7 +10,7 @@ namespace MVCForum.Domain.Interfaces.Services
         void Add(string tags, Article article);
         void Delete(ArticleTag articleTag);
         ArticleTag Get(string tag);
-        ArticleTag Get(Guid guid);
+        ArticleTag Get(Guid id);
         void UpdateTagName();
         IEnumerable<ArticleTag> GetAll();
         void CreateTestTags();
