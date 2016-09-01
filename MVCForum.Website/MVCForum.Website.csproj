@@ -1651,7 +1651,6 @@
     <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorCMS.cshtml" />
     <Content Include="Views\CMS\EditArticle.cshtml" />
-    <Content Include="Views\CMS\DeleteArticle.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Comments.cshtml" />
     <Content Include="Views\Shared\_Layout - Backup.cshtml" />

@@ -5,9 +5,9 @@
 }
 @section css
 {
-    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+    <link href="~/Content/DataTables/css/select.dataTables.min.css" rel="stylesheet"/>
 }
 <div id="page-wrapper">
     <div class="row">
@@ -25,31 +25,31 @@
                     <div class="dataTable_wrapper">
                         <table id="tagsTable" class="table table-striped table-bordered">
                             <thead>
-                                <tr>
-                                    <th>Navn</th>
-                                    <th>Antal artikler</th>
-                                    <th>Kontrol</th>
-                                </tr>
+                            <tr>
+                                <th>Navn</th>
+                                <th>Antal artikler</th>
+                                <th>Kontrol</th>
+                            </tr>
                             </thead>
                             <tfoot>
-                                <tr>
-                                    <th>Navn</th>
-                                    <th>Antal artikler</th>
-                                    <th>Kontrol</th>
-                                </tr>
+                            <tr>
+                                <th>Navn</th>
+                                <th>Antal artikler</th>
+                                <th>Kontrol</th>
+                            </tr>
                             </tfoot>
                             <tbody>
-                                @foreach (var item in Model.ArticleTags)
-                                {
-                                    var noArticles = item.Articles.Any() ? item.Articles.Count : 0;
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                        <td>@noArticles</td>
-                                        <td>
-                                            @Html.ActionLink("Slet", "DeleteTag", new { id = item.Id })
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var item in Model.ArticleTags)
+                            {
+                                var noArticles = item.Articles.Any() ? item.Articles.Count : 0;
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@noArticles</td>
+                                    <td>
+                                        @Html.ActionLink("Slet", "DeleteTag", new {id = item.Id}, new {@class = "btn btn-danger btn-sm", onclick = "return confirm('Er du sikker på at du vil slette dette tag?');"})
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -70,7 +70,7 @@
     <script src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
         $(document)
-            .ready(function () {
+            .ready(function() {
                 $('#tagsTable')
                     .DataTable({
                         // kun et row kan vælges

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
@@ -73,7 +72,6 @@ namespace MVCForum.Website.Controllers
                         }
                         // Commit
                         unitOfWork.Commit();
-                        return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
@@ -150,44 +148,31 @@ namespace MVCForum.Website.Controllers
             return RedirectToAction("Articles");
         }
 
-        // GET: cms/deletearticle/id
-        [HttpGet]
         public ActionResult DeleteArticle(Guid? id)
         {
+            // TODO: Vi skal have noget logging over hvem der har slettet artikler
             if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var article = _articleService.Get(id.Value);
-            if (article == null)
-                return HttpNotFound();
-            return View(article);
-        }
-
-        // POST: cms/deletearticle/id
-        [HttpPost, ActionName("DeleteArticle")]
-        //[ValidateAntiForgeryToken]
-        public ActionResult DeleteArticleConfirmed(Guid id)
-        {
+                return RedirectToAction("Articles");
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    try
-                    {
-                        // TODO: Vi skal have noget logging over hvem der har slettet artikler
+                    var article = _articleService.Get(id.Value);
+                    if (article == null)
+                        return HttpNotFound();
 
-                        _articleService.Delete(_articleService.Get(id));
-                        unitOfWork.Commit();
-                        return RedirectToAction("Articles");
-                    }
-                    catch (Exception ex)
-                    {
-                        unitOfWork.Rollback();
-                        LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    }
+                    _articleService.Delete(article);
+
+                    unitOfWork.Commit();
+                    return RedirectToAction("Articles");
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return View();
         }
 
         public ActionResult Articles()
