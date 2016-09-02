@@ -1,4 +1,6 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.Data.Entity.ModelConfiguration;
 using MVCForum.Domain.DomainModel.CMS;
 
 namespace MVCForum.Services.Data.Mapping
@@ -16,6 +18,10 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.Image).IsRequired();
             Property(x => x.IsPublished).IsRequired();
             Property(x => x.PublishDate).IsRequired();
+            Property(x => x.Views).IsOptional();
+
+            Property(x => x.Slug).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index",
+                                   new IndexAnnotation(new IndexAttribute("IX_Article_Slug", 1) { IsUnique = true }));
 
             HasRequired(t => t.User)
                 .WithMany(t => t.Articles)

@@ -41,7 +41,9 @@ namespace MVCForum.Services
                 CreateDate = DateTime.Now,
                 PublishDate = publishdate,
                 IsPublished = isPublished,
-                Image = image
+                Image = image,
+                Slug =
+                    ServiceHelpers.GenerateSlug(header, GetArticleBySlugLike(ServiceHelpers.CreateUrl(header)), null)
             };
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
@@ -50,10 +52,10 @@ namespace MVCForum.Services
         public bool Delete(Article article)
         {
             // Fjern alle comments
-            foreach (var comment in article.Comments.ToList())
-            {
-                //_articleCommentService.Delete(comment);
-            }
+            //foreach (var comment in article.Comments.ToList())
+            //{
+            //    _articleCommentService.Delete(comment);
+            //}
             // Slet article
             _context.Article.Remove(article);
             return false;
@@ -69,6 +71,11 @@ namespace MVCForum.Services
             return _context.Article.FirstOrDefault(x => x.Id == articleId);
         }
 
+        public Article Get(string slug)
+        {
+            return _context.Article.FirstOrDefault(x => x.Slug == slug);
+        }
+
         public int Count()
         {
             return _context.Article.Count();
@@ -82,6 +89,16 @@ namespace MVCForum.Services
                 .ToList();
         }
 
+        public IList<Article> GetNewestPublished(int amountToTake)
+        {
+            return _context.Article
+                .OrderByDescending(x => x.CreateDate)
+                .Where(x => x.IsPublished)
+                .Take(amountToTake)
+                .ToList();
+        }
+
+
         public IList<Article> GetByUser(Guid memberId, int amountToTake)
         {
             return _context.Article
@@ -93,6 +110,8 @@ namespace MVCForum.Services
 
         public void Edit(Article article)
         {
+            article.Slug = ServiceHelpers.GenerateSlug(article.Header,
+                GetArticleBySlugLike(ServiceHelpers.CreateUrl(article.Header)), article.Slug);
             _context.Entry(article).State = EntityState.Modified;
         }
 
@@ -119,166 +138,119 @@ namespace MVCForum.Services
 
         public void CreateTestData(MembershipUser user)
         {
-            // Opret 20
-            for (var i = 0; i < 20; i++)
-            {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*13);
-                var article = new Article
-                {
-                    Header = "Lorem ipsum dolor sit amet, consectetur adipiscing elit volutpat." + NumberToWords(i),
-                    Description =
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere posuere metus nec dignissim. Curabitur eget enim ac ex sodales mollis nec aliquet urna. Mauris ut ultrices sapien. Curabitur tempor sem non dapibus volutpat.",
-                    Body = "Body",
-                    CreateDate = createDate,
-                    Image = "/Images/Default.jpeg",
-                    PublishDate = createDate,
-                    IsPublished = true,
-                    User = user,
-                    Comments = new List<ArticleComment>()
-                };
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer et",
-                    DateCreated = createDate.AddMinutes(5),
-                    IsDeleted = false,
-                    User = user
-                });
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer to",
-                    DateCreated = createDate.AddMinutes(15),
-                    IsDeleted = false,
-                    User = user
-                });
-                Add(article);
-                _articleTagService.Add("Windows, Linux, OS", article);
-            }
-            // Opret 20
-            for (var i = 80; i < 100; i++)
-            {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*7);
-                var article = new Article
-                {
-                    Header = "En anden test artikel " + NumberToWords(i),
-                    Description = "Beskrivelse",
-                    Body = "Body",
-                    CreateDate = createDate,
-                    PublishDate = createDate,
-                    Image = "Imagepath",
-                    IsPublished = true,
-                    User = user,
-                    Comments = new List<ArticleComment>()
-                };
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer et",
-                    DateCreated = createDate.AddMinutes(5),
-                    IsDeleted = false,
-                    User = user
-                });
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer to",
-                    DateCreated = createDate.AddMinutes(15),
-                    IsDeleted = false,
-                    User = user
-                });
-                Add(article);
-                _articleTagService.Add("Testtag, BenQ, Monitor", article);
-            }
-            // Opret 10
-            for (var i = 20; i < 30; i++)
-            {
-                var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*23);
-                var article = new Article
-                {
-                    Header = "En tredje test artikel " + NumberToWords(i),
-                    Description = "Beskrivelse",
-                    Body = "Body",
-                    CreateDate = createDate,
-                    PublishDate = createDate,
-                    Image = "Imagepath",
-                    IsPublished = true,
-                    User = user,
-                    Comments = new List<ArticleComment>()
-                };
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer et",
-                    DateCreated = createDate.AddMinutes(5),
-                    IsDeleted = false,
-                    User = user
-                });
-                article.Comments.Add(new ArticleComment
-                {
-                    Article = article,
-                    CommentBody = "Test comment nummer to",
-                    DateCreated = createDate.AddMinutes(15),
-                    IsDeleted = false,
-                    User = user
-                });
-                Add(article);
-                _articleTagService.Add("Højtalere, Bose, Lyd, Chromecast", article);
-            }
+            //    // Opret 20
+            //    for (var i = 0; i < 20; i++)
+            //    {
+            //        var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*13);
+            //        var article = new Article
+            //        {
+            //            Header = "Lorem ipsum dolor sit amet, consectetur adipiscing elit volutpat." + NumberToWords(i),
+            //            Description =
+            //                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere posuere metus nec dignissim. Curabitur eget enim ac ex sodales mollis nec aliquet urna. Mauris ut ultrices sapien. Curabitur tempor sem non dapibus volutpat.",
+            //            Body = "Body",
+            //            CreateDate = createDate,
+            //            Image = "/Images/Default.jpeg",
+            //            PublishDate = createDate,
+            //            IsPublished = true,
+            //            User = user,
+            //            Comments = new List<ArticleComment>()
+            //        };
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer et",
+            //            DateCreated = createDate.AddMinutes(5),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer to",
+            //            DateCreated = createDate.AddMinutes(15),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        Add(article);
+            //        _articleTagService.Add("Windows, Linux, OS", article);
+            //    }
+            //    // Opret 20
+            //    for (var i = 80; i < 100; i++)
+            //    {
+            //        var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*7);
+            //        var article = new Article
+            //        {
+            //            Header = "En anden test artikel " + NumberToWords(i),
+            //            Description = "Beskrivelse",
+            //            Body = "Body",
+            //            CreateDate = createDate,
+            //            PublishDate = createDate,
+            //            Image = "Imagepath",
+            //            IsPublished = true,
+            //            User = user,
+            //            Comments = new List<ArticleComment>()
+            //        };
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer et",
+            //            DateCreated = createDate.AddMinutes(5),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer to",
+            //            DateCreated = createDate.AddMinutes(15),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        Add(article);
+            //        _articleTagService.Add("Testtag, BenQ, Monitor", article);
+            //    }
+            //    // Opret 10
+            //    for (var i = 20; i < 30; i++)
+            //    {
+            //        var createDate = DateTime.Now.AddDays(-i).AddMinutes(i*23);
+            //        var article = new Article
+            //        {
+            //            Header = "En tredje test artikel " + NumberToWords(i),
+            //            Description = "Beskrivelse",
+            //            Body = "Body",
+            //            CreateDate = createDate,
+            //            PublishDate = createDate,
+            //            Image = "Imagepath",
+            //            IsPublished = true,
+            //            User = user,
+            //            Comments = new List<ArticleComment>()
+            //        };
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer et",
+            //            DateCreated = createDate.AddMinutes(5),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        article.Comments.Add(new ArticleComment
+            //        {
+            //            Article = article,
+            //            CommentBody = "Test comment nummer to",
+            //            DateCreated = createDate.AddMinutes(15),
+            //            IsDeleted = false,
+            //            User = user
+            //        });
+            //        Add(article);
+            //        _articleTagService.Add("Højtalere, Bose, Lyd, Chromecast", article);
+            //    }
         }
 
-        public static string NumberToWords(int number)
+        public IList<Article> GetArticleBySlugLike(string slug)
         {
-            if (number == 0)
-                return "zero";
-
-            if (number < 0)
-                return "minus " + NumberToWords(Math.Abs(number));
-
-            var words = "";
-
-            if (number/1000000 > 0)
-            {
-                words += NumberToWords(number/1000000) + " million ";
-                number %= 1000000;
-            }
-
-            if (number/1000 > 0)
-            {
-                words += NumberToWords(number/1000) + " thousand ";
-                number %= 1000;
-            }
-
-            if (number/100 > 0)
-            {
-                words += NumberToWords(number/100) + " hundred ";
-                number %= 100;
-            }
-
-            if (number > 0)
-            {
-                if (words != "")
-                    words += "and ";
-
-                var unitsMap = new[]
-                {
-                    "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
-                    "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
-                };
-                var tensMap = new[]
-                {"zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-
-                if (number < 20)
-                    words += unitsMap[number];
-                else
-                {
-                    words += tensMap[number/10];
-                    if (number%10 > 0)
-                        words += "-" + unitsMap[number%10];
-                }
-            }
-
-            return words;
+            return _context.Article
+                .Where(x => x.Slug.Contains(slug))
+                .ToList();
         }
     }
 }

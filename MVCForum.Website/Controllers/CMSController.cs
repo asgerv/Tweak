@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
@@ -60,22 +59,21 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
 
-                    newArticle = _articleService.AddNewArticle(vm.Header,
-                        vm.Description, vm.Body,
-                        vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
+                        newArticle = _articleService.AddNewArticle(vm.Header,
+                            vm.Description, vm.Body,
+                            vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
 
-                    // Gemmer article i database, så comments kan oprettes på den
-                    unitOfWork.SaveChanges();
+                        // Gemmer article i database, så comments kan oprettes på den
+                        unitOfWork.SaveChanges();
 
-                    // Tilføj tags
-                    if (vm.SelectedTags != null)
-                    {
-                        string tagsString = string.Join(",", vm.SelectedTags);
-                        _articleTagService.Add(tagsString, newArticle);
-                    }
-                    // Commit
-                    unitOfWork.Commit();
-                    return RedirectToAction("Index");
+                        // Tilføj tags
+                        if (vm.SelectedTags != null)
+                        {
+                            var tagsString = string.Join(",", vm.SelectedTags);
+                            _articleTagService.Add(tagsString, newArticle);
+                        }
+                        // Commit
+                        unitOfWork.Commit();
                     }
                     catch (Exception ex)
                     {
@@ -120,8 +118,8 @@ namespace MVCForum.Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         // Henter article fra Id fra viewmodel
                         var article = _articleService.Get(vm.Id);
 
@@ -134,62 +132,51 @@ namespace MVCForum.Website.Controllers
                         article.IsPublished = vm.IsPublished;
                         _articleService.Edit(article);
 
-                        // Tilføj tags
-                        string tagsString = string.Join(",", vm.SelectedTags);
-                        _articleTagService.Add(tagsString, article);
-
-                        // Commit
-                        unitOfWork.Commit();
-                    }
-                    catch (Exception ex)
+                    // Tilføj tags
+                    if (vm.SelectedTags != null)
                     {
-                        unitOfWork.Rollback();
-                        LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        var tagsString = string.Join(",", vm.SelectedTags);
+                        _articleTagService.Add(tagsString, article);
                     }
+                    // Commit
+                        unitOfWork.Commit();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    unitOfWork.Rollback();
+                    //    LoggingService.Error(ex);
+                    //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    //}
                 }
             }
             return RedirectToAction("Articles");
         }
 
-        // GET: cms/deletearticle/id
-        [HttpGet]
         public ActionResult DeleteArticle(Guid? id)
         {
+            // TODO: Vi skal have noget logging over hvem der har slettet artikler
             if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var article = _articleService.Get(id.Value);
-            if (article == null)
-                return HttpNotFound();
-            return View(article);
-        }
-
-        // POST: cms/deletearticle/id
-        [HttpPost, ActionName("DeleteArticle")]
-        //[ValidateAntiForgeryToken]
-        public ActionResult DeleteArticleConfirmed(Guid id)
-        {
+                return RedirectToAction("Articles");
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    try
-                    {
-                        // TODO: Vi skal have noget logging over hvem der har slettet artikler
+                    var article = _articleService.Get(id.Value);
+                    if (article == null)
+                        return HttpNotFound();
 
-                        _articleService.Delete(_articleService.Get(id));
-                        unitOfWork.Commit();
-                        return RedirectToAction("Articles");
-                    }
-                    catch (Exception ex)
-                    {
-                        unitOfWork.Rollback();
-                        LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    }
+                    _articleService.Delete(article);
+
+                    unitOfWork.Commit();
+                    return RedirectToAction("Articles");
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return View();
         }
 
         public ActionResult Articles()
@@ -284,7 +271,28 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult DeleteTag(Guid? id)
         {
-            return View("Index");
+            if (id == null)
+                return RedirectToAction("Tags");
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    var articleTag = _articleTagService.Get(id.Value);
+                    if (articleTag == null)
+                        return HttpNotFound();
+
+                    _articleTagService.Delete(articleTag);
+
+                    unitOfWork.Commit();
+                    return RedirectToAction("Tags");
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
         }
 
         //[HttpPost]
@@ -310,23 +318,6 @@ namespace MVCForum.Website.Controllers
         //    }
         //    return View();
         //}
-
-
-        [HttpPost]
-        public ActionResult AddComment(TestViewModel vm)
-        {
-            throw new NotImplementedException();
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            {
-                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                var article = _articleService.GetNewest(1).First();
-                var comment = new ArticleComment {CommentBody = vm.S};
-
-                //_articleCommentService.Add(comment, article, loggedOnUser);
-                unitOfWork.Commit();
-                return View();
-            }
-        }
 
 
         public string Upload(HttpPostedFileBase file)

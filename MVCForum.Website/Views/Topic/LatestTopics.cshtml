@@ -13,7 +13,7 @@
         <div class="widgetright hidden-xs">
             @if (Html.Settings().EnableRSSFeeds)
             {
-                <a href="@Url.Action("LatestRss", "Home")" class="rsssubscribe" title="@Html.LanguageString("Home.Rss")">
+                <a href="@Url.Action("LatestRss", "Forum")" class="rsssubscribe" title="@Html.LanguageString("Home.Rss")">
                     <i class="fa fa-rss-square orange-colour"></i>
                 </a>
             }
@@ -30,7 +30,7 @@
 
     @if (Model.TotalPages > 1)
     {
-        @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "Index", "Home")
+        @Html.Pager(Convert.ToInt32(Model.PageIndex), Html.Settings().TopicsPerPage, totalCount, null, "Index", "Forum")
     }
 
 </div>

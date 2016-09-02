@@ -68,8 +68,8 @@
                                     <td>@comments</td>
                                     <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
                                     <td>
-                                        @Html.ActionLink("Rediger", "EditArticle", new {id = item.Id}) |
-                                        @Html.ActionLink("Slet", "DeleteArticle", new {id = item.Id})
+                                        @Html.ActionLink("Rediger", "EditArticle", new {id = item.Id}, new {@class = "btn btn-info btn-sm"})
+                                        @Html.ActionLink("Slet", "DeleteArticle", new {id = item.Id}, new {@class = "btn btn-danger btn-sm", onclick = "return confirm('Er du sikker på at du vil slette denne artikel?');"})
                                     </td>
                                 </tr>
                             }

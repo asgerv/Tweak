@@ -20,13 +20,11 @@ namespace MVCForum.Services
 
         public ArticleTag Add(ArticleTag articleTag)
         {
-            // TODO: TEST
             return _context.ArticleTag.Add(articleTag);
         }
 
         public void Add(string tags, Article article)
         {
-            // TODO: TEST
             if (!string.IsNullOrEmpty(tags))
             {
                 tags = StringUtils.SafePlainText(tags);
@@ -76,16 +74,15 @@ namespace MVCForum.Services
 
         public ArticleTag Get(string tag)
         {
-            var newtag = StringUtils.SafePlainText(tag);
-            var testArticleTag = _context.ArticleTag.FirstOrDefault();
-            var articleTag =
-                _context.ArticleTag.FirstOrDefault(s => s.Name.Equals(newtag, StringComparison.OrdinalIgnoreCase));
+            tag = StringUtils.SafePlainText(tag);
+            var articleTag = _context.ArticleTag
+                .FirstOrDefault(s => s.Name.Equals(tag, StringComparison.OrdinalIgnoreCase));
             return articleTag;
         }
 
-        public ArticleTag Get(Guid guid)
+        public ArticleTag Get(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.ArticleTag.FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateTagName()
