@@ -94,6 +94,8 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IArticleCommentService, ArticleCommentService>();
             // Tilføjet Articletag #ændring
             container.BindInRequestScope<IArticleTagService, ArticleTagService>();
+            //Tilføjet CMSSettings #ændring
+            container.BindInRequestScope<ICMSSettingsService, CMSSettingsService>();
 
             CustomBindings(container);
 

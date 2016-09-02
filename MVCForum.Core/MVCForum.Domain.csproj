@@ -184,6 +184,7 @@
     <Compile Include="Interfaces\IPagedList.cs" />
     <Compile Include="Interfaces\Services\IBannedEmailService.cs" />
     <Compile Include="Interfaces\Services\IBannedWordService.cs" />
+    <Compile Include="Interfaces\Services\ICMSSettingsService.cs" />
     <Compile Include="Interfaces\Services\IConfigService.cs" />
     <Compile Include="Interfaces\Services\IGlobalPermissionForRoleService.cs" />
     <Compile Include="Interfaces\Services\IFavouriteService.cs" />

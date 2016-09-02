@@ -356,6 +356,7 @@
     <Compile Include="Areas\Admin\ViewModels\SettingsViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\MVCForum.sdf" />
     <Content Include="App_Data\NuGetBackup\Hello.txt" />
     <Content Include="Content\admin\Admin.css">
       <DependentUpon>Admin.scss</DependentUpon>

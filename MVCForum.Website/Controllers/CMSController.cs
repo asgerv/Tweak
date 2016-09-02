@@ -14,19 +14,21 @@ namespace MVCForum.Website.Controllers
     public class CMSController : BaseController
     {
         private readonly IArticleCommentService _articleCommentService;
+        private readonly ICMSSettingsService _CMSSettingsService;
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
 
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
-            IArticleCommentService articleCommentService, IArticleTagService articleTagService)
+            IArticleCommentService articleCommentService, IArticleTagService articleTagService, ICMSSettingsService cmsSettingsService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _articleService = articleService;
             _articleCommentService = articleCommentService;
             _articleTagService = articleTagService;
+            _CMSSettingsService = cmsSettingsService;
         }
 
         // GET: CMS
@@ -213,6 +215,59 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult FrontpageSettings()
         {
+            var viewmodel = new ArticlesViewModel { Articles = _articleService.GetAll() };
+            return View(viewmodel);
+        }
+
+        public ActionResult SetSticky(Guid id, int choice)
+        {
+
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var settings = _CMSSettingsService.GetOrCreate();
+                        if (choice == 1)
+                        {
+                            settings.ArticleSticky1 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 2)
+                        {
+                            settings.ArticleSticky2 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 3)
+                        {
+                            settings.ArticleSticky3 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 4)
+                        {
+                            settings.ArticleSticky4 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else
+                        {
+                            settings.ArticleSticky4 = settings.ArticleSticky3;
+                            settings.ArticleSticky3 = settings.ArticleSticky2;
+                            settings.ArticleSticky2 = settings.ArticleSticky1;
+                            settings.ArticleSticky1 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        unitOfWork.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
             return View();
         }
 

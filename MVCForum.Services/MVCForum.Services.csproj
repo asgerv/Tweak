@@ -109,6 +109,7 @@
     <Compile Include="ActivityService.cs" />
     <Compile Include="BannedWordService.cs" />
     <Compile Include="CacheService.cs" />
+    <Compile Include="CMSSettingsService.cs" />
     <Compile Include="ConfigService.cs" />
     <Compile Include="Data\Caching\CachingConfiguration.cs" />
     <Compile Include="Data\Context\MVCForumContext.cs" />
