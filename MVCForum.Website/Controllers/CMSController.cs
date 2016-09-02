@@ -13,9 +13,9 @@ namespace MVCForum.Website.Controllers
     public class CMSController : BaseController
     {
         private readonly IArticleCommentService _articleCommentService;
-        private readonly ICMSSettingsService _CMSSettingsService;
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
+        private readonly ICMSSettingsService _CMSSettingsService;
 
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,

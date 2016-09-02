@@ -11,7 +11,8 @@ namespace MVCForum.Website.ViewModels
         public string CommentBody { get; set; }
 
         public Guid? InReplyTo { get; set; }
-        public Guid? ArticleId { get; set; }
+        public string ArticleSlug { get; set; }
         public Guid? CommentId { get; set; }
+        public Guid? ArticleId { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model MVCForum.Website.ViewModels.ArticleViewModels.CommentViewModel
+﻿@model MVCForum.Website.ViewModels.CommentsViewModel
 @{
     ViewBag.Title = "_CommentEdit";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -8,7 +8,7 @@
 @using (Html.BeginForm("CommentEdit", "Article"))
 {
    
-    @Html.HiddenFor(Model => Model.ArticleId)
+    @Html.HiddenFor(Model => Model.ArticleSlug)
     @Html.HiddenFor(Model => Model.CommentId)
 
 

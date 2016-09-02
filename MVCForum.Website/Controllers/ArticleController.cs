@@ -36,8 +36,9 @@ namespace MVCForum.Website.Controllers
             var viewmodel = new ArticlesPreviewViewModel();
             viewmodel.Articles = _articleService.GetNewest(4);
 
-
-            return PartialView(viewmodel);
+            if (viewmodel.Articles.Count() < 4)
+                return new EmptyResult();
+                return PartialView(viewmodel);
         }
 
         public ActionResult _Article_Grid4x2(int? number)
@@ -47,7 +48,10 @@ namespace MVCForum.Website.Controllers
             var viewmodel = new ArticlesPreviewViewModel();
             viewmodel.Tag = "Chosen Tag";
             viewmodel.Articles = _articleService.GetNewest(13);
-            return PartialView(viewmodel);
+            if (viewmodel.Articles.Any())
+                return PartialView(viewmodel);
+            else
+                return new EmptyResult();
         }
 
         public ActionResult Show(string slug)
@@ -85,6 +89,7 @@ namespace MVCForum.Website.Controllers
         public ActionResult _Comment(Article model)
         {
             var viewmodel = new CommentViewModel();
+            viewmodel.ArticleSlug = model.Slug;
             viewmodel.ArticleId = model.Id;
             return PartialView(viewmodel);
         }
@@ -103,7 +108,7 @@ namespace MVCForum.Website.Controllers
                         newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", new {id = newComment.Article.Id});
+                        return RedirectToAction("Show", new {id = newComment.Article.Slug});
                     }
                     catch (Exception ex)
                     {
@@ -132,7 +137,7 @@ namespace MVCForum.Website.Controllers
                         article = _articleService.Get(ArticleId);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", new {id = article.Id});
+                        return RedirectToAction("Show", new {id = article.Slug});
                     }
                     catch (Exception ex)
                     {
@@ -158,7 +163,7 @@ namespace MVCForum.Website.Controllers
             {
                 CommentBody = comment.CommentBody,
                 CommentId = comment.Id,
-                ArticleId = comment.Article.Id
+                ArticleSlug = comment.Article.Slug
             };
             return View(vm);
         }
@@ -191,7 +196,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("nyhed", new {id = comment.ArticleId});
+            return RedirectToAction("nyhed", new {id = comment.ArticleSlug});
         }
 
         public ActionResult LatestRss()
