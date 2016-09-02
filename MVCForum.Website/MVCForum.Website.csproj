@@ -902,6 +902,7 @@
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
     <Content Include="Content\Tweak\Frontpage.css" />
+    <Content Include="Content\Tweak\Team.css" />
     <Content Include="Content\Tweak\_Comments.css" />
     <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\Tweak\Nyhed.css" />
@@ -1658,6 +1659,9 @@
     <Content Include="Views\Article\CommentEdit.cshtml" />
     <Content Include="Views\Shared\_Comment.cshtml" />
     <Content Include="Views\Shared\_Blackbar.cshtml" />
+    <Content Include="Views\Home\Team.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

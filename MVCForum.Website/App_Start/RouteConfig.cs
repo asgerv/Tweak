@@ -60,6 +60,21 @@ namespace MVCForum.Website
                 "rss", // URL with parameters
                 new { controller = "Article", action = "LatestRss" } // Parameter defaults
             );
+            routes.MapRoute(
+                "aboutUrl", // Route name
+                "om", // URL with parameters
+                new { controller = "Home", action = "About" } // Parameter defaults
+            );
+            routes.MapRoute(
+                "teamUrl", // Route name
+                "team", // URL with parameters
+                new { controller = "Home", action = "Team" } // Parameter defaults
+            );
+            routes.MapRoute(
+                "contactUrl", // Route name
+                "kontakt", // URL with parameters
+                new { controller = "Home", action = "Contact" } // Parameter defaults
+            );
 
             // End på custom
 
