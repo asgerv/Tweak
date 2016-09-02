@@ -40,6 +40,18 @@ namespace MVCForum.Website.Controllers
         {
             return View();
         }
-
+        public ActionResult Team()
+        {
+            return View();
+        }
+        [Route("om")]
+        public ActionResult About()
+        {
+            return View();
+        }
+        public ActionResult Contact()
+        {
+            return View();
+        }
     }
 }
