@@ -55,6 +55,12 @@ namespace MVCForum.Website
                 new { controller = "Article", action = "Show", slug = UrlParameter.Optional } // Parameter defaults
             );
 
+            routes.MapRoute(
+                "rssUrl", // Route name
+                "rss", // URL with parameters
+                new { controller = "Article", action = "LatestRss" } // Parameter defaults
+            );
+
             // End på custom
 
             routes.MapRoute(

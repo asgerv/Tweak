@@ -116,8 +116,8 @@ namespace MVCForum.Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         // Henter article fra Id fra viewmodel
                         var article = _articleService.Get(vm.Id);
 
@@ -130,19 +130,21 @@ namespace MVCForum.Website.Controllers
                         article.IsPublished = vm.IsPublished;
                         _articleService.Edit(article);
 
-                        // Tilføj tags
+                    // Tilføj tags
+                    if (vm.SelectedTags != null)
+                    {
                         var tagsString = string.Join(",", vm.SelectedTags);
                         _articleTagService.Add(tagsString, article);
-
-                        // Commit
+                    }
+                    // Commit
                         unitOfWork.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        unitOfWork.Rollback();
-                        LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    }
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    unitOfWork.Rollback();
+                    //    LoggingService.Error(ex);
+                    //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    //}
                 }
             }
             return RedirectToAction("Articles");
@@ -261,23 +263,6 @@ namespace MVCForum.Website.Controllers
         //    }
         //    return View();
         //}
-
-
-        [HttpPost]
-        public ActionResult AddComment(TestViewModel vm)
-        {
-            throw new NotImplementedException();
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            {
-                var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                var article = _articleService.GetNewest(1).First();
-                var comment = new ArticleComment {CommentBody = vm.S};
-
-                //_articleCommentService.Add(comment, article, loggedOnUser);
-                unitOfWork.Commit();
-                return View();
-            }
-        }
 
 
         public string Upload(HttpPostedFileBase file)

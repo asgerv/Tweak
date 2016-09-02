@@ -65,36 +65,7 @@
     <div class="site-overlay"></div>
 
     <header>
-
-        <div class="blackbar hidden-xs hidden-sm">
-            <ul>
-                <li>
-                    <a href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-facebook-f"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-                <li>@Html.ActionLink("Kontakt", "Index", "Home")</li>
-                <li>@Html.ActionLink("Om", "Index", "Home")</li>
-                <li>@Html.ActionLink("Team", "Index", "Home")</li>
-            </ul>
-        </div>
-
+        @Html.Partial("_Blackbar")
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">

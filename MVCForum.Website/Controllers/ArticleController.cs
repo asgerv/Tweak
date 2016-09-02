@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Utilities;
+using MVCForum.Website.Application;
 using MVCForum.Website.ViewModels;
-using static MVCForum.Website.ViewModels.ArticleViewModels;
+//using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
+using RssItem = MVCForum.Domain.DomainModel.RssItem;
 
 namespace MVCForum.Website.Controllers
 {
@@ -39,6 +42,8 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult _Article_Grid4x2(int? number)
         {
+            // 1. Skal få et articletag
+            // 2. List<Article> x = _articleService.GetByTag(...
             var viewmodel = new ArticlesPreviewViewModel();
             viewmodel.Tag = "Chosen Tag";
             viewmodel.Articles = _articleService.GetNewest(13);
@@ -79,7 +84,7 @@ namespace MVCForum.Website.Controllers
         [HttpGet]
         public ActionResult _Comment(Article model)
         {
-            CommentViewModel viewmodel = new CommentViewModel();
+            var viewmodel = new CommentViewModel();
             viewmodel.ArticleId = model.Id;
             return PartialView(viewmodel);
         }
@@ -94,12 +99,11 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-                        
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        newComment = _articleCommentService.Add(vm.CommentBody,vm.InReplyTo, vm.ArticleId, loggedOnUser);
+                        newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", new { id = newComment.Article.Id });
+                        return RedirectToAction("nyhed", new {id = newComment.Article.Id});
                     }
                     catch (Exception ex)
                     {
@@ -123,13 +127,12 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         _articleCommentService.Delete(commentId);
                         article = _articleService.Get(ArticleId);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("nyhed", new { id = article.Id });
+                        return RedirectToAction("nyhed", new {id = article.Id});
                     }
                     catch (Exception ex)
                     {
@@ -156,7 +159,6 @@ namespace MVCForum.Website.Controllers
                 CommentBody = comment.CommentBody,
                 CommentId = comment.Id,
                 ArticleId = comment.Article.Id
-                
             };
             return View(vm);
         }
@@ -189,8 +191,20 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("nyhed", new { id = comment.ArticleId });
+            return RedirectToAction("nyhed", new {id = comment.ArticleId});
         }
 
+        public ActionResult LatestRss()
+        {
+            var articles = _articleService.GetNewestPublished(50);
+            var rssArticles = articles.Select(article => new RssItem
+            {
+                Description = article.Description,
+                Link = "/nyhed/" + article.Slug,
+                Title = article.Header,
+                PublishedDate = article.PublishDate
+            }).ToList();
+            return new RssResult(rssArticles, "Overskrift", "Beskrivelse");
+        }
     }
 }
