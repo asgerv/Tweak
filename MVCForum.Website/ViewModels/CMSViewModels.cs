@@ -77,6 +77,7 @@ namespace MVCForum.Website.ViewModels
 
     public class CommentsViewModel
     {
+        public IList<ArticleComment> ArticleComments { get; set; }
     }
 
     public class TagsViewModel
