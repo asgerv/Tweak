@@ -1,0 +1,8 @@
+﻿@model MVCForum.Website.ViewModels.ArticleSearchViewModel
+
+@foreach (var a in Model.Articles)
+{
+    <tr>
+        <td>@a.Header</td>
+    </tr>
+}

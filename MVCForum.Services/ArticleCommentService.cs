@@ -19,17 +19,17 @@ namespace MVCForum.Services
             _context = context as MVCForumContext;
         }
 
-        public ArticleComment Add(string commentBody,Guid? InReplyTo, Guid? ArticleId, MembershipUser user)
+        public ArticleComment Add(string commentBody, Guid? InReplyTo, Guid? ArticleId, MembershipUser user)
         {
             // Tilføjer en ArticleComment
-            ArticleComment comment = new ArticleComment();
+            var comment = new ArticleComment();
             comment.Article = _context.Article.Find(ArticleId);
             comment.User = user;
             comment.DateCreated = DateTime.Now;
             comment.IsDeleted = false;
             var reply = _context.ArticleComment.FirstOrDefault(x => x.Id == InReplyTo);
-            if(reply != null)
-            comment.InReplyTo = _context.ArticleComment.Find(InReplyTo).Id;
+            if (reply != null)
+                comment.InReplyTo = _context.ArticleComment.Find(InReplyTo).Id;
             comment.CommentBody = commentBody;
             return _context.ArticleComment.Add(comment);
         }
@@ -45,16 +45,15 @@ namespace MVCForum.Services
 
         public void Delete(Guid articleCommentId)
         {
-            ArticleComment articleComment = _context.ArticleComment.Find(articleCommentId);
+            var articleComment = _context.ArticleComment.Find(articleCommentId);
             articleComment.IsDeleted = true;
             Update(articleComment);
         }
 
-        public void Edit(Guid articleCommentId, string commentBody )
+        public void Delete(ArticleComment comment)
         {
-            ArticleComment articleComment = _context.ArticleComment.Find(articleCommentId);
-            articleComment.CommentBody = commentBody;
-            Update(articleComment);
+            comment.IsDeleted = true;
+            Update(comment);
         }
 
         public void Update(ArticleComment articleComment)
@@ -88,7 +87,16 @@ namespace MVCForum.Services
 
         public IEnumerable<ArticleComment> GetAll()
         {
-            return _context.ArticleComment;
+            return _context.ArticleComment
+                .Include(x => x.User)
+                .Include(x => x.Article);
+        }
+
+        public void Edit(Guid articleCommentId, string commentBody)
+        {
+            var articleComment = _context.ArticleComment.Find(articleCommentId);
+            articleComment.CommentBody = commentBody;
+            Update(articleComment);
         }
     }
 }

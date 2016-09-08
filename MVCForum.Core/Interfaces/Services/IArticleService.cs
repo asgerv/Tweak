@@ -13,6 +13,7 @@ namespace MVCForum.Domain.Interfaces.Services
         IEnumerable<Article> GetAll();
         Article Get(Guid articleId);
         Article Get(string slug);
+        IList<Article> Search(int amountToTake, string keyword);
         int Count();
         IList<Article> GetNewest(int amountToTake);
         IList<Article> GetNewestPublished(int amountToTake);
