@@ -56,8 +56,8 @@ namespace MVCForum.Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //try
-                    //{
+                    try
+                    {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
 
                         newArticle = _articleService.AddNewArticle(vm.Header,
@@ -75,13 +75,13 @@ namespace MVCForum.Website.Controllers
                         }
                         // Commit
                         unitOfWork.Commit();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    unitOfWork.Rollback();
-                    //    LoggingService.Error(ex);
-                    //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    //}
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
                 }
             }
             return RedirectToAction("Articles"); // TODO: Gå til artikel "newArticle"
