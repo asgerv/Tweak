@@ -91,19 +91,8 @@ namespace MVCForum.Services
                     articles.Where(
                         x =>
                             x.Header.ToUpper().Contains(sTerm) || x.Description.ToUpper().Contains(sTerm) ||
-                            x.Body.ToUpper().Contains(sTerm) || x.Tags.Any(t => t.Name.ToUpper().Contains(sTerm)));
+                            x.Tags.Any(t => t.Name.ToUpper().Contains(sTerm)));
             }
-            //var bodyResult = new List<Article>();
-            //foreach (var source in _context.Article.ToList())
-            //{
-            //    string body = StringUtils.StripHtmlFromString(source.Body);
-            //    if (body.Contains(keyword))
-            //    {
-            //        bodyResult.Add(source);
-            //    }
-            //}
-           
-
             return articles.Take(amountToTake).ToList();
         }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MVCForum.Utilities;
 
 namespace MVCForum.Domain.DomainModel.CMS
@@ -17,6 +19,8 @@ namespace MVCForum.Domain.DomainModel.CMS
         public DateTime PublishDate { get; set; }
         public string Header { get; set; }
         public string Description { get; set; }
+        [Column(TypeName = "ntext")]		
+        [MaxLength]
         public string Body { get; set; }
         public string Image { get; set; }
         public string Slug { get; set; }
