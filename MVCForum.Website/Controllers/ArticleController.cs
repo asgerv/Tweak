@@ -38,7 +38,7 @@ namespace MVCForum.Website.Controllers
 
             if (viewmodel.Articles.Count() < 4)
                 return new EmptyResult();
-                return PartialView(viewmodel);
+            return PartialView(viewmodel);
         }
 
         public ActionResult _Article_Grid4x2(int? number)
@@ -108,7 +108,7 @@ namespace MVCForum.Website.Controllers
                         newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("Show", new {id = newComment.Article.Slug});
+                        return RedirectToAction("Show", new { id = newComment.Article.Slug });
                     }
                     catch (Exception ex)
                     {
@@ -137,7 +137,7 @@ namespace MVCForum.Website.Controllers
                         article = _articleService.Get(ArticleId);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("Show", new {id = article.Slug});
+                        return RedirectToAction("Show", new { id = article.Slug });
                     }
                     catch (Exception ex)
                     {
@@ -196,9 +196,21 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("nyhed", new {id = comment.ArticleSlug});
+            return RedirectToAction("nyhed", new { id = comment.ArticleSlug });
         }
 
+        public ActionResult Search()
+        {
+            return View();
+        }
+        public PartialViewResult _SearchArticles(string keyword)
+        {
+            var vm = new ArticleSearchViewModel
+            {
+                Articles = _articleService.Search(50, keyword)
+            };
+            return PartialView(vm);
+        }
         public ActionResult LatestRss()
         {
             var articles = _articleService.GetNewestPublished(50);

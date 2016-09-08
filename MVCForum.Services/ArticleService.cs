@@ -7,6 +7,7 @@ using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Services.Data.Context;
+using MVCForum.Utilities;
 
 namespace MVCForum.Services
 {
@@ -74,6 +75,36 @@ namespace MVCForum.Services
         public Article Get(string slug)
         {
             return _context.Article.FirstOrDefault(x => x.Slug == slug);
+        }
+
+        public IList<Article> Search(int amountToTake, string keyword)
+        {
+            var articles = _context.Article
+                .Include(x => x.Tags)
+                .Where(x => x.IsPublished);
+            var search = StringUtils.ReturnSearchString(keyword);
+            var splitSearch = search.Split(' ').ToList();
+            foreach (var term in splitSearch)
+            {
+                var sTerm = term.Trim().ToUpper();
+                articles =
+                    articles.Where(
+                        x =>
+                            x.Header.ToUpper().Contains(sTerm) || x.Description.ToUpper().Contains(sTerm) ||
+                            x.Body.ToUpper().Contains(sTerm) || x.Tags.Any(t => t.Name.ToUpper().Contains(sTerm)));
+            }
+            //var bodyResult = new List<Article>();
+            //foreach (var source in _context.Article.ToList())
+            //{
+            //    string body = StringUtils.StripHtmlFromString(source.Body);
+            //    if (body.Contains(keyword))
+            //    {
+            //        bodyResult.Add(source);
+            //    }
+            //}
+           
+
+            return articles.Take(amountToTake).ToList();
         }
 
         public int Count()
