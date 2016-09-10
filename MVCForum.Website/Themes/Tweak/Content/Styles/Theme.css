@@ -41,7 +41,8 @@ input.form-control, textarea.form-control, select.form-control {
   border: none;
   -ms-border-radius: 0;
   border-radius: 0;
-  color: #fff; }
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
   .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:visited {
     color: #000;
     padding-top: 10px;

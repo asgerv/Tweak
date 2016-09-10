@@ -15,7 +15,7 @@
         <div class="col-lg-12">
             <h1 class="page-header">Artikler</h1>
         </div>
-        @Html.Action("_ArticleMain", "Article")
+        @Html.Action("_Stickies", "Article")
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
@@ -70,10 +70,12 @@
                                         <td>@comments</td>
                                         <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
                                         <td>
-                                            @Html.ActionLink("1", "SetSticky", new { id = item.Id, choice = 1 }) |
-                                            @Html.ActionLink("2", "SetSticky", new { id = item.Id, choice = 2 }) |
-                                            @Html.ActionLink("3", "SetSticky", new { id = item.Id, choice = 3 }) |
-                                            @Html.ActionLink("4", "SetSticky", new { id = item.Id, choice = 4 }) 
+                                            @Html.ActionLink("1", "SetSticky", new { id = item.Id, choice = 1 }, new { onclick = "return confirm('Er du sikker?');"}) |
+                                            @Html.ActionLink("2", "SetSticky", new { id = item.Id, choice = 2 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                            @Html.ActionLink("3", "SetSticky", new { id = item.Id, choice = 3 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                            @Html.ActionLink("4", "SetSticky", new { id = item.Id, choice = 4 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                            @Html.ActionLink("Skub Ind", "SetSticky", new { id = item.Id, choice = 5 }, new { onclick = "return confirm('Er du sikker?');" })
+                                            
                                         </td>
                                     </tr>
                                             }

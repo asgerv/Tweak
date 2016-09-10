@@ -30,10 +30,10 @@
                                     skrevet den: @comment.DateCreated
                                     <i onclick="return reply('@comment.User.UserName','@comment.Id')" class="fa fa-reply"></i>
                                     @if (comment.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
-                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Slug})"><i class="fa fa-trash"></i></a>
+                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Slug})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
                                     }
                                     @if (comment.User.UserName == User.Identity.Name)
-                                    { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})"><i class="fa fa-pencil"></i></a>
+                                    { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
                                     }
 
                                 </span>
@@ -64,10 +64,10 @@
                                     <span>
                                         skrevet den: @reply.DateCreated
                                         @if (reply.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
-                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Slug})"><i class="fa fa-trash"></i></a>
+                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Slug}) " onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
                                         }
                                         @if (reply.User.UserName == User.Identity.Name)
-                                        { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})"><i class="fa fa-pencil"></i></a>
+                                        { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id}) "onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
                                         }
                                     </span>
                                 </div>

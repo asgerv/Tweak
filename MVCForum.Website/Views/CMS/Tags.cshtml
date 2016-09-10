@@ -28,6 +28,7 @@
                             <tr>
                                 <th>Navn</th>
                                 <th>Antal artikler</th>
+                                <th>Sticky Tags</th>
                                 <th>Kontrol</th>
                             </tr>
                             </thead>
@@ -35,6 +36,7 @@
                             <tr>
                                 <th>Navn</th>
                                 <th>Antal artikler</th>
+                                <th>Sticky Tags</th>
                                 <th>Kontrol</th>
                             </tr>
                             </tfoot>
@@ -45,6 +47,14 @@
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                     <td>@noArticles</td>
+                                    <td>
+                                        @Html.ActionLink("1", "SetStickyTag", new { id = item.Id, choice = 1 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                        @Html.ActionLink("2", "SetStickyTag", new { id = item.Id, choice = 2 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                        @Html.ActionLink("3", "SetStickyTag", new { id = item.Id, choice = 3 }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                        @Html.ActionLink("4", "SetStickyTag", new { id = item.Id, choice = 4 }, new { onclick = "return confirm('Er du sikker?');" }) 
+                                      
+
+                                    </td>
                                     <td>
                                         @Html.ActionLink("Slet", "DeleteTag", new {id = item.Id}, new {@class = "btn btn-danger btn-sm", onclick = "return confirm('Er du sikker på at du vil slette dette tag?');"})
                                     </td>
@@ -60,6 +70,10 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+    @Html.Action("_StickiesTag", "Article", new { number = 1 })
+    @Html.Action("_StickiesTag", "Article", new { number = 2 })
+    @Html.Action("_StickiesTag", "Article", new { number = 3 })
+    @Html.Action("_StickiesTag", "Article", new { number = 4 })
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->

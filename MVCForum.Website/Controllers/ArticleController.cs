@@ -9,6 +9,7 @@ using MVCForum.Website.Application;
 using MVCForum.Website.ViewModels;
 //using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
 using RssItem = MVCForum.Domain.DomainModel.RssItem;
+using System.Collections.Generic;
 
 namespace MVCForum.Website.Controllers
 {
@@ -17,18 +18,20 @@ namespace MVCForum.Website.Controllers
         private readonly IArticleCommentService _articleCommentService;
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
+        private readonly ICMSSettingsService _CMSSettingsService;
 
         public ArticleController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService,
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService,
             IArticleService articleService,
-            IArticleCommentService articleCommentService, IArticleTagService articleTagService)
+            IArticleCommentService articleCommentService, IArticleTagService articleTagService, ICMSSettingsService cmsSettingsService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _articleService = articleService;
             _articleCommentService = articleCommentService;
             _articleTagService = articleTagService;
+            _CMSSettingsService = cmsSettingsService;
         }
 
         public ActionResult _ArticleMain()
@@ -39,6 +42,82 @@ namespace MVCForum.Website.Controllers
             if (viewmodel.Articles.Count() < 4)
                 return new EmptyResult();
             return PartialView(viewmodel);
+        }
+        public ActionResult _StickiesTag(int? number)
+        {
+            // 1. Skal få et articletag
+            // 2. List<Article> x = _articleService.GetByTag(...
+            CMSSettings settings = _CMSSettingsService.GetOrCreate();
+            var viewmodel = new ArticlesPreviewViewModel();
+            ArticleTag Tag;
+           
+            switch (number)
+            {
+                case 1:
+                     Tag = _articleTagService.Get((Guid)settings.FrontPageCategory1);
+                    viewmodel.Tag = Tag.Name;
+                       if(Tag.Articles.Any())
+                    viewmodel.Articles = Tag.Articles.Take(6);
+                    break;
+                case 2:
+                     Tag = _articleTagService.Get((Guid)settings.FrontPageCategory2);
+                    viewmodel.Tag = Tag.Name;
+                    if (Tag.Articles.Any())
+                        viewmodel.Articles = Tag.Articles.Take(6);
+                    
+                    break;
+                case 3:
+                   Tag = _articleTagService.Get((Guid)settings.FrontPageCategory3);
+                    viewmodel.Tag = Tag.Name;
+                    if (Tag.Articles.Any())
+                        viewmodel.Articles = Tag.Articles.Take(6);
+                    break;
+                case 4:
+                    Tag = _articleTagService.Get((Guid)settings.FrontPageCategory4);
+                    viewmodel.Tag = Tag.Name;
+                    if(Tag.Articles.Any())
+                    viewmodel.Articles = Tag.Articles.Take(6);
+                    break;
+            
+            }
+
+            if (viewmodel.Articles.Any())
+                return PartialView("_Article_Grid4x2", viewmodel);
+            else
+                return new EmptyResult();
+        }
+        public ActionResult _Stickies()
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    var viewmodel = new ArticlesPreviewViewModel();
+                CMSSettings settings = _CMSSettingsService.GetOrCreate();
+                IList<Article> articles = new List<Article>();
+                if (!settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null))
+                {
+                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky1));
+                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky2));
+                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky3));
+                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky4));
+                    viewmodel.Articles = articles;
+                        unitOfWork.Commit();
+                        return PartialView("_ArticleMain", viewmodel);
+                }
+            }
+                catch (Exception ex)
+                {
+                    // Roll back database changes 
+                    unitOfWork.Rollback();
+                    // Log the error
+                    LoggingService.Error(ex);
+
+                    // Do what you want
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return new EmptyResult();
         }
 
         public ActionResult _Article_Grid4x2(int? number)
@@ -85,6 +164,12 @@ namespace MVCForum.Website.Controllers
             }
         }
 
+        public ActionResult Category(string tag)
+        {
+
+            return new EmptyResult();
+        }
+
         [HttpGet]
         public ActionResult _Comment(Article model)
         {
@@ -106,9 +191,8 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
-                        unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("Show", new { id = newComment.Article.Slug });
+                        return RedirectToAction("Show", new { slug = newComment.Article.Slug });
                     }
                     catch (Exception ex)
                     {
@@ -137,7 +221,7 @@ namespace MVCForum.Website.Controllers
                         article = _articleService.Get(ArticleId);
                         unitOfWork.SaveChanges();
                         unitOfWork.Commit();
-                        return RedirectToAction("Show", new { id = article.Slug });
+                        return RedirectToAction("Show", new { slug = article.Slug });
                     }
                     catch (Exception ex)
                     {

@@ -249,7 +249,50 @@ namespace MVCForum.Website.Controllers
                             _CMSSettingsService.Edit(settings);
                         }
                         unitOfWork.Commit();
-                        return RedirectToAction("Index");
+                        return RedirectToAction("FrontpageSettings");
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    }
+                }
+            }
+            return View();
+        }
+        public ActionResult SetStickyTag(Guid id, int choice)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var settings = _CMSSettingsService.GetOrCreate();
+                        if (choice == 1)
+                        {
+                            settings.FrontPageCategory1 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 2)
+                        {
+                            settings.FrontPageCategory2 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 3)
+                        {
+                            settings.FrontPageCategory3 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                        else if (choice == 4)
+                        {
+                            settings.FrontPageCategory4 = id;
+                            _CMSSettingsService.Edit(settings);
+                        }
+                  
+                        unitOfWork.Commit();
+                        return RedirectToAction("Tags");
                     }
                     catch (Exception ex)
                     {

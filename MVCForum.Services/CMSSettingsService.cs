@@ -27,6 +27,8 @@ namespace MVCForum.Services
             if (!_context.CMSSetting.Any())
             {
                 settings = new CMSSettings();
+                
+
                 _context.CMSSetting.Add(settings);
                 return settings;
             }

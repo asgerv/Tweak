@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.Interfaces;
 using MVCForum.Domain.Interfaces.Services;
@@ -82,7 +83,10 @@ namespace MVCForum.Services
 
         public ArticleTag Get(Guid id)
         {
-            return _context.ArticleTag.FirstOrDefault(x => x.Id == id);
+            return _context
+                .ArticleTag
+                .Include(x => x.Articles)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateTagName()

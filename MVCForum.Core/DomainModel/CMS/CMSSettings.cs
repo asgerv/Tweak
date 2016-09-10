@@ -14,14 +14,14 @@ namespace MVCForum.Domain.DomainModel.CMS
             Id = GuidComb.GenerateComb();
         }
         public Guid Id { get; set; }
-        public Guid FrontPageCategory1 { get; set; }
-        public Guid FrontPageCategory2 { get; set; }
-        public Guid FrontPageCategory3 { get; set; }
-        public Guid FrontPageCategory4 { get; set; }
-        public Guid ArticleSticky1 { get; set; }
-        public Guid ArticleSticky2 { get; set; }
-        public Guid ArticleSticky3 { get; set; }
-        public Guid ArticleSticky4 { get; set; }
+        public Guid? FrontPageCategory1 { get; set; }
+        public Guid? FrontPageCategory2 { get; set; }
+        public Guid? FrontPageCategory3 { get; set; }
+        public Guid? FrontPageCategory4 { get; set; }
+        public Guid? ArticleSticky1 { get; set; }
+        public Guid? ArticleSticky2 { get; set; }
+        public Guid? ArticleSticky3 { get; set; }
+        public Guid? ArticleSticky4 { get; set; }
 
 
     }

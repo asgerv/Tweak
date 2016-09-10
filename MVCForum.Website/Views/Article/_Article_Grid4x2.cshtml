@@ -11,7 +11,7 @@
             @foreach (var item in Model.Articles)
             {
                 <div class="col-md-3">
-                    <a href="@Url.Action("Show", "Article", new { slug = @Model.Articles.ElementAt(2).Slug })"> <img src="@item.Image" class="img-responsive grid-image"></a>
+                    <a href="@Url.Action("Show", "Article", new { slug = @item.Slug })"> <img src="@item.Image" class="img-responsive grid-image"></a>
                     <h2>@item.Header</h2>
                     <p>
                         @item.Description

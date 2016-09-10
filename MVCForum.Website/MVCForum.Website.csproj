@@ -1644,6 +1644,7 @@
     <Content Include="Themes\Tweak\Content\Fonts\mvcforumsb.woff" />
     <Content Include="Views\Article\_SearchArticles.cshtml" />
     <Content Include="Views\Article\Search.cshtml" />
+    <Content Include="Views\Article\Category.cshtml" />
     <None Include="Views\CMS\Articles.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <Content Include="Views\CMS\GeneralSettings.cshtml" />
