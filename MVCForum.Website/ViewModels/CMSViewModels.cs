@@ -22,6 +22,9 @@ namespace MVCForum.Website.ViewModels
 
     public class DashboardViewModel
     {
+        public int ArticlesPublished { get; set; }
+        public int Comments { get; set; }
+        public int PageViews { get; set; }
     }
 
     public class AddArticleViewModel
