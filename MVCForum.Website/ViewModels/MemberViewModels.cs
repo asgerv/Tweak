@@ -150,6 +150,9 @@ namespace MVCForum.Website.ViewModels
         public bool CanViewPrivateMessages { get; set; }
         public bool IsDropDown { get; set; }
         public int ModerateCount { get; set; }
+
+        // Tilføjet CanViewCMS #ændring
+        public bool CanViewCMS { get; set; }
     }
 
     public class AdminMemberProfileToolsViewModel

@@ -1082,13 +1082,20 @@ namespace MVCForum.Website.Controllers
             }
 
             var canViewPms = settings.EnablePrivateMessages && LoggedOnReadOnlyUser != null && LoggedOnReadOnlyUser.DisablePrivateMessages != true;
+
+            // Tilføjet permissions og canViewCMS #ændring
+
+            var permissions = RoleService.GetPermissions(null, UsersRole);
+            var canViewCMS = LoggedOnReadOnlyUser != null && permissions["Access CMS"].IsTicked;
+
             var viewModel = new ViewAdminSidePanelViewModel
             {
                 CurrentUser = LoggedOnReadOnlyUser,
                 NewPrivateMessageCount = canViewPms ? privateMessageCount : 0,
                 CanViewPrivateMessages = canViewPms,
                 ModerateCount = moderateCount,
-                IsDropDown = isDropDown
+                IsDropDown = isDropDown,
+                CanViewCMS = canViewCMS
             };
             
             return PartialView(viewModel);

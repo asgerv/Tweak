@@ -27,6 +27,7 @@
                         <div class="col-lg-6">
                             @using (Html.BeginForm("NewArticle", "CMS", FormMethod.Post))
                             {
+                                @Html.AntiForgeryToken()
                                 <div class="form-horizontal">
                                     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 

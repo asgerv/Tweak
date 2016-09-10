@@ -128,6 +128,14 @@ namespace MVCForum.Services
                 .ToList();
         }
 
+        public IList<Article> GetAllAllowed(Guid memberId)
+        {
+            return _context.Article
+                .Include(x => x.User)
+                .Where(x => x.User.Id == memberId || x.IsPublished)
+                .ToList();
+        }
+
         public void Edit(Article article)
         {
             article.Slug = ServiceHelpers.GenerateSlug(article.Header,

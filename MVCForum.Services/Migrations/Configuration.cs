@@ -300,7 +300,52 @@ namespace MVCForum.Services.Migrations
                     }
 
                     // === Global Permissions === //
+                    // == Custom #ændring ==
 
+                    // <-- CMS -- 
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Access CMS") == null)
+                    {
+                        var p = new Permission { Name = "Access CMS", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit All Articles") == null)
+                    {
+                        var p = new Permission { Name = "Edit All Articles", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Publish Articles") == null)
+                    {
+                        var p = new Permission { Name = "Publish Articles", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Delete All Articles") == null)
+                    {
+                        var p = new Permission { Name = "Delete All Articles", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Comment Moderation") == null)
+                    {
+                        var p = new Permission { Name = "Comment moderation", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "View Statistics") == null)
+                    {
+                        var p = new Permission { Name = "View Statistics", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit tags") == null)
+                    {
+                        var p = new Permission { Name = "Edit tags", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit Frontpage") == null)
+                    {
+                        var p = new Permission { Name = "Edit Frontpage", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
+                    // -- CMS -->
+
+                    // == End på custom ==
                     // Deny Access
                     if (context.Permission.FirstOrDefault(x => x.Name == SiteConstants.Instance.PermissionEditMembers) == null)
                     {
