@@ -902,6 +902,12 @@
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
     <Content Include="Content\Tweak\Frontpage.css" />
+    <Content Include="Content\Tweak\Search.css">
+      <DependentUpon>Search.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Tweak\Search.min.css">
+      <DependentUpon>Search.css</DependentUpon>
+    </Content>
     <Content Include="Content\Tweak\Team.css" />
     <Content Include="Content\Tweak\_Comments.css" />
     <Content Include="Content\Tweak\FlipSwitch.css" />
@@ -1357,6 +1363,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\Tweak\Search.scss" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
@@ -1364,6 +1371,7 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\searchDelay.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
