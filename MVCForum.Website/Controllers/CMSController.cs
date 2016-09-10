@@ -66,7 +66,7 @@ namespace MVCForum.Website.Controllers
                     {
                         var vm = new AddArticleViewModel
                         {
-                            AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name))
+                            AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name)),
                         };
                         return View(vm);
                     }
@@ -343,67 +343,96 @@ namespace MVCForum.Website.Controllers
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        // GET: /cms/frontpagesettings/
+        [Authorize]
         public ActionResult FrontpageSettings()
         {
-            var viewmodel = new ArticlesViewModel { Articles = _articleService.GetAll() };
-            return View(viewmodel);
-        }
-
-        public ActionResult SetSticky(Guid? id, int choice)
-        {
-            
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                if (ModelState.IsValid)
+                var permissions = RoleService.GetPermissions(null, UsersRole);
+                if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
                 {
-                
-                        var settings = _CMSSettingsService.GetOrCreate();
-                        if (choice == 1)
-                        {
-                            settings.StickyArticle1 = _articleService.Get(id.Value);
-          
-                        }
-                        else if (choice == 2)
-                        {
-                            settings.StickyArticle2 = _articleService.Get(id.Value);
-                  
-                        }
-                        else if (choice == 3)
-                        {
-                            settings.StickyArticle3 = _articleService.Get(id.Value);
-                      
-                        }
-                        else if (choice == 4)
-                        {
-                            settings.StickyArticle4 = _articleService.Get(id.Value);
-                   
-                        }
-                        else
-                        {
-                            settings.StickyArticle4 = settings.StickyArticle3;
-                            settings.StickyArticle3 = settings.StickyArticle2;
-                            settings.StickyArticle2 = settings.StickyArticle1;
-                            settings.StickyArticle1 = _articleService.Get(id.Value);
-                            //_CMSSettingsService.Edit(settings);
-                        }
-                        unitOfWork.Commit();
-                        return RedirectToAction("FrontpageSettings");
-                    
-            
+                    var viewmodel = new ArticlesViewModel { Articles = _articleService.GetAll() };
+                    return View(viewmodel);
                 }
             }
-            return View();
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        // POST: /cms/setsticky/
+        [Authorize]
+        public ActionResult SetSticky(Guid? id, int choice)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            var settings = _CMSSettingsService.GetOrCreate();
+                            if (choice == 1)
+                            {
+                                settings.StickyArticle1 = _articleService.Get(id.Value);
+
+                            }
+                            else if (choice == 2)
+                            {
+                                settings.StickyArticle2 = _articleService.Get(id.Value);
+
+                            }
+                            else if (choice == 3)
+                            {
+                                settings.StickyArticle3 = _articleService.Get(id.Value);
+
+                            }
+                            else if (choice == 4)
+                            {
+                                settings.StickyArticle4 = _articleService.Get(id.Value);
+
+                            }
+                            else
+                            {
+                                settings.StickyArticle4 = settings.StickyArticle3;
+                                settings.StickyArticle3 = settings.StickyArticle2;
+                                settings.StickyArticle2 = settings.StickyArticle1;
+                                settings.StickyArticle1 = _articleService.Get(id.Value);
+                                //_CMSSettingsService.Edit(settings);
+                            }
+                            unitOfWork.Commit();
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Artikel blev sat som sticky.",
+                                MessageType = GenericMessages.success
+                            });
+                            return RedirectToAction("FrontpageSettings");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // GET: /cms/frontpagetags/
+        [Authorize]
         public ActionResult FrontPageTags()
         {
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 CMSSettings settings = _CMSSettingsService.GetOrCreate();
                 ArticleTagViewModel model = new ArticleTagViewModel();
-                IList <ArticleTagViewModel> vm = new List<ArticleTagViewModel>();
+                IList<ArticleTagViewModel> vm = new List<ArticleTagViewModel>();
                 var permissions = RoleService.GetPermissions(null, UsersRole);
-                if (permissions["Access CMS"].IsTicked)
+                if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
                 {
                     var tags = new TagsViewModel { ArticleTags = _articleTagService.GetAll().ToList() };
                     foreach (var item in tags.ArticleTags)
@@ -411,17 +440,19 @@ namespace MVCForum.Website.Controllers
                         model.ArticleCount = item.Articles.Count();
                         model.id = item.Id;
                         model.Name = item.Name;
-                        if(settings.StickyTags.Contains(item))
-                        model.IsFrontpage = true;
+                        if (settings.StickyTags.Contains(item))
+                            model.IsFrontpage = true;
                         vm.Add(model);
                         model = new ArticleTagViewModel();
                     }
-
                     return View(vm);
                 }
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
+
+        // POST: /cms/setstickytag/
+        [Authorize]
         public ActionResult SetStickyTag(Guid id)
         {
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -430,11 +461,21 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-                        var settings = _CMSSettingsService.GetOrCreate();
-                        settings.StickyTags.Add(_articleTagService.Get(id));
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
+                        {
+                            var settings = _CMSSettingsService.GetOrCreate();
+                            settings.StickyTags.Add(_articleTagService.Get(id));
 
-                        unitOfWork.Commit();
-                        return RedirectToAction("FrontPageTags");
+                            unitOfWork.Commit();
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Tagget blev sat som sticky.",
+                                MessageType = GenericMessages.success
+                            });
+                            return RedirectToAction("FrontPageTags");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -444,9 +485,11 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View();
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        // POST: /cms/removestickytag/
+        [Authorize]
         public ActionResult RemoveStickyTag(Guid id)
         {
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
@@ -455,11 +498,16 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-                        var settings = _CMSSettingsService.GetOrCreate();
-                        settings.StickyTags.Remove(_articleTagService.Get(id));
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
+                        {
+                            var settings = _CMSSettingsService.GetOrCreate();
+                            settings.StickyTags.Remove(_articleTagService.Get(id));
+                            unitOfWork.Commit();
 
-                        unitOfWork.Commit();
-                        return RedirectToAction("FrontPageTags");
+
+                            return RedirectToAction("FrontPageTags");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -469,12 +517,22 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return View();
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        // GET: /cms/generalsettings
+        [Authorize]
         public ActionResult GeneralSettings()
         {
-            return View();
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                var permissions = RoleService.GetPermissions(null, UsersRole);
+                if (permissions["Access CMS"].IsTicked)
+                {
+                    return View();
+                }
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/tags/

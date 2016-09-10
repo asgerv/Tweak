@@ -1651,7 +1651,7 @@
     <Content Include="Views\Article\_SearchArticles.cshtml" />
     <Content Include="Views\Article\Search.cshtml" />
     <Content Include="Views\Article\Category.cshtml" />
-    <None Include="Views\CMS\Articles.cshtml" />
+    <Content Include="Views\CMS\Articles.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <Content Include="Views\CMS\GeneralSettings.cshtml" />
     <Content Include="Views\CMS\Tags.cshtml" />
@@ -1670,6 +1670,9 @@
     <Content Include="Views\Home\Team.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\CMS\FrontPageTags.cshtml" />
+    <Content Include="Views\Article\_StickiesTag.cshtml" />
+    <Content Include="Views\Shared\customeditors\tinymceeditorForum.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
