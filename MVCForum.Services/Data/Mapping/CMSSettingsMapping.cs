@@ -14,14 +14,12 @@ namespace MVCForum.Services.Data.Mapping
         public CMSSettingsMapping()
         {
             HasKey(x => x.Id);
-            Property(x => x.FrontPageCategory1).IsOptional();
-            Property(x => x.FrontPageCategory2).IsOptional();
-            Property(x => x.FrontPageCategory3).IsOptional();
-            Property(x => x.FrontPageCategory4).IsOptional();
-            Property(x => x.ArticleSticky1).IsOptional();
-            Property(x => x.ArticleSticky2).IsOptional();
-            Property(x => x.ArticleSticky3).IsOptional();
-            Property(x => x.ArticleSticky4).IsOptional();
+            HasMany(x => x.StickyTags);
+            HasOptional(x => x.StickyArticle1);
+            HasOptional(x => x.StickyArticle1);
+            HasOptional(x => x.StickyArticle2);
+            HasOptional(x => x.StickyArticle3);
+            HasOptional(x => x.StickyArticle1);
         }
 
     }

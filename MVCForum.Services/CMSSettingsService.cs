@@ -27,8 +27,11 @@ namespace MVCForum.Services
             if (!_context.CMSSetting.Any())
             {
                 settings = new CMSSettings();
-                
-
+                settings.StickyTags = new List<ArticleTag>();
+                settings.StickyArticle1 = null;
+                settings.StickyArticle2 = null;
+                settings.StickyArticle3 = null;
+                settings.StickyArticle4 = null;
                 _context.CMSSetting.Add(settings);
                 return settings;
             }

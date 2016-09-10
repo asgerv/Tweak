@@ -87,6 +87,13 @@ namespace MVCForum.Website.ViewModels
     {
         public List<ArticleTag> ArticleTags { get; set; }
     }
+
+    public class ArticleTagViewModel{
+        public Guid id { get; set; }
+        public string Name { get; set; }
+        public int ArticleCount { get; set; }
+        public bool IsFrontpage { get; set; }
+    }
     public class StatisticsViewModel
     {
     }
