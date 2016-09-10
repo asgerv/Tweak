@@ -42,7 +42,12 @@ namespace MVCForum.Website.Controllers
                 var permissions = RoleService.GetPermissions(null, UsersRole);
                 if (permissions["Access CMS"].IsTicked)
                 {
-                    return View();
+                    var vm = new DashboardViewModel();
+                    var articles = _articleService.GetNewestPublished(200000).Where(x => x.PublishDate > DateTime.Now.AddDays(-30)).ToList();
+                    vm.Comments = _articleCommentService.GetAll().Count(x => x.DateCreated > DateTime.Now.AddDays(-30));
+                    vm.ArticlesPublished = articles.Count;
+                    vm.PageViews = articles.Sum(x => x.Views);
+                    return View(vm);
                 }
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
