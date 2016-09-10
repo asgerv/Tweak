@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
+using MVCForum.Website.Areas.Admin.ViewModels;
 using MVCForum.Website.ViewModels;
 
 namespace MVCForum.Website.Controllers
@@ -106,7 +107,13 @@ namespace MVCForum.Website.Controllers
 
                             // Commit
                             unitOfWork.Commit();
-                            return RedirectToAction("Show", "Article", new {slug = newArticle.Slug});
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Artiklen blev oprettet.",
+                                MessageType = GenericMessages.success
+                            });
+                            return RedirectToAction("Show", "Article", new { slug = newArticle.Slug });
                         }
                     }
                     catch (Exception ex)
@@ -198,8 +205,15 @@ namespace MVCForum.Website.Controllers
                                 var tagsString = string.Join(",", vm.SelectedTags);
                                 _articleTagService.Add(tagsString, article);
                             }
+
                             // Commit
                             unitOfWork.Commit();
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Artiklen blev redigeret.",
+                                MessageType = GenericMessages.success
+                            });
                             return RedirectToAction("Articles");
                         }
                     }
@@ -237,10 +251,16 @@ namespace MVCForum.Website.Controllers
                         _articleService.Delete(article);
 
                         // TODO: Vi skal have noget logging over hvem der har slettet artikler
-                        //LoggingService.Error("Artikel slettet: " + article.Slug);
+                        LoggingService.Error("Artikel slettet: " + article.Slug);
 
                         // Commit
                         unitOfWork.Commit();
+
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = "Artiklen blev slettet.",
+                            MessageType = GenericMessages.success
+                        });
                         return RedirectToAction("Articles");
                     }
                 }
@@ -318,7 +338,7 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult FrontpageSettings()
         {
-            var viewmodel = new ArticlesViewModel {Articles = _articleService.GetAll()};
+            var viewmodel = new ArticlesViewModel { Articles = _articleService.GetAll() };
             return View(viewmodel);
         }
 
@@ -387,7 +407,7 @@ namespace MVCForum.Website.Controllers
                 var permissions = RoleService.GetPermissions(null, UsersRole);
                 if (permissions["Access CMS"].IsTicked)
                 {
-                    var vm = new TagsViewModel {ArticleTags = _articleTagService.GetAll().ToList()};
+                    var vm = new TagsViewModel { ArticleTags = _articleTagService.GetAll().ToList() };
                     return View(vm);
                 }
             }
@@ -402,27 +422,33 @@ namespace MVCForum.Website.Controllers
                 return RedirectToAction("Tags");
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                //try
-                //{
-                var permissions = RoleService.GetPermissions(null, UsersRole);
-                if (permissions["Edit tags"].IsTicked)
+                try
                 {
-                    var articleTag = _articleTagService.Get(id.Value);
-                    if (articleTag == null)
-                        return HttpNotFound();
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    if (permissions["Edit tags"].IsTicked)
+                    {
+                        var articleTag = _articleTagService.Get(id.Value);
+                        if (articleTag == null)
+                            return HttpNotFound();
 
-                    _articleTagService.Delete(articleTag);
+                        _articleTagService.Delete(articleTag);
 
-                    unitOfWork.Commit();
-                    return RedirectToAction("Tags");
+                        unitOfWork.Commit();
+
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = "Tagget blev slettet.",
+                            MessageType = GenericMessages.success
+                        });
+                        return RedirectToAction("Tags");
+                    }
                 }
-                //}
-                //catch (Exception ex)
-                //{
-                //    unitOfWork.Rollback();
-                //    LoggingService.Error(ex);
-                //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                //}
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
@@ -445,7 +471,15 @@ namespace MVCForum.Website.Controllers
                             return HttpNotFound();
 
                         articleComment.IsDeleted = false;
+
+                        // Commit
                         unitOfWork.Commit();
+
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = "Kommentaren blev u-slettet.",
+                            MessageType = GenericMessages.success
+                        });
                         return RedirectToAction("Comments");
                     }
                 }
@@ -479,6 +513,12 @@ namespace MVCForum.Website.Controllers
                         articleComment.IsDeleted = true;
 
                         unitOfWork.Commit();
+
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = "Kommentaren blev slettet.",
+                            MessageType = GenericMessages.success
+                        });
                         return RedirectToAction("Comments");
                     }
                 }

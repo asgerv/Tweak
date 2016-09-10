@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="The description of my page" />
+    <meta name="description" content="Tweak CMS system" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tweak - CMS</title>
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/cms/metismenu/metisMenu.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/cms/sb-admin-2.css" />
@@ -45,7 +45,7 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
+                        @Html.Action("SideAdminPanel", "Members", new {isDropDown = true})
                     }
                 </ul>
             </div>
@@ -97,7 +97,10 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-        @RenderBody()
+        <div class="container-fluid">
+            @Html.Partial("_GenericMessage")
+            @RenderBody()
+        </div>
     </div>
     <hr />
     <footer>
