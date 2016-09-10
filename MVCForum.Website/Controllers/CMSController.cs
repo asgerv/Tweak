@@ -7,6 +7,8 @@ using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.Areas.Admin.ViewModels;
 using MVCForum.Website.ViewModels;
+using System.Collections.Generic;
+using MVCForum.Domain.DomainModel.CMS;
 
 namespace MVCForum.Website.Controllers
 {
@@ -342,7 +344,80 @@ namespace MVCForum.Website.Controllers
             return View(viewmodel);
         }
 
-        public ActionResult SetSticky(Guid id, int choice)
+        public ActionResult SetSticky(Guid? id, int choice)
+        {
+            
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                
+                        var settings = _CMSSettingsService.GetOrCreate();
+                        if (choice == 1)
+                        {
+                            settings.StickyArticle1 = _articleService.Get(id.Value);
+          
+                        }
+                        else if (choice == 2)
+                        {
+                            settings.StickyArticle2 = _articleService.Get(id.Value);
+                  
+                        }
+                        else if (choice == 3)
+                        {
+                            settings.StickyArticle3 = _articleService.Get(id.Value);
+                      
+                        }
+                        else if (choice == 4)
+                        {
+                            settings.StickyArticle4 = _articleService.Get(id.Value);
+                   
+                        }
+                        else
+                        {
+                            settings.StickyArticle4 = settings.StickyArticle3;
+                            settings.StickyArticle3 = settings.StickyArticle2;
+                            settings.StickyArticle2 = settings.StickyArticle1;
+                            settings.StickyArticle1 = _articleService.Get(id.Value);
+                            //_CMSSettingsService.Edit(settings);
+                        }
+                        unitOfWork.Commit();
+                        return RedirectToAction("FrontpageSettings");
+                    
+            
+                }
+            }
+            return View();
+        }
+
+        public ActionResult FrontPageTags()
+        {
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                CMSSettings settings = _CMSSettingsService.GetOrCreate();
+                ArticleTagViewModel model = new ArticleTagViewModel();
+                IList <ArticleTagViewModel> vm = new List<ArticleTagViewModel>();
+                var permissions = RoleService.GetPermissions(null, UsersRole);
+                if (permissions["Access CMS"].IsTicked)
+                {
+                    var tags = new TagsViewModel { ArticleTags = _articleTagService.GetAll().ToList() };
+                    foreach (var item in tags.ArticleTags)
+                    {
+                        model.ArticleCount = item.Articles.Count();
+                        model.id = item.Id;
+                        model.Name = item.Name;
+                        if(settings.StickyTags.Contains(item))
+                        model.IsFrontpage = true;
+                        vm.Add(model);
+                        model = new ArticleTagViewModel();
+                    }
+
+                    return View(vm);
+                }
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+        public ActionResult SetStickyTag(Guid id)
         {
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
@@ -351,36 +426,10 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var settings = _CMSSettingsService.GetOrCreate();
-                        if (choice == 1)
-                        {
-                            settings.ArticleSticky1 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 2)
-                        {
-                            settings.ArticleSticky2 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 3)
-                        {
-                            settings.ArticleSticky3 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 4)
-                        {
-                            settings.ArticleSticky4 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else
-                        {
-                            settings.ArticleSticky4 = settings.ArticleSticky3;
-                            settings.ArticleSticky3 = settings.ArticleSticky2;
-                            settings.ArticleSticky2 = settings.ArticleSticky1;
-                            settings.ArticleSticky1 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
+                        settings.StickyTags.Add(_articleTagService.Get(id));
+
                         unitOfWork.Commit();
-                        return RedirectToAction("FrontpageSettings");
+                        return RedirectToAction("FrontPageTags");
                     }
                     catch (Exception ex)
                     {
@@ -392,7 +441,8 @@ namespace MVCForum.Website.Controllers
             }
             return View();
         }
-        public ActionResult SetStickyTag(Guid id, int choice)
+
+        public ActionResult RemoveStickyTag(Guid id)
         {
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
@@ -401,29 +451,10 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var settings = _CMSSettingsService.GetOrCreate();
-                        if (choice == 1)
-                        {
-                            settings.FrontPageCategory1 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 2)
-                        {
-                            settings.FrontPageCategory2 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 3)
-                        {
-                            settings.FrontPageCategory3 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                        else if (choice == 4)
-                        {
-                            settings.FrontPageCategory4 = id;
-                            _CMSSettingsService.Edit(settings);
-                        }
-                  
+                        settings.StickyTags.Remove(_articleTagService.Get(id));
+
                         unitOfWork.Commit();
-                        return RedirectToAction("Tags");
+                        return RedirectToAction("FrontPageTags");
                     }
                     catch (Exception ex)
                     {

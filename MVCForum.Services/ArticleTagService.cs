@@ -96,7 +96,7 @@ namespace MVCForum.Services
 
         public IEnumerable<ArticleTag> GetAll()
         {
-            return _context.ArticleTag;
+            return _context.ArticleTag.Include(x => x.Articles);
         }
 
         public void CreateTestTags()

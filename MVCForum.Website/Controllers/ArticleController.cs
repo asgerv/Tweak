@@ -43,46 +43,49 @@ namespace MVCForum.Website.Controllers
                 return new EmptyResult();
             return PartialView(viewmodel);
         }
-        public ActionResult _StickiesTag(int? number)
+        public ActionResult _StickiesTag()
         {
             // 1. Skal få et articletag
             // 2. List<Article> x = _articleService.GetByTag(...
             CMSSettings settings = _CMSSettingsService.GetOrCreate();
-            var viewmodel = new ArticlesPreviewViewModel();
-            ArticleTag Tag;
-           
-            switch (number)
+            IList<ArticlesPreviewViewModel> viewmodel = new List<ArticlesPreviewViewModel>();
+            ArticlesPreviewViewModel model = new ArticlesPreviewViewModel();
+            IList<ArticleTag> Tags = settings.StickyTags;
+            if(Tags != null)
+            foreach(var item in Tags)
             {
-                case 1:
-                     Tag = _articleTagService.Get((Guid)settings.FrontPageCategory1);
-                    viewmodel.Tag = Tag.Name;
-                       if(Tag.Articles.Any())
-                    viewmodel.Articles = Tag.Articles.Take(6);
-                    break;
-                case 2:
-                     Tag = _articleTagService.Get((Guid)settings.FrontPageCategory2);
-                    viewmodel.Tag = Tag.Name;
-                    if (Tag.Articles.Any())
-                        viewmodel.Articles = Tag.Articles.Take(6);
-                    
-                    break;
-                case 3:
-                   Tag = _articleTagService.Get((Guid)settings.FrontPageCategory3);
-                    viewmodel.Tag = Tag.Name;
-                    if (Tag.Articles.Any())
-                        viewmodel.Articles = Tag.Articles.Take(6);
-                    break;
-                case 4:
-                    Tag = _articleTagService.Get((Guid)settings.FrontPageCategory4);
-                    viewmodel.Tag = Tag.Name;
-                    if(Tag.Articles.Any())
-                    viewmodel.Articles = Tag.Articles.Take(6);
-                    break;
-            
+
+                model.Articles = item.Articles;
+                model.Tag = item.Name;
+                viewmodel.Add(model);
+                model = new ArticlesPreviewViewModel();
+
+
             }
 
-            if (viewmodel.Articles.Any())
-                return PartialView("_Article_Grid4x2", viewmodel);
+            //using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            //{
+            //    try
+            //    {
+                 
+                   
+            //     }
+                
+            //    catch (Exception ex)
+            //    {
+            //        // Roll back database changes 
+            //        unitOfWork.Rollback();
+            //        // Log the error
+            //        LoggingService.Error(ex);
+
+            //        // Do what you want
+            //        return RedirectToAction("Index", "CMS");
+            //    }
+
+            //}
+
+            if(viewmodel.Any())
+                return PartialView("_StickiesTag", viewmodel);
             else
                 return new EmptyResult();
         }
@@ -93,19 +96,18 @@ namespace MVCForum.Website.Controllers
                 try
                 {
                     var viewmodel = new ArticlesPreviewViewModel();
-                CMSSettings settings = _CMSSettingsService.GetOrCreate();
-                IList<Article> articles = new List<Article>();
-                if (!settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null) && !settings.ArticleSticky1.Equals(null))
-                {
-                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky1));
-                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky2));
-                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky3));
-                    articles.Add(_articleService.Get((Guid)settings.ArticleSticky4));
-                    viewmodel.Articles = articles;
-                        unitOfWork.Commit();
+                    CMSSettings settings = _CMSSettingsService.GetOrCreate();
+                    IList<Article> articles = new List<Article>();
+                    if(settings.StickyArticle1 != null && settings.StickyArticle2 != null && settings.StickyArticle3 != null && settings.StickyArticle4 != null)
+                        articles.Add(settings.StickyArticle1);
+                        articles.Add(settings.StickyArticle2);
+                        articles.Add(settings.StickyArticle3);
+                        articles.Add(settings.StickyArticle4);
+                        viewmodel.Articles = articles;
+                    if(viewmodel.Articles.Count() > 3)
                         return PartialView("_ArticleMain", viewmodel);
-                }
-            }
+                    }
+                
                 catch (Exception ex)
                 {
                     // Roll back database changes 
@@ -114,7 +116,7 @@ namespace MVCForum.Website.Controllers
                     LoggingService.Error(ex);
 
                     // Do what you want
-                    return RedirectToAction("Index", "Home");
+                    return new EmptyResult();
                 }
             }
             return new EmptyResult();
