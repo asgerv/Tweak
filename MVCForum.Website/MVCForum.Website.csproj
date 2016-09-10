@@ -913,7 +913,6 @@
     <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\Tweak\Nyhed.css" />
     <Content Include="Content\Tweak\_Article_Grid4x2.css" />
-    <Content Include="Content\uploads\readme.txt" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1364,13 +1363,12 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\Tweak\Search.scss" />
+    <None Include="Properties\PublishProfiles\tweakbeta - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
     <Content Include="Scripts\jquery-3.1.0.slim.js" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\searchDelay.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
@@ -1666,7 +1664,6 @@
     <Content Include="Views\CMS\EditArticle.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Comments.cshtml" />
-    <Content Include="Views\Shared\_Layout - Backup.cshtml" />
     <Content Include="Views\Article\CommentEdit.cshtml" />
     <Content Include="Views\Shared\_Comment.cshtml" />
     <Content Include="Views\Shared\_Blackbar.cshtml" />
@@ -1865,6 +1862,7 @@
   <ItemGroup>
     <Folder Include="Content\languagepacks\" />
     <Folder Include="Content\themes\" />
+    <Folder Include="Content\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
