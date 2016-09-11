@@ -33,34 +33,48 @@ namespace MVCForum.Website.ViewModels
         {
             Image = "/Images/Default.jpeg";
         }
-        //[Required] <-- ??
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Overskrift")]
         [StringLength(70, ErrorMessage = "Header cannot be longer than 70 characters.")]
         public string Header { get; set; }
+
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Beskrivelse")]
         [StringLength(240, ErrorMessage = "Description cannot be longer than 240 characters.")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Brødtekst")]
         [AllowHtml]
         public string Body { get; set; }
+
         [Display(Name = "Billede (URL)")]
         public string Image { get; set; }
+
         [Display(Name = "Status")]
         public bool IsPublished { get; set; }
+
         [Display(Name = "Tags")]
         public IEnumerable<string> SelectedTags { get; set; }
+
         public IEnumerable<SelectListItem> AvailableTags { get; set; }
     }
 
     public class EditArticleViewModel
     {
         public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Overskrift")]
         [StringLength(70, ErrorMessage = "Header cannot be longer than 70 characters.")]
         public string Header { get; set; }
+
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Beskrivelse")]
         [StringLength(240, ErrorMessage = "Description cannot be longer than 240 characters.")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Dette felt er krævet.")]
         [Display(Name = "Brødtekst")]
         [AllowHtml]
         public string Body { get; set; }

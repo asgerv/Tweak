@@ -28,7 +28,6 @@
                             <tr>
                                 <th>Navn</th>
                                 <th>Antal artikler</th>
-                                <th>Sticky Tags</th>
                                 <th>Kontrol</th>
                             </tr>
                             </thead>
@@ -36,7 +35,6 @@
                             <tr>
                                 <th>Navn</th>
                                 <th>Antal artikler</th>
-                                <th>Sticky Tags</th>
                                 <th>Kontrol</th>
                             </tr>
                             </tfoot>
@@ -47,12 +45,6 @@
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                     <td>@noArticles</td>
-                                    <td>
-                                        @Html.ActionLink("Smid på forsiden", "SetStickyTag", new { id = item.Id}, new { onclick = "return confirm('Er du sikker?');" }) |
-                                        
-                                      
-
-                                    </td>
                                     <td>
                                         @Html.ActionLink("Slet", "DeleteTag", new {id = item.Id}, new {@class = "btn btn-danger btn-sm", onclick = "return confirm('Er du sikker på at du vil slette dette tag?');"})
                                     </td>
@@ -68,7 +60,6 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-@Html.Action("_StickiesTag", "Article")
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
