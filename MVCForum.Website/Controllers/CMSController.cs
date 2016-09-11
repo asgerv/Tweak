@@ -352,7 +352,7 @@ namespace MVCForum.Website.Controllers
                 var permissions = RoleService.GetPermissions(null, UsersRole);
                 if (permissions["Access CMS"].IsTicked && permissions["Edit Frontpage"].IsTicked)
                 {
-                    var viewmodel = new ArticlesViewModel { Articles = _articleService.GetAll() };
+                    var viewmodel = new ArticlesViewModel { Articles = _articleService.GetNewestPublished(500) };
                     return View(viewmodel);
                 }
             }

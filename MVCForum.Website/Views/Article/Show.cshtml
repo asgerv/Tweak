@@ -5,8 +5,6 @@
     ViewBag.MetaDesc = Model.Description;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     var timeAgo = DateTime.Now - Model.PublishDate;
-
-
 }
 
 
@@ -46,6 +44,9 @@
 
                 </div>
             </div>
+<br />
+<br />
+<br />
 @Html.Action("_LatestArticles", "Article")
 
 
