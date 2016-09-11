@@ -217,6 +217,30 @@ namespace MVCForum.Website.Controllers
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
+        public ActionResult _Comments(Guid article)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    IList<ArticleComment> comments = _articleCommentService.GetByArticle(article);
+                    return PartialView(comments);
+
+                }
+                catch (Exception ex)
+                {
+                    // Roll back database changes 
+                    unitOfWork.Rollback();
+                    // Log the error
+                    LoggingService.Error(ex);
+
+                    // Do what you want
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
+        }
+
         public ActionResult Category(string tag)
         {
 
