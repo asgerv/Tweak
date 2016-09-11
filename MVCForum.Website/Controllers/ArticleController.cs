@@ -106,7 +106,7 @@ namespace MVCForum.Website.Controllers
                 
                     
 
-                            model.Articles = _articleService.GetNewest(8);
+                            model.Articles = _articleService.GetNewest(4);
                             model.Tag = "Seneste Artikler";
                             viewmodel.Add(model);
                             model = new ArticlesPreviewViewModel();
