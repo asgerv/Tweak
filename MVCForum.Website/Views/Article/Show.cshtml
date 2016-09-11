@@ -2,7 +2,11 @@
 
 @{
     ViewBag.Title = Model.Header;
+    ViewBag.MetaDesc = Model.Description;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var timeAgo = DateTime.Now - Model.PublishDate;
+
+
 }
 
 
@@ -15,28 +19,34 @@
     <div class="col-md-6">
         <div style="word-break:break-word">
             <h1>@Html.DisplayFor(model => model.Header)</h1>
-            <p class="shentox"> Skrevet den: @Html.DisplayFor(model => model.CreateDate), af: @Html.DisplayFor(model => model.User.UserName) </p>
+            <p class="shentox">
+                Skrevet for
+                @if (timeAgo.Days > 0) {<span>@timeAgo.Days dage siden</span>}
+                else {<span> @timeAgo.Hours timer siden</span>}, af: @Html.DisplayFor(model => model.User.UserName)
+        </p>
 
 
 
 
             @Html.Raw(Model.Body)
 
-            <br />
+                    <br />
 
 
-            @{ Html.RenderPartial("_Comments", Model.Comments);  }
+                    @{ Html.RenderPartial("_Comments", Model.Comments);  }
 
 
-            @if (User.Identity.IsAuthenticated)
-            { Html.RenderAction("_Comment", Model); }
+                        @if (User.Identity.IsAuthenticated)
+                        { Html.RenderAction("_Comment", Model); }
 
-        </div>
-    </div>
-    <div class="col-md-3">
+                    </div>
+    
+                </div>
+                <div class="col-md-3">
 
-    </div>
-</div>
+                </div>
+            </div>
+@Html.Action("_LatestArticles", "Article")
 
 
 

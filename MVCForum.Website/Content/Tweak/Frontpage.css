@@ -5,13 +5,12 @@
 }*/
 @font-face {
     font-family: 'Shentox';
-    src: url('../fonts/Shentox-W01-Bold.eot');
-    src: url('../fonts/Shentox-W01-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Shentox-W01-Bold.woff2') format('woff2'), url('../fonts/Shentox-W01-Bold.woff') format('woff'), url('../fonts/Shentox-W01-Bold.ttf') format('truetype'), url('../fonts/Shentox-W01-Bold.svg#Shentox_W01_Bold') format('svg');
+    src: url('../bootstrap/fonts/Shentox-W01-Bold.eot');
+    src: url('../bootstrap/fonts/Shentox-W01-Bold.eot?#iefix') format('embedded-opentype'), url('../bootstrap/fonts/Shentox-W01-Bold.woff2') format('woff2'), url('../bootstrap/fonts/Shentox-W01-Bold.woff') format('woff'), url('../bootstrap/fonts/Shentox-W01-Bold.ttf') format('truetype'), url('../bootstrap/fonts/Shentox-W01-Bold.svg#Shentox_W01_Bold') format('svg');
 }
 .shentox {
     font-family:Shentox;
 }
-
 #logo {
     bottom: 50px;
     padding-right: 20px;

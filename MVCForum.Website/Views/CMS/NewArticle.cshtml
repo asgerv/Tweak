@@ -9,6 +9,8 @@
     <link href="~/Content/css/select2.min.css" rel="stylesheet" />
 
 }
+@if (!Context.IsMobileDevice())
+{
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -121,4 +123,9 @@
                 placeholder: "Tilføj tags her"
             });
     </script>
+}
+}
+else
+{
+<h4>Ikke muligt på mobil</h4>
 }
