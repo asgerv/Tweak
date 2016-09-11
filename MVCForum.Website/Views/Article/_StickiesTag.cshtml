@@ -11,9 +11,13 @@
             {
                 <div class="col-md-3">
                     <a href="@Url.Action("Show", "Article", new { slug = @subitem.Slug })"> <img src="@subitem.Image" class="img-responsive grid-image"></a>
-                    <h2>@subitem.Header</h2>
+                    <h2 class="shentox">@subitem.Header</h2>
                     <p>
-                        @subitem.Description
+                        <span>For </span>
+                        @{var timeAgo = DateTime.Now - subitem.PublishDate; }
+                        @if (timeAgo.Days > 0)
+                        {<span>@timeAgo.Days dage siden</span>}
+                        else {<span> @timeAgo.Hours timer siden</span>}
                     </p>
                 </div>
             }

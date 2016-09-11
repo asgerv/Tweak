@@ -50,7 +50,8 @@ namespace MVCForum.Website.Controllers
             CMSSettings settings = _CMSSettingsService.GetOrCreate();
             IList<ArticlesPreviewViewModel> viewmodel = new List<ArticlesPreviewViewModel>();
             ArticlesPreviewViewModel model = new ArticlesPreviewViewModel();
-            IList<ArticleTag> Tags = settings.StickyTags;
+            IList<ArticleTag> Tags = settings.StickyTags.Take(8).ToList();
+           
             if(Tags != null)
             foreach(var item in Tags)
             {
@@ -88,6 +89,44 @@ namespace MVCForum.Website.Controllers
                 return PartialView("_StickiesTag", viewmodel);
             else
                 return new EmptyResult();
+        }
+
+        public ActionResult _LatestArticles()
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    // 1. Skal få et articletag
+                    // 2. List<Article> x = _articleService.GetByTag(...
+                   
+                    IList<ArticlesPreviewViewModel> viewmodel = new List<ArticlesPreviewViewModel>();
+                    ArticlesPreviewViewModel model = new ArticlesPreviewViewModel();
+                
+                
+                    
+
+                            model.Articles = _articleService.GetNewest(8);
+                            model.Tag = "Seneste Artikler";
+                            viewmodel.Add(model);
+                            model = new ArticlesPreviewViewModel();
+                            return PartialView("_StickiesTag", viewmodel);
+
+                        
+                }
+
+                catch (Exception ex)
+                {
+                    // Roll back database changes 
+                    unitOfWork.Rollback();
+                    // Log the error
+                    LoggingService.Error(ex);
+
+                    // Do what you want
+                    return new EmptyResult();
+                }
+            }
+            return new EmptyResult();
         }
         public ActionResult _Stickies()
         {
@@ -151,6 +190,7 @@ namespace MVCForum.Website.Controllers
                         article.Views++;
                     // Commit the transaction
                     unitOfWork.Commit();
+                
                     return View(article);
                 }
                 catch (Exception ex)
@@ -214,23 +254,32 @@ namespace MVCForum.Website.Controllers
             Article article;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    try
-                    {
+                    if (ModelState.IsValid)
+                {
+                    //try
+                    //{
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         _articleCommentService.Delete(commentId);
                         article = _articleService.Get(ArticleId);
-                        unitOfWork.SaveChanges();
-                        unitOfWork.Commit();
+                    unitOfWork.Commit();
+                        
                         return RedirectToAction("Show", new { slug = article.Slug });
-                    }
-                    catch (Exception ex)
-                    {
-                        unitOfWork.Rollback();
-                        LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    }
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    unitOfWork.Rollback();
+                    //    LoggingService.Error(ex);
+                    //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    //}
+                }
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
 
@@ -282,7 +331,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("nyhed", new { id = comment.ArticleSlug });
+            return RedirectToAction("Show", new { id = comment.ArticleSlug });
         }
 
         public ActionResult Search()
