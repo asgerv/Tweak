@@ -74,7 +74,9 @@ namespace MVCForum.Services
 
         public Article Get(string slug)
         {
-            return _context.Article.FirstOrDefault(x => x.Slug == slug);
+            return _context.Article
+                .Include(x => x.User)
+                .FirstOrDefault(x => x.Slug == slug);
         }
 
         public IList<Article> Search(int amountToTake, string keyword)

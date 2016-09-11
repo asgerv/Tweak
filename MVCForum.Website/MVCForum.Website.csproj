@@ -1363,6 +1363,10 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\Tweak\Search.scss" />
+    <Content Include="Content\bootstrap\fonts\Shentox-W01-Bold.eot" />
+    <Content Include="Content\bootstrap\fonts\Shentox-W01-Bold.ttf" />
+    <Content Include="Content\bootstrap\fonts\Shentox-W01-Bold.woff" />
+    <Content Include="Content\bootstrap\fonts\Shentox-W01-Bold.woff2" />
     <None Include="Properties\PublishProfiles\tweakbeta - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />

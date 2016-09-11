@@ -179,19 +179,29 @@ namespace MVCForum.Website.Controllers
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 if (slug == null)
-                    return RedirectToAction("Index", "Home"); // TODO: Lav fejlside ("Artikel blev ikke fundet")
-                var article = _articleService.Get(slug);
-                if (article == null)
-                    return HttpNotFound();
+                    return ErrorToHomePage("Artiklen blev ikke fundet.");
                 try
                 {
-                    // Do all logic here
-                    if (!BotUtils.UserIsBot())
-                        article.Views++;
-                    // Commit the transaction
-                    unitOfWork.Commit();
-                
-                    return View(article);
+                    var article = _articleService.Get(slug);
+                    if (article == null)
+                        return HttpNotFound();
+
+                    // Tjekker permissions LoggedOnReadOnlyUser.Id != article.User.Id 
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    var userOwns = false;
+                    if (LoggedOnReadOnlyUser != null)
+                        userOwns = LoggedOnReadOnlyUser.Id == article.User.Id;
+
+                    if (permissions["Edit All Articles"].IsTicked || article.IsPublished || userOwns)
+                    {
+                        // Do all logic here
+                        if (!BotUtils.UserIsBot())
+                            article.Views++;
+                        // Commit the transaction
+                        unitOfWork.Commit();
+
+                        return View(article);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -201,9 +211,10 @@ namespace MVCForum.Website.Controllers
                     LoggingService.Error(ex);
 
                     // Do what you want
-                    return RedirectToAction("Index", "Home");
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         public ActionResult Category(string tag)
@@ -333,7 +344,10 @@ namespace MVCForum.Website.Controllers
             }
             return RedirectToAction("Show", new { id = comment.ArticleSlug });
         }
-
+        public ActionResult Search()
+        {
+            return View();
+        }
         public PartialViewResult _SearchArticles(string keyword)
         {
             using (UnitOfWorkManager.NewUnitOfWork())
