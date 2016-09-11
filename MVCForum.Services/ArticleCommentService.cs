@@ -75,7 +75,7 @@ namespace MVCForum.Services
         public IList<ArticleComment> GetByArticle(Guid articleId)
         {
             return _context.ArticleComment
-                .Include(x => x.Article)
+                .Include(x => x.Article).Include(x => x.User)
                 //.Include(x => x.Article)
                 .Where(x => x.Article.Id == articleId).ToList();
         }

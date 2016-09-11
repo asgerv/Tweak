@@ -31,8 +31,8 @@
                     <br />
 
 
-                    @{ Html.RenderPartial("_Comments", Model.Comments);  }
-
+              
+            @Html.Action("_Comments", new { article = Model.Id })
 
                         @if (User.Identity.IsAuthenticated)
                         { Html.RenderAction("_Comment", Model); }
