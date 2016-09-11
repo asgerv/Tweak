@@ -285,17 +285,18 @@ namespace MVCForum.Website.Controllers
             return RedirectToAction("nyhed", new { id = comment.ArticleSlug });
         }
 
-        public ActionResult Search()
-        {
-            return View();
-        }
         public PartialViewResult _SearchArticles(string keyword)
         {
-            var vm = new ArticleSearchViewModel
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                Articles = _articleService.Search(50, keyword)
-            };
-            return PartialView(vm);
+                var articles = _articleService.Search(50, keyword);
+                var articleSearchVms = articles.Select(article => new ArticleSearchViewModel
+                {
+                    Slug = article.Slug, Header = article.Header, PublishDate = article.PublishDate, UserName = article.User.UserName
+                });
+                return PartialView(articleSearchVms);
+            }
+            
         }
         public ActionResult LatestRss()
         {

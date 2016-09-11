@@ -1,11 +1,11 @@
-﻿@model MVCForum.Website.ViewModels.ArticleSearchViewModel
+﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleSearchViewModel>
 
-@foreach (var a in Model.Articles)
+@foreach (var a in Model)
 {
     <li class="search-result">
         <h4 class="search-result-title">@Html.ActionLink(a.Header, "Show", new {slug = a.Slug})</h4>
         <ul class="search-result-undertext">
-            <li>@a.User.UserName - </li>
+            <li>@a.UserName - </li>
 
             @{
                 var timeAgo = (DateTime.Now - a.PublishDate);

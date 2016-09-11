@@ -1673,6 +1673,7 @@
     <Content Include="Views\CMS\FrontPageTags.cshtml" />
     <Content Include="Views\Article\_StickiesTag.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorForum.cshtml" />
+    <Content Include="Views\ArticleTag\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1762,9 +1763,9 @@
     <Content Include="Scripts\admin\Admin.js" />
     <Content Include="Scripts\admin\FadeOutMessage.js" />
     <Content Include="Content\slideoutpanel.css" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

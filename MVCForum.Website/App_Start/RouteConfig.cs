@@ -75,6 +75,11 @@ namespace MVCForum.Website
                 "kontakt", // URL with parameters
                 new { controller = "Home", action = "Contact" } // Parameter defaults
             );
+            routes.MapRoute(
+                "searchUrl", // Route name
+                "search/{q}", // URL with parameters
+                new { controller = "Article", action = "Search", q = UrlParameter.Optional } // Parameter defaults
+            );
 
             // End på custom
 
