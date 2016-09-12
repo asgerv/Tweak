@@ -917,6 +917,7 @@
     <Content Include="css\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Images\Default.jpeg" />
+    <Content Include="Images\tweaklogo_new.png" />
     <Content Include="Installer\ManualSql\manualVersionOneSevenToOneEight.sql" />
     <Content Include="Scripts\admin\datetime-moment.js" />
     <Content Include="Scripts\admin\moment.min.js" />
