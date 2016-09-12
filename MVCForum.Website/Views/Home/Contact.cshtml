@@ -3,58 +3,62 @@
     ViewBag.Title = "Kontakt";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+@section Header{
+    <link href="~/Content/Tweak/Team.css" rel="stylesheet" />
+}
+<section class="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="col-lg-12">
+                    <h6 class="description">KONTAKT OS</h6>
+                    <div class="row pt-md">
+                        
+                        
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="InputName">Dit navn</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Indtast navn" required>
+                                    <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputEmail">Din email</label>
+                                <div class="input-group">
+                                    <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Indtast email" required>
+                                    <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputMessage">Besked</label>
+                                <div class="input-group">
+                                    <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
+                                    <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                            <input type="submit" name="submit" id="submit" value="Send" class="btn btn-info pull-right">
+                        </div>
 
 
+                        <hr class="featurette-divider hidden-lg">
+                        <div class="col-lg-5 col-md-push-1">
+                            <address>
+                                <p class="lead">
+                                    <b>Tweak.dk ApS</b><br />
+                                    <a href="https://goo.gl/maps/BthPe2XC5TF2">
+                                        Kronhjortløkken 156<br>
+                                        5210 Odense NV
+                                    </a><br>
+                                    CVR: 35514589
+                                </p>
+                            </address>
+                        </div>
 
-<h2>Kontakt os</h2>
-<div class="row">
-    @*<div class="col-md-12">
-            <small><i></i>Add alerts if form ok... success, else error.</i></small>
-            <div class="alert alert-success"><strong><span class="glyphicon glyphicon-send"></span> Success! Message sent. (If form ok!)</strong></div>
-            <div class="alert alert-danger"><span class="glyphicon glyphicon-alert"></span><strong> Error! Please check the inputs. (If form error!)</strong></div>
-        </div>*@
-    <form role="form" action="" method="post">
-        <div class="col-lg-6">
-            @*<div class="well well-sm"><strong><i class="glyphicon glyphicon-ok form-control-feedback"></i> Required Field</strong></div>*@
-            <div class="form-group">
-                <label for="InputName">Dit navn</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Indtast navn" required>
-                    <span class="input-group-addon"></span>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="InputEmail">Din email</label>
-                <div class="input-group">
-                    <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Indtast email" required>
-                    <span class="input-group-addon"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="InputMessage">Besked</label>
-                <div class="input-group">
-                    <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
-                    <span class="input-group-addon"></span>
-                </div>
-            </div>
-            <input type="submit" name="submit" id="submit" value="Send" class="btn btn-info pull-right">
         </div>
-    </form>
-    <hr class="featurette-divider hidden-lg">
-    <div class="col-lg-5 col-md-push-1">
-        <address>
-
-            <p class="lead">
-                <b>Tweak.dk ApS</b><br />
-                <a href="https://goo.gl/maps/BthPe2XC5TF2">
-                    Kronhjortløkken 156<br>
-                    5210 Odense NV
-                </a><br>
-                CVR: 35514589
-            </p>
-        </address>
     </div>
-</div>
-
-
+</section>
 
