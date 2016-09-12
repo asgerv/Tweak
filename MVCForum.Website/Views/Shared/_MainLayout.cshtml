@@ -81,8 +81,9 @@
                 <div class="collapse navbar-collapse" id="mvcforum-nav">
                     <ul class="nav navbar-nav navbar-left">
                         <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
-                        @*<li>@Html.ActionLink("Reviews", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Videoer", "Video", "Home")</li>*@
+                        <li>@*@Html.ActionLink("ok", "Index", "Home")*@</li>
+                            @Html.Action("_TagsElements", "Home")
+                        
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (!User.Identity.IsAuthenticated)

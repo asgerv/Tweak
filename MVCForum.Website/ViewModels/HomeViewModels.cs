@@ -5,6 +5,11 @@ using MVCForum.Website.Application.ActionFilterAttributes;
 
 namespace MVCForum.Website.ViewModels
 {
+    // tilføjelse #ændring
+    public class TagNavElementViewModel
+    {
+        public string Name { get; set; }
+    }
     public class ListCategoriesViewModels
     {
         public MembershipUser MembershipUser { get; set; }

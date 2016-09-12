@@ -1,0 +1,6 @@
+﻿@model IEnumerable<MVCForum.Website.ViewModels.TagNavElementViewModel>
+
+@foreach (var tag in Model)
+{
+    <li>@Html.ActionLink(tag.Name, "Index", "Home")</li>
+}
