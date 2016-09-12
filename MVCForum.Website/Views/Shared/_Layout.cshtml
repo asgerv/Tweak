@@ -32,6 +32,10 @@
     <link rel="shortcut icon" href="@Url.Content(theme.ThemePath + "/content/images/favicon.ico")">
     <link rel="apple-touch-icon-precomposed" href="@Url.Content(theme.ThemePath + "/content/images/apple-touch-icon-57-precomposed.png")">
     @Html.Partial("_JavaScript", theme)
+    @if (!Context.IsMobileDevice())
+    {
+        <script src="~/Themes/Tweak/Content/Scripts/general.js"></script>
+    }
     @RenderSection("Header", false)
     @if (!string.IsNullOrEmpty(Html.Settings().CustomHeaderCode))
     {
@@ -43,9 +47,15 @@
 
     <nav class="pushy pushy-left">
         <ul>
+            <li><a href="@Url.Action("Index", "Forum")">Forum</a></li>
+            @Html.Action("_TagsElements", "Home")
+            <li><a href="@Url.Action("Team", "Home")">Team</a></li>
+            <li><a href="@Url.Action("About", "Home")">Om</a></li>
+            <li><a href="@Url.Action("Contact", "Home")">Kontakt</a></li>
+
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.Action("SideAdminPanel", "Members", new { isDropDown = false })
+                @Html.Action("SideAdminPanel", "Members", new {isDropDown = false})
             }
             else
             {
