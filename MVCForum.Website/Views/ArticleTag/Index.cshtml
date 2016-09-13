@@ -1,8 +1,23 @@
-﻿
+﻿@model MVCForum.Website.ViewModels.ArticleSectionViewModel
 @{
-    ViewBag.Title = "Tag";
+    ViewBag.Title = Model.Header;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-
-<h2>Index</h2>
+@section Header{
+    <link href="~/Content/Tweak/Tag.css" rel="stylesheet" />
+}
+<section class="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h6 class="description">@Model.Header.ToUpper()</h6>
+                <div class="row pt-md">
+                    @{
+                        Html.RenderPartial("_ArticleSection", Model);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 

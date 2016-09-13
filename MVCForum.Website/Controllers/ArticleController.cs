@@ -7,9 +7,8 @@ using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Utilities;
 using MVCForum.Website.Application;
 using MVCForum.Website.ViewModels;
-//using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
 using RssItem = MVCForum.Domain.DomainModel.RssItem;
-using System.Collections.Generic;
+//using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
 
 namespace MVCForum.Website.Controllers
 {
@@ -24,7 +23,8 @@ namespace MVCForum.Website.Controllers
             IMembershipService membershipService,
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService,
             IArticleService articleService,
-            IArticleCommentService articleCommentService, IArticleTagService articleTagService, ICMSSettingsService cmsSettingsService)
+            IArticleCommentService articleCommentService, IArticleTagService articleTagService,
+            ICMSSettingsService cmsSettingsService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
@@ -34,144 +34,76 @@ namespace MVCForum.Website.Controllers
             _CMSSettingsService = cmsSettingsService;
         }
 
-        public ActionResult _ArticleMain()
-        {
-            var viewmodel = new ArticlesPreviewViewModel();
-            viewmodel.Articles = _articleService.GetNewest(4);
-
-            if (viewmodel.Articles.Count() < 4)
-                return new EmptyResult();
-            return PartialView(viewmodel);
-        }
-        public ActionResult _StickiesTag()
-        {
-            // 1. Skal få et articletag
-            // 2. List<Article> x = _articleService.GetByTag(...
-            CMSSettings settings = _CMSSettingsService.GetOrCreate();
-            IList<ArticlesPreviewViewModel> viewmodel = new List<ArticlesPreviewViewModel>();
-            ArticlesPreviewViewModel model = new ArticlesPreviewViewModel();
-            IList<ArticleTag> Tags = settings.StickyTags.Take(8).ToList();
-           
-            if(Tags != null)
-            foreach(var item in Tags)
-            {
-
-                model.Articles = item.Articles;
-                model.Tag = item.Name;
-                viewmodel.Add(model);
-                model = new ArticlesPreviewViewModel();
-
-
-            }
-
-            //using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
-            //{
-            //    try
-            //    {
-                 
-                   
-            //     }
-                
-            //    catch (Exception ex)
-            //    {
-            //        // Roll back database changes 
-            //        unitOfWork.Rollback();
-            //        // Log the error
-            //        LoggingService.Error(ex);
-
-            //        // Do what you want
-            //        return RedirectToAction("Index", "CMS");
-            //    }
-
-            //}
-
-            if(viewmodel.Any())
-                return PartialView("_StickiesTag", viewmodel);
-            else
-                return new EmptyResult();
-        }
-
         public ActionResult _LatestArticles()
         {
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                try
+                // Får artikler
+                var articles = _articleService.GetNewestPublished(4);
+                // Laver dem om til viewmodels
+                var articleSectionViewModel = new ArticleSectionViewModel
                 {
-                    // 1. Skal få et articletag
-                    // 2. List<Article> x = _articleService.GetByTag(...
-                   
-                    IList<ArticlesPreviewViewModel> viewmodel = new List<ArticlesPreviewViewModel>();
-                    ArticlesPreviewViewModel model = new ArticlesPreviewViewModel();
-                
-                
-                    
+                    Header = "Seneste artikler",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
+                    {
+                        Header = x.Header,
+                        Slug = x.Slug,
+                        PublishDate = x.PublishDate,
+                        Image = x.Image,
+                        UserName = x.User.UserName
+                    })
+                };
 
-                            model.Articles = _articleService.GetNewest(4);
-                            model.Tag = "Seneste Artikler";
-                            viewmodel.Add(model);
-                            model = new ArticlesPreviewViewModel();
-                            return PartialView("_StickiesTag", viewmodel);
-
-                        
-                }
-
-                catch (Exception ex)
-                {
-                    // Roll back database changes 
-                    unitOfWork.Rollback();
-                    // Log the error
-                    LoggingService.Error(ex);
-
-                    // Do what you want
-                    return new EmptyResult();
-                }
+                return PartialView("_ArticleSection", articleSectionViewModel);
             }
-            return new EmptyResult();
         }
-        public ActionResult _Stickies()
+
+        public ActionResult _ArticleMain()
         {
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                try
+                var settings = _CMSSettingsService.GetOrCreate();
+                if (settings.StickyArticle1 == null || settings.StickyArticle2 == null ||
+                    settings.StickyArticle3 == null || settings.StickyArticle4 == null)
+                    return new EmptyResult();
+                var articleMainViewModel = new ArticleMainViewModel
                 {
-                    var viewmodel = new ArticlesPreviewViewModel();
-                    CMSSettings settings = _CMSSettingsService.GetOrCreate();
-                    IList<Article> articles = new List<Article>();
-                    if(settings.StickyArticle1 != null && settings.StickyArticle2 != null && settings.StickyArticle3 != null && settings.StickyArticle4 != null)
-                        articles.Add(settings.StickyArticle1);
-                        articles.Add(settings.StickyArticle2);
-                        articles.Add(settings.StickyArticle3);
-                        articles.Add(settings.StickyArticle4);
-                        viewmodel.Articles = articles;
-                    if(viewmodel.Articles.Count() > 3)
-                        return PartialView("_ArticleMain", viewmodel);
+                    Article1 = new ArticleFrontpageViewModel
+                    {
+                        Header = settings.StickyArticle1.Header,
+                        Image = settings.StickyArticle1.Image,
+                        PublishDate = settings.StickyArticle1.PublishDate,
+                        Slug = settings.StickyArticle1.Slug,
+                        UserName = settings.StickyArticle1.User.UserName
+                    },
+                    Article2 = new ArticleFrontpageViewModel
+                    {
+                        Header = settings.StickyArticle2.Header,
+                        Image = settings.StickyArticle2.Image,
+                        PublishDate = settings.StickyArticle2.PublishDate,
+                        Slug = settings.StickyArticle2.Slug,
+                        UserName = settings.StickyArticle2.User.UserName
+                    },
+                    Article3 = new ArticleFrontpageViewModel
+                    {
+                        Header = settings.StickyArticle3.Header,
+                        Image = settings.StickyArticle3.Image,
+                        PublishDate = settings.StickyArticle3.PublishDate,
+                        Slug = settings.StickyArticle3.Slug,
+                        UserName = settings.StickyArticle3.User.UserName
+                    },
+                    Article4 = new ArticleFrontpageViewModel
+                    {
+                        Header = settings.StickyArticle4.Header,
+                        Image = settings.StickyArticle4.Image,
+                        PublishDate = settings.StickyArticle4.PublishDate,
+                        Slug = settings.StickyArticle4.Slug,
+                        UserName = settings.StickyArticle4.User.UserName
                     }
-                
-                catch (Exception ex)
-                {
-                    // Roll back database changes 
-                    unitOfWork.Rollback();
-                    // Log the error
-                    LoggingService.Error(ex);
-
-                    // Do what you want
-                    return new EmptyResult();
-                }
+                };
+                return PartialView("_ArticleMain", articleMainViewModel);
             }
-            return new EmptyResult();
-        }
-
-        public ActionResult _Article_Grid4x2(int? number)
-        {
-            // 1. Skal få et articletag
-            // 2. List<Article> x = _articleService.GetByTag(...
-            var viewmodel = new ArticlesPreviewViewModel();
-            viewmodel.Tag = "Chosen Tag";
-            viewmodel.Articles = _articleService.GetNewest(13);
-            if (viewmodel.Articles.Any())
-                return PartialView(viewmodel);
-            else
-                return new EmptyResult();
         }
 
         public ActionResult Show(string slug)
@@ -223,9 +155,8 @@ namespace MVCForum.Website.Controllers
             {
                 try
                 {
-                    IList<ArticleComment> comments = _articleCommentService.GetByArticle(article);
+                    var comments = _articleCommentService.GetByArticle(article);
                     return PartialView(comments);
-
                 }
                 catch (Exception ex)
                 {
@@ -239,12 +170,6 @@ namespace MVCForum.Website.Controllers
                 }
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
-        }
-
-        public ActionResult Category(string tag)
-        {
-
-            return new EmptyResult();
         }
 
         [HttpGet]
@@ -269,7 +194,7 @@ namespace MVCForum.Website.Controllers
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
                         unitOfWork.Commit();
-                        return RedirectToAction("Show", new { slug = newComment.Article.Slug });
+                        return RedirectToAction("Show", new {slug = newComment.Article.Slug});
                     }
                     catch (Exception ex)
                     {
@@ -292,23 +217,23 @@ namespace MVCForum.Website.Controllers
                 try
                 {
                     if (ModelState.IsValid)
-                {
-                    //try
-                    //{
+                    {
+                        //try
+                        //{
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         _articleCommentService.Delete(commentId);
                         article = _articleService.Get(ArticleId);
-                    unitOfWork.Commit();
-                        
-                        return RedirectToAction("Show", new { slug = article.Slug });
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    unitOfWork.Rollback();
-                    //    LoggingService.Error(ex);
-                    //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                    //}
-                }
+                        unitOfWork.Commit();
+
+                        return RedirectToAction("Show", new {slug = article.Slug});
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    unitOfWork.Rollback();
+                        //    LoggingService.Error(ex);
+                        //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        //}
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -366,12 +291,14 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("Show", new { id = comment.ArticleSlug });
+            return RedirectToAction("Show", new {id = comment.ArticleSlug});
         }
+
         public ActionResult Search()
         {
             return View();
         }
+
         public PartialViewResult _SearchArticles(string keyword)
         {
             using (UnitOfWorkManager.NewUnitOfWork())
@@ -379,12 +306,15 @@ namespace MVCForum.Website.Controllers
                 var articles = _articleService.Search(50, keyword);
                 var articleSearchVms = articles.Select(article => new ArticleSearchViewModel
                 {
-                    Slug = article.Slug, Header = article.Header, PublishDate = article.PublishDate, UserName = article.User.UserName
+                    Slug = article.Slug,
+                    Header = article.Header,
+                    PublishDate = article.PublishDate,
+                    UserName = article.User.UserName
                 });
                 return PartialView(articleSearchVms);
             }
-            
         }
+
         public ActionResult LatestRss()
         {
             var articles = _articleService.GetNewestPublished(50);

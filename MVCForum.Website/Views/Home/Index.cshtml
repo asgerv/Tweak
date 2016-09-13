@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleSectionViewModel>
+@{
     ViewBag.Title = "Tweak";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
@@ -7,12 +8,14 @@
 }
 
 
-@Html.Action("_Stickies", "Article")
+@Html.Action("_ArticleMain", "Article")
 <br />
 <br />
 <br />
 @Html.Action("_LatestArticles", "Article")
-<br />
-<br />
-<br />
-@Html.Action("_StickiesTag", "Article")
+
+@foreach (var section in Model)
+{
+    Html.RenderPartial("_ArticleSection", section);
+}
+

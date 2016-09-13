@@ -1,4 +1,5 @@
-﻿using MVCForum.Domain.DomainModel;
+﻿using System.Collections.Generic;
+using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.Activity;
 using MVCForum.Website.Application;
 using MVCForum.Website.Application.ActionFilterAttributes;
@@ -9,6 +10,12 @@ namespace MVCForum.Website.ViewModels
     public class TagNavElementViewModel
     {
         public string Name { get; set; }
+    }
+    // tilføjelse #ændring
+    public class TagPageViewModel
+    {
+        public string TagName { get; set; }
+        public IEnumerable<ArticleFrontpageViewModel> ArticleFrontpageViewModels { get; set; }
     }
     public class ListCategoriesViewModels
     {

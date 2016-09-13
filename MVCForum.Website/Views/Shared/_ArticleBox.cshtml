@@ -1,0 +1,21 @@
+﻿@model MVCForum.Website.ViewModels.ArticleFrontpageViewModel
+    
+<div class="col-md-3">
+    <a href="@Url.Action("Show", "Article", new { slug = Model.Slug })"> <img src="@Model.Image" class="img-responsive grid-image"></a>
+    <h2>@Model.Header</h2>
+    <p>
+        <span>For </span>
+        @{
+            var timeAgo = DateTime.Now - Model.PublishDate;
+        }
+        @if (timeAgo.Days > 0)
+        {
+            <span>@timeAgo.Days dage siden</span>
+        }
+        else
+        {
+            <span> @timeAgo.Hours timer siden</span>
+        }
+    </p>
+</div>
+

@@ -77,6 +77,7 @@ namespace MVCForum.Services
         {
             tag = StringUtils.SafePlainText(tag);
             var articleTag = _context.ArticleTag
+                .Include(x => x.Articles)
                 .FirstOrDefault(s => s.Name.Equals(tag, StringComparison.OrdinalIgnoreCase));
             return articleTag;
         }

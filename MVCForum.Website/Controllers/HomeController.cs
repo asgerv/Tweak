@@ -29,18 +29,24 @@ namespace MVCForum.Website.Controllers
         // GET: Home
         public ActionResult Index()
         {
-
-            return View();
-        }
-
-        public ActionResult Video()
-        {
-            return View();
-        }
-
-        public ActionResult Review()
-        {
-            return View();
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                var articleSectionViewModels =
+                    _CMSSettingsService.GetOrCreate().StickyTags.Select(x => new ArticleSectionViewModel
+                    {
+                        Header = x.Name,
+                        ShowHeader = true,
+                        ArticleFrontpageViewModels = x.Articles.Take(4).Select(a => new ArticleFrontpageViewModel
+                        {
+                            Header = a.Header,
+                            Image = a.Image,
+                            Slug = a.Slug,
+                            PublishDate = a.PublishDate,
+                            UserName = a.User.UserName
+                        })
+                    });
+                return View(articleSectionViewModels);
+            }
         }
         public ActionResult Team()
         {

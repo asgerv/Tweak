@@ -76,9 +76,9 @@ namespace MVCForum.Website
                 new { controller = "Home", action = "Contact" } // Parameter defaults
             );
             routes.MapRoute(
-                "searchUrl", // Route name
-                "search/{q}", // URL with parameters
-                new { controller = "Article", action = "Search", q = UrlParameter.Optional } // Parameter defaults
+                "articleTagUrls", // Route name
+                "tag/{tag}", // URL with parameters
+                new { controller = "ArticleTag", action = "Index", tag = UrlParameter.Optional } // Parameter defaults
             );
 
             // End på custom

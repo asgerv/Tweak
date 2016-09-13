@@ -15,6 +15,15 @@ namespace MVCForum.Website.ViewModels
         public DateTime PublishDate { get; set; }
         public string UserName { get; set; }
     }
+
+    public class ArticleFrontpageViewModel
+    {
+        public string Slug { get; set; }
+        public string Header { get; set; }
+        public DateTime PublishDate { get; set; }
+        public string UserName { get; set; }
+        public string Image { get; set; }
+    }
     public class CommentViewModel
     {
         [UIHint(AppConstants.EditorType), AllowHtml]
@@ -24,6 +33,20 @@ namespace MVCForum.Website.ViewModels
         public string ArticleSlug { get; set; }
         public Guid? CommentId { get; set; }
         public Guid? ArticleId { get; set; }
+    }
+    public class ArticleMainViewModel
+    {
+        public ArticleFrontpageViewModel Article1 { get; set; }
+        public ArticleFrontpageViewModel Article2 { get; set; }
+        public ArticleFrontpageViewModel Article3 { get; set; }
+        public ArticleFrontpageViewModel Article4 { get; set; }
+    }
+
+    public class ArticleSectionViewModel
+    {
+        public string Header { get; set; }
+        public bool ShowHeader { get; set; }
+        public IEnumerable<ArticleFrontpageViewModel> ArticleFrontpageViewModels { get; set; }
     }
 
 }

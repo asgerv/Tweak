@@ -110,11 +110,6 @@ namespace MVCForum.Website.ViewModels
     }
     public class StatisticsViewModel
     {
-    }
 
-    public class ArticlesPreviewViewModel
-    {
-        public string Tag { get; set; }
-        public IEnumerable<Article> Articles { get; set; }
     }
 }

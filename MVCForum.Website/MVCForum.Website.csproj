@@ -265,6 +265,7 @@
     <Compile Include="Areas\Admin\Controllers\BatchController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ArticleTagController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CMSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -908,11 +909,12 @@
     <Content Include="Content\Tweak\Search.min.css">
       <DependentUpon>Search.css</DependentUpon>
     </Content>
+    <Content Include="Content\Tweak\Tag.css" />
     <Content Include="Content\Tweak\Team.css" />
     <Content Include="Content\Tweak\_Comments.css" />
     <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\Tweak\Nyhed.css" />
-    <Content Include="Content\Tweak\_Article_Grid4x2.css" />
+    <Content Include="Content\Tweak\ArticleSection.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1655,16 +1657,12 @@
     <Content Include="Themes\Tweak\Content\Fonts\mvcforumsb.woff" />
     <Content Include="Views\Article\_SearchArticles.cshtml" />
     <Content Include="Views\Article\Search.cshtml" />
-    <Content Include="Views\Article\Category.cshtml" />
     <Content Include="Views\CMS\Articles.cshtml" />
     <Content Include="Views\CMS\Statistics.cshtml" />
     <Content Include="Views\CMS\GeneralSettings.cshtml" />
     <Content Include="Views\CMS\Tags.cshtml" />
     <Content Include="Views\CMS\FrontpageSettings.cshtml" />
     <Content Include="Views\Article\_ArticleMain.cshtml" />
-    <Content Include="Views\Article\_Article_Grid4x2.cshtml" />
-    <Content Include="Views\Home\Video.cshtml" />
-    <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorCMS.cshtml" />
     <Content Include="Views\CMS\EditArticle.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1676,10 +1674,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\CMS\FrontPageTags.cshtml" />
-    <Content Include="Views\Article\_StickiesTag.cshtml" />
     <Content Include="Views\Shared\customeditors\tinymceeditorForum.cshtml" />
     <Content Include="Views\ArticleTag\Index.cshtml" />
     <Content Include="Views\Home\_TagsElements.cshtml" />
+    <Content Include="Views\Shared\_ArticleBox.cshtml" />
+    <Content Include="Views\Shared\_ArticleSection.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

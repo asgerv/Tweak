@@ -1,0 +1,31 @@
+﻿@model MVCForum.Website.ViewModels.ArticleSectionViewModel
+<link href="~/Content/Tweak/ArticleSection.css" rel="stylesheet"/>
+<div class="dynamicHeightSection">
+    <div class="section">
+        <div class="container">
+            @if (Model.ShowHeader)
+            {
+                <h1 class="shentox">@Model.Header</h1>
+            }
+            <div class="row">
+                @foreach (var article in Model.ArticleFrontpageViewModels)
+            {
+                Html.RenderPartial("_ArticleBox", article);
+            }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var row = $('.dynamicHeightSection');
+    $.each(row, function () {
+        var maxh = 0;
+        $.each($(this).find('div[class^="col-"]'), function () {
+            if ($(this).height() > maxh)
+                maxh = $(this).height();
+        });
+        $.each($(this).find('div[class^="col-"]'), function () {
+            $(this).height(maxh);
+        });
+    });
+</script>

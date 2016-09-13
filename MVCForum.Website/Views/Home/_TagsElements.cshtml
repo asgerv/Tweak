@@ -2,5 +2,5 @@
 
 @foreach (var tag in Model)
 {
-    <li>@Html.ActionLink(tag.Name, "Index", "Home")</li>
+    <li>@Html.ActionLink(tag.Name, "Index", "ArticleTag", new { tag = tag.Name }, null)</li>
 }
