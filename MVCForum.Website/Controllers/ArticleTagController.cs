@@ -37,7 +37,7 @@ namespace MVCForum.Website.Controllers
             {
                 var articleTag = _articleTagService.Get(tag);
                 if (articleTag == null)
-                    return HttpNotFound();
+                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NothingToDisplay"));
 
                 var articles = articleTag.Articles.ToList();
                 if (!articles.Any())
