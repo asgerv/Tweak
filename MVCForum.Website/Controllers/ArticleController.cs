@@ -208,7 +208,7 @@ namespace MVCForum.Website.Controllers
                 }
             }
 
-            return View("home");
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // Mangler ikke permission da den tjekker logged on.
@@ -222,21 +222,25 @@ namespace MVCForum.Website.Controllers
                     if (ModelState.IsValid)
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        _articleCommentService.Delete(commentId);
-                        article = _articleService.Get(ArticleId);
-                        unitOfWork.Commit();
-                        return RedirectToAction("Show", new {slug = article.Slug});
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
+                        {
+                            _articleCommentService.Delete(commentId);
+                            article = _articleService.Get(ArticleId);
+                            unitOfWork.Commit();
+                            return RedirectToAction("Show", new { slug = article.Slug });
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    unitOfWork.Rollback();
-                    LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                }
             }
+                catch (Exception ex)
+            {
+                unitOfWork.Rollback();
+                LoggingService.Error(ex);
+                throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+            }
+        }
 
-            return View("home");
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         public ActionResult CommentEdit(Guid commentId)
@@ -246,18 +250,22 @@ namespace MVCForum.Website.Controllers
                 try
                 {
                     if (commentId == null)
-                        return RedirectToAction("Articles");
+                        return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     var comment = _articleCommentService.GetComment(commentId);
                     if (comment == null)
-                        return HttpNotFound();
-
-                    var vm = new CommentViewModel
+                        return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                    if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
                     {
-                        CommentBody = comment.CommentBody,
-                        CommentId = comment.Id,
-                        ArticleSlug = comment.Article.Slug
-                    };
-                    return View(vm);
+                        var vm = new CommentViewModel
+                        {
+                            CommentBody = comment.CommentBody,
+                            CommentId = comment.Id,
+                            ArticleSlug = comment.Article.Slug
+                        };
+                        return View(vm);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -265,7 +273,8 @@ namespace MVCForum.Website.Controllers
                     throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            }
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
 
         [HttpPost]
         public ActionResult CommentEdit(CommentViewModel comment)
@@ -276,17 +285,22 @@ namespace MVCForum.Website.Controllers
                 {
                     try
                     {
-                        // Henter comment fra Id fra viewmodel
-                        var Comment = _articleCommentService.GetComment(comment.CommentId);
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                        if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(comment.CommentId).User)
+                        {
+                            // Henter comment fra Id fra viewmodel
+                            var Comment = _articleCommentService.GetComment(comment.CommentId);
 
-                        // Overfører data
-                        Comment.CommentBody = comment.CommentBody;
+                            // Overfører data
+                            Comment.CommentBody = comment.CommentBody;
 
-                        _articleCommentService.Update(Comment);
+                            _articleCommentService.Update(Comment);
 
-                        // Commit
-                        unitOfWork.Commit();
-                        return RedirectToAction("Show", new { slug = comment.ArticleSlug });
+                            // Commit
+                            unitOfWork.Commit();
+                            return RedirectToAction("Show", new { slug = comment.ArticleSlug });
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -296,7 +310,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return HttpNotFound();
+            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         public ActionResult Search()
