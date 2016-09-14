@@ -30,8 +30,14 @@ namespace MVCForum.Services
             return _context.Article.Add(article);
         }
 
-        public Article AddNewArticle(string header, string description, string body, string image, bool isPublished,
-            DateTime publishdate, MembershipUser user)
+        public void PublishArticle(Article article)
+        {
+            if (article.IsPublished)
+                return;
+            article.IsPublished = true;
+            article.PublishDate = DateTime.Now;
+        }
+        public Article AddNewArticle(string header, string description, string body, string image, MembershipUser user)
         {
             var article = new Article
             {
@@ -40,11 +46,10 @@ namespace MVCForum.Services
                 Body = body,
                 User = user,
                 CreateDate = DateTime.Now,
-                PublishDate = publishdate,
-                IsPublished = isPublished,
                 Image = image,
                 Slug =
-                    ServiceHelpers.GenerateSlug(header, GetArticleBySlugLike(ServiceHelpers.CreateUrl(header)), null)
+                    ServiceHelpers.GenerateSlug(header, GetArticleBySlugLike(ServiceHelpers.CreateUrl(header)), null),
+                PublishDate = new DateTime(1800,1,1)
             };
             // Skal objektets lister muligvis initialiseres?
             return _context.Article.Add(article);
