@@ -38,24 +38,27 @@ namespace MVCForum.Website.Controllers
         {
             using (UnitOfWorkManager.NewUnitOfWork())
             {
-                // Får artikler
-                var articles = _articleService.GetNewestPublished(4);
-                // Laver dem om til viewmodels
-                var articleSectionViewModel = new ArticleSectionViewModel
-                {
-                    Header = "Seneste artikler",
-                    ShowHeader = true,
-                    ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
-                    {
-                        Header = x.Header,
-                        Slug = x.Slug,
-                        PublishDate = x.PublishDate,
-                        Image = x.Image,
-                        UserName = x.User.UserName
-                    })
-                };
 
-                return PartialView("_ArticleSection", articleSectionViewModel);
+
+                    // Får artikler
+                    var articles = _articleService.GetNewestPublished(4);
+                    // Laver dem om til viewmodels
+                    var articleSectionViewModel = new ArticleSectionViewModel
+                    {
+                        Header = "Seneste artikler",
+                        ShowHeader = true,
+                        ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
+                        {
+                            Header = x.Header,
+                            Slug = x.Slug,
+                            PublishDate = x.PublishDate,
+                            Image = x.Image,
+                            UserName = x.User.UserName
+                        })
+                    };
+
+                    return PartialView("_ArticleSection", articleSectionViewModel);
+                
             }
         }
 
@@ -208,7 +211,7 @@ namespace MVCForum.Website.Controllers
             return View("home");
         }
 
-
+        // Mangler ikke permission da den tjekker logged on.
         public ActionResult _CommentsDelete(Guid commentId, Guid ArticleId)
         {
             Article article;
@@ -218,21 +221,11 @@ namespace MVCForum.Website.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        //try
-                        //{
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         _articleCommentService.Delete(commentId);
                         article = _articleService.Get(ArticleId);
                         unitOfWork.Commit();
-
                         return RedirectToAction("Show", new {slug = article.Slug});
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    unitOfWork.Rollback();
-                        //    LoggingService.Error(ex);
-                        //    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
-                        //}
                     }
                 }
                 catch (Exception ex)
@@ -248,20 +241,31 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult CommentEdit(Guid commentId)
         {
-            if (commentId == null)
-                return RedirectToAction("Articles");
-            var comment = _articleCommentService.GetComment(commentId);
-            if (comment == null)
-                return HttpNotFound();
-
-            var vm = new CommentViewModel
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                CommentBody = comment.CommentBody,
-                CommentId = comment.Id,
-                ArticleSlug = comment.Article.Slug
-            };
-            return View(vm);
-        }
+                try
+                {
+                    if (commentId == null)
+                        return RedirectToAction("Articles");
+                    var comment = _articleCommentService.GetComment(commentId);
+                    if (comment == null)
+                        return HttpNotFound();
+
+                    var vm = new CommentViewModel
+                    {
+                        CommentBody = comment.CommentBody,
+                        CommentId = comment.Id,
+                        ArticleSlug = comment.Article.Slug
+                    };
+                    return View(vm);
+                }
+                catch (Exception ex)
+                {
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
+            }
 
         [HttpPost]
         public ActionResult CommentEdit(CommentViewModel comment)
@@ -282,6 +286,7 @@ namespace MVCForum.Website.Controllers
 
                         // Commit
                         unitOfWork.Commit();
+                        return RedirectToAction("Show", new { slug = comment.ArticleSlug });
                     }
                     catch (Exception ex)
                     {
@@ -291,7 +296,7 @@ namespace MVCForum.Website.Controllers
                     }
                 }
             }
-            return RedirectToAction("Show", new {id = comment.ArticleSlug});
+            return HttpNotFound();
         }
 
         public ActionResult Search()
