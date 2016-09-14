@@ -6,7 +6,7 @@
     <link href="~/Content/DataTables/css/select.dataTables.min.css" rel="stylesheet"/>
 }
 @{
-    ViewBag.Title = "CMS - Alle nyheder";
+    ViewBag.Title = "Artikler - Tweak CMS";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
 <div id="page-wrapper">
@@ -31,23 +31,25 @@
                             <thead>
                             <tr>
                                 <th>Titel</th>
-                                <th>Oprettet</th>
+                                <th>Publiceret</th>
                                 <th>Sidst ændret</th>
-                                <th>Skrevet af</th>
-                                <th>Kommentarer</th>
-                                <th>Aktiv</th>
-                                <th>Kontrol</th>
+                                <th><i class="fa fa-user fa-fw"></i> </th>
+                                <th><i class="fa fa-eye fa-fw"></i> </th>
+                                <th><i class="fa fa-comments fa-fw"></i> </th>
+                                <th><i class="fa fa-share-square-o fa-fw"></i> </th>
+                                <th><i class="fa fa-wrench fa-fw"></i> </th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Titel</th>
-                                <th>Oprettet</th>
+                                <th>Publiceret</th>
                                 <th>Sidst ændret</th>
-                                <th>Skrevet af</th>
-                                <th>Kommentarer</th>
-                                <th>Aktiv</th>
-                                <th>Kontrol</th>
+                                <th><i class="fa fa-user fa-fw"></i> </th>
+                                <th><i class="fa fa-eye fa-fw"></i> </th>
+                                <th><i class="fa fa-comments fa-fw"></i> </th>
+                                <th><i class="fa fa-share-square-o fa-fw"></i> </th>
+                                <th><i class="fa fa-wrench fa-fw"></i> </th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -55,16 +57,17 @@
                             {
                                 <tr>
                                     @{
-                                        var createDate = item.CreateDate.ToString("yyyy/MM/dd HH:mm");
+                                        var publishDate = item.PublishDate.ToString("yyyy/MM/dd HH:mm");
                                         // Sætter datemodified til createdate, hvis der ikke er nogen
-                                        var dateModified = item.DateModified.HasValue ? item.DateModified.Value.ToString("yyyy/MM/dd HH:mm") : createDate;
+                                        var dateModified = item.DateModified.HasValue ? item.DateModified.Value.ToString("yyyy/MM/dd HH:mm") : "-";
                                         // Sætter comments til 0 hvis der ikke er nogen
                                         var comments = item.Comments.Any() ? item.Comments.Count : 0;
                                     }
                                     <td>@Html.DisplayFor(modelItem => item.Header)</td>
-                                    <td>@createDate</td>
+                                    <td>@publishDate</td>
                                     <td>@dateModified</td>
                                     <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                                    <td>@item.Views</td>
                                     <td>@comments</td>
                                     <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
                                     <td>
@@ -113,12 +116,12 @@
                                 rows: ""
                             }
                         },
-                        // sorter efter dato som standard
+                        // sorter efter publish dato som standard
                         "order": [[1, "desc"]],
                         // Define
                         "columnDefs": [
-                            { "type": "string", "targets": 5 },
-                            { "width": "5%", "targets": [4, 5] }
+                            { "type": "string", "targets": 6 } // Define 6 som string (selvom det er en boolean)
+                            
                         ]
                     });
             });
