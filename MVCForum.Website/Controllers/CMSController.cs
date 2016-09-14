@@ -95,15 +95,20 @@ namespace MVCForum.Website.Controllers
                         var permissions = RoleService.GetPermissions(null, UsersRole);
                         if (permissions["Access CMS"].IsTicked)
                         {
-                            // Tjekker om der er permissions til at publish
-                            if (!permissions["Publish Articles"].IsTicked && vm.IsPublished)
-                                return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
-
                             var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                             var newArticle = _articleService.AddNewArticle(vm.Header,
-                                vm.Description, vm.Body, vm.Image, vm.IsPublished, DateTime.Now, loggedOnUser);
-                            // Gemmer article i database, så comments kan oprettes på den
+                                vm.Description, vm.Body, vm.Image, loggedOnUser);
+
+                            // Gemmer article i database, så tags kan oprettes på den
                             unitOfWork.SaveChanges();
+
+                            // Publish
+                            if (vm.IsPublished)
+                            {
+                                if (!permissions["Publish Articles"].IsTicked)
+                                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+                                _articleService.PublishArticle(newArticle);
+                            }
 
                             // Tilføj tags
                             if (vm.SelectedTags != null)
@@ -121,7 +126,7 @@ namespace MVCForum.Website.Controllers
                                 MessageType = GenericMessages.success
                             });
                             return RedirectToAction("Show", "Article", new { slug = newArticle.Slug });
-                        }
+                    }
                     }
                     catch (Exception ex)
                     {
@@ -193,17 +198,23 @@ namespace MVCForum.Website.Controllers
                         var permissions = RoleService.GetPermissions(null, UsersRole);
                         if (LoggedOnReadOnlyUser.Id == article.User.Id || permissions["Edit All Articles"].IsTicked)
                         {
-                            if (article.IsPublished != vm.IsPublished && !permissions["Publish Articles"].IsTicked)
+                            // Publish
+                            if (article.IsPublished != vm.IsPublished)
                             {
-                                return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+                                if (!permissions["Publish Articles"].IsTicked)
+                                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+                                if (vm.IsPublished)
+                                    _articleService.PublishArticle(article);
+                                else
+                                    article.IsPublished = false;
                             }
+
                             // Overfører data
                             article.Header = vm.Header;
                             article.Description = vm.Description;
                             article.Body = vm.Body;
                             article.DateModified = DateTime.Now;
                             article.Image = vm.Image;
-                            article.IsPublished = vm.IsPublished;
                             _articleService.Edit(article);
 
                             // Tilføj tags
