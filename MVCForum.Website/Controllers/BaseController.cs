@@ -125,6 +125,18 @@ namespace MVCForum.Website.Controllers
             // Not allowed in here so
             return RedirectToAction("Index", "Home");
         }
+
+        internal ActionResult ErrorToCMSDashboard(string errorMessage)
+        {
+            // Use temp data as its a redirect
+            TempData[AppConstants.MessageViewBagName] = new GenericMessageViewModel
+            {
+                Message = errorMessage,
+                MessageType = GenericMessages.danger
+            };
+            // Not allowed in here so
+            return RedirectToAction("Index", "CMS");
+        }
     }
 
     public class UserNotLoggedOnException : System.Exception
