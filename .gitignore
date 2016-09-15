@@ -50,9 +50,6 @@ MVCForum.Website/App_Data/cache/*
 MVCForum.Website/App_Data/LogFile*
 MVCForum.Website/App_Data/MVCForum.sdf
 # Selv tilføjet
-Tweak/.vs/config/applicationhost.config
-.vs/config/applicationhost.config
 .vs/
-.vs/*
 /MVCForum.Website/compilerconfig.json
 /MVCForum.Website/compilerconfig.json.defaults
