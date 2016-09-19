@@ -9,5 +9,5 @@ $("#keyword").keypress(function () {
     delay(function () {
         $("form").submit();
     },
-        1000);
+        700);
 });
