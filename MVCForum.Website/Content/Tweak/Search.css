@@ -1,30 +1,13 @@
-﻿#keyword {
-  border: none;
-  font-size: 48px;
-  line-height: 56px;
-  color: #000000; }
+﻿.team {
+  padding: 75px 0; }
 
-#searchResult {
-  flex: 1;
-  max-width: 640px;
-  overflow: auto; }
-
-.search-result {
-  list-style: none; }
-
-.search-result-title {
-  font-size: 23px; }
-  .search-result-title a {
-    color: darkgrey;
-    font-weight: 800; }
-    .search-result-title a:hover {
-      color: #ff0000;
-      text-decoration: none; }
-
-.search-result-undertext {
-  list-style: none; }
-  .search-result-undertext li {
-    float: left;
-    font-size: smaller;
-    color: darkgrey; }
+h6.description {
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #999;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 5px; }
+  h6.description input, h6.description :focus {
+    border: none;
+    outline: none; }
 

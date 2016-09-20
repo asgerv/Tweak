@@ -1633,7 +1633,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_CMSLayout.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
-    <Content Include="Views\CMS\Nyheder.cshtml" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <Content Include="Scripts\ckeditor\README.md" />
     <Content Include="Scripts\ckeditor\plugins\wsc\README.md" />

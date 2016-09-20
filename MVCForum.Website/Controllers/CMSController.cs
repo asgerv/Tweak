@@ -50,6 +50,7 @@ namespace MVCForum.Website.Controllers
                     return View(vm);
                 }
             }
+            // Ingen permission til CMS
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
@@ -74,9 +75,10 @@ namespace MVCForum.Website.Controllers
                 catch (Exception ex)
                 {
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
+            // Ingen permission til CMS
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
@@ -106,7 +108,16 @@ namespace MVCForum.Website.Controllers
                             if (vm.IsPublished)
                             {
                                 if (!permissions["Publish Articles"].IsTicked)
-                                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+                                {
+                                    ShowMessage(new GenericMessageViewModel
+                                    {
+                                        Message = "Ingen rettigheder til at publicere artikler.",
+                                        MessageType = GenericMessages.danger
+                                    });
+                                    vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                                    vm.SelectedTags = null;
+                                    return View(vm);
+                                }
                                 _articleService.PublishArticle(newArticle);
                             }
 
@@ -126,16 +137,24 @@ namespace MVCForum.Website.Controllers
                                 MessageType = GenericMessages.success
                             });
                             return RedirectToAction("Show", "Article", new { slug = newArticle.Slug });
-                    }
+                        }
                     }
                     catch (Exception ex)
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = LocalizationService.GetResourceString("Errors.GenericMessage"),
+                            MessageType = GenericMessages.danger
+                        });
+                        vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                        vm.SelectedTags = null;
+                        return View(vm);
                     }
                 }
             }
+            // Ingen permission til CMS
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
@@ -173,10 +192,11 @@ namespace MVCForum.Website.Controllers
                 catch (Exception ex)
                 {
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            // Ingen permission til Edit
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/editarticle/
@@ -202,7 +222,15 @@ namespace MVCForum.Website.Controllers
                             if (article.IsPublished != vm.IsPublished)
                             {
                                 if (!permissions["Publish Articles"].IsTicked)
-                                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+                                {
+                                    ShowMessage(new GenericMessageViewModel
+                                    {
+                                        Message = "Ingen rettigheder til at publicere artikler.",
+                                        MessageType = GenericMessages.danger
+                                    });
+                                    vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                                    return View(vm);
+                                }
                                 if (vm.IsPublished)
                                     _articleService.PublishArticle(article);
                                 else
@@ -239,11 +267,18 @@ namespace MVCForum.Website.Controllers
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = LocalizationService.GetResourceString("Errors.GenericMessage"),
+                            MessageType = GenericMessages.danger
+                        });
+                        vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                        return View(vm);
                     }
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            // Ingen permission til Edit
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/deletearticle/
@@ -265,11 +300,9 @@ namespace MVCForum.Website.Controllers
                     var permissions = RoleService.GetPermissions(null, UsersRole);
                     if (article.User.Id == LoggedOnReadOnlyUser.Id || permissions["Delete All Articles"].IsTicked)
                     {
-                        // Slet
+                        // Slet og Log
                         _articleService.Delete(article);
-
-                        // TODO: Vi skal have noget logging over hvem der har slettet artikler
-                        LoggingService.Error("Artikel slettet: " + article.Slug);
+                        LoggingService.Error(LoggedOnReadOnlyUser.UserName + "slettede artikel " + article.Slug);
 
                         // Commit
                         unitOfWork.Commit();
@@ -286,10 +319,11 @@ namespace MVCForum.Website.Controllers
                 {
                     unitOfWork.Rollback();
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            // Ingen permission til Delete
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/articles/
@@ -314,9 +348,10 @@ namespace MVCForum.Website.Controllers
                 catch (Exception ex)
                 {
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
+            // Ingen permission til CMS
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
@@ -336,7 +371,7 @@ namespace MVCForum.Website.Controllers
                     return View(vm);
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/statistics/
@@ -351,7 +386,7 @@ namespace MVCForum.Website.Controllers
                     return View();
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/frontpagesettings/
@@ -367,7 +402,7 @@ namespace MVCForum.Website.Controllers
                     return View(viewmodel);
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/setsticky/
@@ -427,10 +462,10 @@ namespace MVCForum.Website.Controllers
                 {
                     unitOfWork.Rollback();
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/frontpagetags/
@@ -459,7 +494,7 @@ namespace MVCForum.Website.Controllers
                     return View(vm);
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/setstickytag/
@@ -492,11 +527,11 @@ namespace MVCForum.Website.Controllers
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     }
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/removestickytag/
@@ -524,11 +559,11 @@ namespace MVCForum.Website.Controllers
                     {
                         unitOfWork.Rollback();
                         LoggingService.Error(ex);
-                        throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                        return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     }
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/generalsettings
@@ -543,7 +578,7 @@ namespace MVCForum.Website.Controllers
                     return View();
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // GET: /cms/tags/
@@ -595,10 +630,10 @@ namespace MVCForum.Website.Controllers
                 {
                     unitOfWork.Rollback();
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/undeletecomment/
@@ -635,10 +670,10 @@ namespace MVCForum.Website.Controllers
                 {
                     unitOfWork.Rollback();
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // POST: /cms/deletecomment/
@@ -674,10 +709,10 @@ namespace MVCForum.Website.Controllers
                 {
                     unitOfWork.Rollback();
                     LoggingService.Error(ex);
-                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         public string Upload(HttpPostedFileBase file)

@@ -67,7 +67,7 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var articleTags = _CMSSettingsService.GetOrCreate().StickyTags;
-                var tagNavElementViewModels = articleTags.Select(x => new TagNavElementViewModel {Name = x.Name});
+                var tagNavElementViewModels = articleTags.OrderByDescending(x => x.Articles.Count).Select(x => new TagNavElementViewModel {Name = x.Name});
                 return PartialView(tagNavElementViewModels);
             }
         }

@@ -323,14 +323,23 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var articles = _articleService.Search(50, keyword);
-                var articleSearchVms = articles.Select(article => new ArticleSearchViewModel
+                //var articleSearchVms = articles.Select(article => new ArticleSearchViewModel
+                //{
+                //    Slug = article.Slug,
+                //    Header = article.Header,
+                //    PublishDate = article.PublishDate,
+                //    UserName = article.User.UserName
+                //});
+                var articleSectionViewModel = new ArticleSectionViewModel
                 {
-                    Slug = article.Slug,
-                    Header = article.Header,
-                    PublishDate = article.PublishDate,
-                    UserName = article.User.UserName
-                });
-                return PartialView(articleSearchVms);
+                    ShowHeader = false,
+                    ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
+                    {
+                        Header = x.Header, Image = x.Image, PublishDate = x.PublishDate,
+                        Slug = x.Slug, UserName = x.User.UserName
+                    })
+                };
+                return PartialView("_ArticleSection", articleSectionViewModel);
             }
         }
 
