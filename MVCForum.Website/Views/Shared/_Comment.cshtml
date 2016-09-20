@@ -1,6 +1,6 @@
 ﻿@model MVCForum.Website.ViewModels.CommentViewModel
 
-<h1 id="InReplyToName">Kommenter</h1>
+<h1 class="description" id="InReplyToName">Kommenter</h1>
 @using (Html.BeginForm("_Comment", "Article"))
 {
     @Html.HiddenFor(Model => Model.InReplyTo, new { id = "InReplyTo" })

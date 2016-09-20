@@ -902,6 +902,7 @@
     <Content Include="Content\spectrum\spectrum.css" />
     <Content Include="Content\spectrum\spectrum.js" />
     <Content Include="Content\tinymce.css" />
+    <Content Include="Content\Tweak\Article.css" />
     <Content Include="Content\Tweak\Frontpage.css" />
     <Content Include="Content\Tweak\Search.css">
       <DependentUpon>Search.scss</DependentUpon>
@@ -909,6 +910,12 @@
     <Content Include="Content\Tweak\Search.min.css">
       <DependentUpon>Search.css</DependentUpon>
     </Content>
+    <Content Include="Content\Tweak\SocialMedia\animate.css" />
+    <Content Include="Content\Tweak\SocialMedia\socialIconsFont\creativeverse_social-codes.css" />
+    <Content Include="Content\Tweak\SocialMedia\socialIconsFont\creativeverse_social-embedded.css" />
+    <Content Include="Content\Tweak\SocialMedia\socialIconsFont\creativeverse_social-ie7-codes.css" />
+    <Content Include="Content\Tweak\SocialMedia\socialIconsFont\creativeverse_social-ie7.css" />
+    <Content Include="Content\Tweak\SocialMedia\socialMedia.css" />
     <Content Include="Content\Tweak\Tag.css" />
     <Content Include="Content\Tweak\Team.css" />
     <Content Include="Content\Tweak\_Comments.css" />

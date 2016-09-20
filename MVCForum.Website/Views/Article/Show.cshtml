@@ -8,52 +8,97 @@
 }
 
 
-    <div id="fb-root"></div>
-<script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+@section Header{
+
+    <link href="~/Content/Tweak/Article.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7-codes.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-codes.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-embedded.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/animate.css" rel="stylesheet" />
+
+}
+
+<div id="fb-root"></div>
+@*<script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>*@
+<SCRIPT language="JavaScript">
+
+
+    function newwindow() {
+        window.open('http://facebook.com/sharer.php?u=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=300,resizable=no');
+    }
+
+    function newwindow2() {
+        window.open('https://plus.google.com/share?url=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=450,resizable=no');
+    }
+
+    function newwindow3() {
+        window.open('https://twitter.com/share?url=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=450,resizable=no');
+    }
+
+</SCRIPT>
 
 
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div style="word-break:break-word">
-            <h1>@Html.DisplayFor(model => model.Header)</h1>
+
+            <h1 class="description">@Html.DisplayFor(model => model.Header)</h1>
             <p class="shentox">
                 Skrevet for
-                @if (timeAgo.Days > 0) {<span>@timeAgo.Days dage siden</span>}
-                else {<span> @timeAgo.Hours timer siden</span>}, af: @Html.DisplayFor(model => model.User.UserName)
-        </p>
-            <div class="fb-share-button" data-href="@Request.Url.AbsoluteUri" data-width="100px" data-type="box_count"></div>
+                @if (timeAgo.Days > 0)
+                {<span>@timeAgo.Days dage siden</span>}
+                else
+                {<span> @timeAgo.Hours timer siden</span>}, af: @Html.DisplayFor(model => model.User.UserName)
+            </p>
+            <img src="@Model.Image" class="img-responsive">
+            <br />
 
-     
+
+
 
             @Html.Raw(Model.Body)
 
-                    <br />
+            <br />
 
 
-              
+
+
+            <ul class="cv-social-media">
+                <a class="animated fadeIn" href="javascript:newwindow()"><li id="facebook" class="icon-facebook facebook"></li></a>
+                <a class="animated fadeIn" href="javascript:newwindow2()"><li id="gplus" class="icon-gplus"></li></a>
+                <a class="animated fadeIn" href="javascript:newwindow3()"><li id="twitter" class="icon-twitter"></li></a>
+            </ul>
+            <br />
+            @foreach (var Tag in Model.Tags)
+            {
+               <span>| </span> @Html.ActionLink("#" + @Tag.Name, "Index","ArticleTag",new { @tag = Tag.Name },new { @class = "Tag" });
+            }
+            |
+
             @Html.Action("_Comments", new { article = Model.Id })
 
-                        @if (User.Identity.IsAuthenticated)
-                        { Html.RenderAction("_Comment", Model); }
+            @if (User.Identity.IsAuthenticated)
+            { Html.RenderAction("_Comment", Model); }
 
-                    </div>
-    
-                </div>
-                <div class="col-md-3">
+        </div>
 
-                </div>
-            </div>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
 <br />
 <br />
 <br />
