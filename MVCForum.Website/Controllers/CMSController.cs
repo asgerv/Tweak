@@ -575,7 +575,10 @@ namespace MVCForum.Website.Controllers
                 var permissions = RoleService.GetPermissions(null, UsersRole);
                 if (permissions["Access CMS"].IsTicked)
                 {
-                    return View();
+                    var thisArticle = _articleService.Get(new Guid("d2162bfd-fc5b-43c2-b150-a68001276e8c"));
+                    var related = _articleService.GetRelated(thisArticle, 50);
+                    var mostpopular = _articleService.GetMostPopular(thisArticle.Id, 50, 100);
+                    return View(related);
                 }
             }
             return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));

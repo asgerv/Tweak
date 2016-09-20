@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IList<MVCForum.Domain.DomainModel.CMS.Article>
+@{
     ViewBag.Title = "Generelle indstillinger - Tweak CMS";
     Layout = "~/Views/Shared/_CMSLayout.cshtml";
 }
@@ -17,7 +18,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>Text her</p>
+                            <h2>Mest populære artikler</h2>
+                            @foreach (var article in Model)
+                            {
+                                <p>@article.Views - @article.Header</p>
+                            }
                         </div>
                         <!-- /.col-lg-6 (nested) -->
                     </div>

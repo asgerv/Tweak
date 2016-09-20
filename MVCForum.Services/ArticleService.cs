@@ -84,6 +84,67 @@ namespace MVCForum.Services
                 .FirstOrDefault(x => x.Slug == slug);
         }
 
+        public IList<Article> GetMostPopular(Guid? thisArticleId, int maxAgeInDays, int amountToTake)
+        {
+            var lastDate = DateTime.Now.AddDays(-maxAgeInDays);
+            return _context.Article
+                .Include(x => x.User)
+                .Include(x => x.Tags)
+                .Where(x => x.Id != thisArticleId)
+                .Where(x => x.IsPublished)
+                .Where(x => x.PublishDate >= lastDate)
+                .OrderByDescending(x => x.Views)
+                .Take(amountToTake)
+                .ToList();
+        }
+
+        public IList<Article> GetRelated(Article article, int amountToTake)
+        {
+            var ids = article.Tags.Select(t => t.Id).ToList();
+            var query = (from a in _context.Article
+                         where a.Id != article.Id
+                         let commonTags = a.Tags.Where(tag => ids.Contains(tag.Id))
+                         let commonCount = commonTags.Count()
+                         where commonCount > 0
+                         orderby commonCount descending
+                         select a).Take(amountToTake);
+            return query.ToList();
+        }
+
+        public IList<Article> GetNewest(int amountToTake)
+        {
+            return _context.Article
+                .OrderByDescending(x => x.CreateDate)
+                .Take(amountToTake)
+                .ToList();
+        }
+
+        public IList<Article> GetNewestPublished(int amountToTake)
+        {
+            return _context.Article
+                .OrderByDescending(x => x.PublishDate)
+                .Where(x => x.IsPublished)
+                .Take(amountToTake)
+                .ToList();
+        }
+
+        public IList<Article> GetByUser(Guid memberId, int amountToTake)
+        {
+            return _context.Article
+                .Include(x => x.User)
+                .Where(x => x.User.Id == memberId)
+                .Take(amountToTake)
+                .ToList();
+        }
+
+        public IList<Article> GetAllAllowed(Guid memberId)
+        {
+            return _context.Article
+                .Include(x => x.User)
+                .Where(x => x.User.Id == memberId || x.IsPublished)
+                .ToList();
+        }
+
         public IList<Article> Search(int amountToTake, string keyword)
         {
             var articles = _context.Article
@@ -106,41 +167,6 @@ namespace MVCForum.Services
         public int Count()
         {
             return _context.Article.Count();
-        }
-
-        public IList<Article> GetNewest(int amountToTake)
-        {
-            return _context.Article
-                .OrderByDescending(x => x.CreateDate)
-                .Take(amountToTake)
-                .ToList();
-        }
-
-        public IList<Article> GetNewestPublished(int amountToTake)
-        {
-            return _context.Article
-                .OrderByDescending(x => x.CreateDate)
-                .Where(x => x.IsPublished)
-                .Take(amountToTake)
-                .ToList();
-        }
-
-
-        public IList<Article> GetByUser(Guid memberId, int amountToTake)
-        {
-            return _context.Article
-                .Include(x => x.User)
-                .Where(x => x.User.Id == memberId)
-                .Take(amountToTake)
-                .ToList();
-        }
-
-        public IList<Article> GetAllAllowed(Guid memberId)
-        {
-            return _context.Article
-                .Include(x => x.User)
-                .Where(x => x.User.Id == memberId || x.IsPublished)
-                .ToList();
         }
 
         public void Edit(Article article)
