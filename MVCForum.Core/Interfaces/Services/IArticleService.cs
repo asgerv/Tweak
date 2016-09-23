@@ -9,7 +9,7 @@ namespace MVCForum.Domain.Interfaces.Services
     {
         Article Add(Article article);
         void PublishArticle(Article article);
-        Article AddNewArticle(string header, string description, string body, string image, MembershipUser user);
+        Article AddNewArticle(string header, string description, string body, string image, ArticleCategory category, MembershipUser user);
         bool Delete(Article article);
         IEnumerable<Article> GetAll();
         Article Get(Guid articleId);
@@ -22,7 +22,6 @@ namespace MVCForum.Domain.Interfaces.Services
         /// <param name="amountToTake"></param>
         /// <returns></returns>
         IList<Article> GetMostPopular(Guid? thisArticleId, int maxAgeInDays, int amountToTake);
-
         /// <summary>
         /// Returns a list of related articles, based on 
         /// and ordered by, the amount of ArticleTags in common
@@ -33,7 +32,7 @@ namespace MVCForum.Domain.Interfaces.Services
         IList<Article> GetRelated(Article article, int amountToTake);
         IList<Article> GetNewest(int amountToTake);
         IList<Article> GetNewestPublished(int amountToTake);
-        IList<Article> GetByUser(Guid memberId, int amountToTake); // Skal man bruge MemberShipUser?
+        IList<Article> GetByUser(Guid memberId, int amountToTake);
         IList<Article> GetAllAllowed(Guid memberId);
         IList<Article> Search(int amountToTake, string keyword);
         int Count();

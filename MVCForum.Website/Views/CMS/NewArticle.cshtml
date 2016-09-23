@@ -50,6 +50,13 @@
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    @* Category *@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Category, new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(m => m.Category, Model.AvailableCategories, new {style = "width:100%"})
+                                        </div>
+                                    </div>
                                     @* Tags *@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.SelectedTags, new { @class = "control-label col-md-2" })
@@ -123,6 +130,7 @@
                 tokenSeparators: [','],
                 placeholder: "Tilføj tags her"
             });
+        $('#Category').select2();
     </script>
 }
 }

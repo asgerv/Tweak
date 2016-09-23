@@ -223,7 +223,7 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         var permissions = RoleService.GetPermissions(null, UsersRole);
-                        if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
+                        if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
                         {
                             _articleCommentService.Delete(commentId);
                             article = _articleService.Get(ArticleId);
@@ -256,7 +256,7 @@ namespace MVCForum.Website.Controllers
                         return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     var permissions = RoleService.GetPermissions(null, UsersRole);
                     var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                    if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
+                    if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
                     {
                         var vm = new CommentViewModel
                         {
@@ -287,7 +287,7 @@ namespace MVCForum.Website.Controllers
                     {
                         var permissions = RoleService.GetPermissions(null, UsersRole);
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        if (permissions["Comment moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(comment.CommentId).User)
+                        if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(comment.CommentId).User)
                         {
                             // Henter comment fra Id fra viewmodel
                             var Comment = _articleCommentService.GetComment(comment.CommentId);

@@ -20,13 +20,22 @@ namespace MVCForum.Services.Data.Mapping
             Property(x => x.PublishDate).IsRequired();
             Property(x => x.Views).IsOptional();
 
-            Property(x => x.Slug).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index",
-                                   new IndexAnnotation(new IndexAttribute("IX_Article_Slug", 1) { IsUnique = true }));
+            Property(x => x.Slug)
+                .IsRequired()
+                .HasMaxLength(450)
+                .HasColumnAnnotation("Index",
+                    new IndexAnnotation(new IndexAttribute("IX_Article_Slug", 1) { IsUnique = true }));
 
             HasRequired(t => t.User)
                 .WithMany(t => t.Articles)
                 .Map(m => m.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete(false);
+
+            HasRequired(t => t.ArticleCategory)
+                .WithMany(t => t.Articles)
+                .Map(m => m.MapKey("ArticleCategory_Id"))
+                .WillCascadeOnDelete(false);
+
             HasMany(a => a.Comments)
                 .WithRequired(c => c.Article)
                 .Map(x => x.MapKey("Article_Id"));

@@ -325,7 +325,7 @@ namespace MVCForum.Services.Migrations
                     }
                     if (context.Permission.FirstOrDefault(x => x.Name == "Comment Moderation") == null)
                     {
-                        var p = new Permission { Name = "Comment moderation", IsGlobal = true };
+                        var p = new Permission { Name = "Comment Moderation", IsGlobal = true };
                         context.Permission.Add(p);
                     }
                     if (context.Permission.FirstOrDefault(x => x.Name == "View Statistics") == null)
@@ -333,9 +333,9 @@ namespace MVCForum.Services.Migrations
                         var p = new Permission { Name = "View Statistics", IsGlobal = true };
                         context.Permission.Add(p);
                     }
-                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit tags") == null)
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit Tags") == null)
                     {
-                        var p = new Permission { Name = "Edit tags", IsGlobal = true };
+                        var p = new Permission { Name = "Edit Tags", IsGlobal = true };
                         context.Permission.Add(p);
                     }
                     if (context.Permission.FirstOrDefault(x => x.Name == "Edit Frontpage") == null)

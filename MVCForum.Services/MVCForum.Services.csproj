@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArticleCommentService.cs" />
+    <Compile Include="ArticleCategoryService.cs" />
     <Compile Include="ArticleTagService.cs" />
     <Compile Include="ArticleService.cs" />
     <Compile Include="BadgeService.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Data\Context\MVCForumContext.cs" />
     <Compile Include="Data\Mapping\ActivityMapping.cs" />
     <Compile Include="Data\Mapping\ArticleCommentMapping.cs" />
+    <Compile Include="Data\Mapping\ArticleCategoryMapping.cs" />
     <Compile Include="Data\Mapping\ArticleMapping.cs" />
     <Compile Include="Data\Mapping\ArticleTagMapping.cs" />
     <Compile Include="Data\Mapping\BadgeMapping.cs" />

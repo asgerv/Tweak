@@ -9,6 +9,7 @@ using MVCForum.Website.Areas.Admin.ViewModels;
 using MVCForum.Website.ViewModels;
 using System.Collections.Generic;
 using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 
 namespace MVCForum.Website.Controllers
 {
@@ -18,12 +19,13 @@ namespace MVCForum.Website.Controllers
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
         private readonly ICMSSettingsService _CMSSettingsService;
+        private readonly IArticleCategoryService _articleCategoryService;
 
         public CMSController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, IArticleService articleService,
             IArticleCommentService articleCommentService, IArticleTagService articleTagService,
-            ICMSSettingsService cmsSettingsService)
+            ICMSSettingsService cmsSettingsService, IArticleCategoryService articleCategoryService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
@@ -31,6 +33,7 @@ namespace MVCForum.Website.Controllers
             _articleCommentService = articleCommentService;
             _articleTagService = articleTagService;
             _CMSSettingsService = cmsSettingsService;
+            _articleCategoryService = articleCategoryService;
         }
 
         // GET: /cms/
@@ -68,6 +71,7 @@ namespace MVCForum.Website.Controllers
                         var vm = new AddArticleViewModel
                         {
                             AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name)),
+                            AvailableCategories = CategoriesToSelectListItems(_articleCategoryService.GetAll())
                         };
                         return View(vm);
                     }
@@ -98,8 +102,9 @@ namespace MVCForum.Website.Controllers
                         if (permissions["Access CMS"].IsTicked)
                         {
                             var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
+                            var category = _articleCategoryService.Get(vm.Category);
                             var newArticle = _articleService.AddNewArticle(vm.Header,
-                                vm.Description, vm.Body, vm.Image, loggedOnUser);
+                                vm.Description, vm.Body, vm.Image, category, loggedOnUser);
 
                             // Gemmer article i database, så tags kan oprettes på den
                             unitOfWork.SaveChanges();
@@ -115,6 +120,8 @@ namespace MVCForum.Website.Controllers
                                         MessageType = GenericMessages.danger
                                     });
                                     vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                                    vm.AvailableCategories =
+                                        CategoriesToSelectListItems(_articleCategoryService.GetAll());
                                     vm.SelectedTags = null;
                                     return View(vm);
                                 }
@@ -149,6 +156,7 @@ namespace MVCForum.Website.Controllers
                             MessageType = GenericMessages.danger
                         });
                         vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                        vm.AvailableCategories = CategoriesToSelectListItems(_articleCategoryService.GetAll());
                         vm.SelectedTags = null;
                         return View(vm);
                     }
@@ -183,9 +191,13 @@ namespace MVCForum.Website.Controllers
                             Body = article.Body,
                             Image = article.Image,
                             IsPublished = article.IsPublished,
+                            AvailableCategories = CategoriesToSelectListItems(_articleCategoryService.GetAll()),
                             AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name)),
                             SelectedTags = article.Tags.Select(x => x.Name)
                         };
+                        var listItem = editArticleViewModel.AvailableCategories.FirstOrDefault(x => x.Value == article.ArticleCategory.Slug);
+                        if (listItem != null)
+                            listItem.Selected = true;
                         return View(editArticleViewModel);
                     }
                 }
@@ -229,6 +241,7 @@ namespace MVCForum.Website.Controllers
                                         MessageType = GenericMessages.danger
                                     });
                                     vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                                    vm.AvailableCategories = CategoriesToSelectListItems(_articleCategoryService.GetAll());
                                     return View(vm);
                                 }
                                 if (vm.IsPublished)
@@ -238,11 +251,14 @@ namespace MVCForum.Website.Controllers
                             }
 
                             // Overfører data
+                            var category = _articleCategoryService.Get(vm.Category);
+                            article.ArticleCategory = category;
                             article.Header = vm.Header;
                             article.Description = vm.Description;
                             article.Body = vm.Body;
                             article.DateModified = DateTime.Now;
                             article.Image = vm.Image;
+                            
                             _articleService.Edit(article);
 
                             // Tilføj tags
@@ -273,6 +289,7 @@ namespace MVCForum.Website.Controllers
                             MessageType = GenericMessages.danger
                         });
                         vm.AvailableTags = new SelectList(_articleTagService.GetAll().Select(x => x.Name));
+                        vm.AvailableCategories = CategoriesToSelectListItems(_articleCategoryService.GetAll());
                         return View(vm);
                     }
                 }
@@ -362,7 +379,7 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var permissions = RoleService.GetPermissions(null, UsersRole);
-                if (permissions["Access CMS"].IsTicked && permissions["Comment moderation"].IsTicked)
+                if (permissions["Access CMS"].IsTicked && permissions["Comment Moderation"].IsTicked)
                 {
                     var vm = new CommentsViewModel
                     {
@@ -386,6 +403,232 @@ namespace MVCForum.Website.Controllers
                     return View();
                 }
             }
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // GET: /cms/section/
+        [Authorize]
+        public ActionResult Section(ArticleSection section)
+        {
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                var permissions = RoleService.GetPermissions(null, UsersRole);
+                if (permissions["Access CMS"].IsTicked) // add ny permission
+                {
+                    var articles = _articleCategoryService.GetAllBySection(section);
+                    ViewBag.SectionName = section;
+                    return View(articles);
+                }
+            }
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // GET: /cms/newcategory/
+        [Authorize]
+        public ActionResult NewCategory()
+        {
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                var permissions = RoleService.GetPermissions(null, UsersRole);
+                if (permissions["Access CMS"].IsTicked) // add ny permission
+                {
+                    var vm = new AddCategoryViewModel
+                    {
+                        SortOrder = 1,
+                        AvailableSections = new SelectList(new List<ArticleSection> { ArticleSection.Nyhed, ArticleSection.Video, ArticleSection.Test })
+                    };
+                    return View(vm);
+                }
+            }
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // POST: /cms/newcategory/
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewCategory(AddCategoryViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+                {
+                    try
+                    {
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        if (permissions["Access CMS"].IsTicked) // add ny permission
+                        {
+                            var category = _articleCategoryService.Add(vm.Name, vm.Description, vm.SortOrder, vm.Section);
+                            unitOfWork.Commit();
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Kategorien blev oprettet.",
+                                MessageType = GenericMessages.success
+                            });
+                            return RedirectToAction("Section", "CMS", new { section = category.ArticleSection });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = LocalizationService.GetResourceString("Errors.GenericMessage"),
+                            MessageType = GenericMessages.danger
+                        });
+                        return View(vm);
+                    }
+                }
+            }
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // GET: /cms/editcategory/
+        [Authorize]
+        public ActionResult EditCategory(string slug)
+        {
+            if (slug == null)
+                return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
+            using (UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    var category = _articleCategoryService.Get(slug);
+                    if (category == null)
+                        return HttpNotFound();
+
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    if (permissions["Access CMS"].IsTicked)
+                    {
+                        var vm = new EditCategoryViewModel
+                        {
+                            Slug = category.Slug,
+                            Name = category.Name,
+                            Description = category.Description,
+                            SortOrder = category.SortOrder,
+                            Section = category.ArticleSection,
+                            AvailableSections = new SelectList(new List<ArticleSection> { ArticleSection.Nyhed, ArticleSection.Video, ArticleSection.Test })
+                        };
+                        return View(vm);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LoggingService.Error(ex);
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
+            // Ingen permission til Edit
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // POST: /cms/editcategory/
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCategory(EditCategoryViewModel vm)
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var category = _articleCategoryService.Get(vm.Slug);
+
+                        var permissions = RoleService.GetPermissions(null, UsersRole);
+                        if (permissions["Access CMS"].IsTicked)
+                        {
+                            // Overfører data
+                            category.Name = vm.Name;
+                            category.Description = vm.Description;
+                            category.SortOrder = vm.SortOrder;
+                            category.ArticleSection = vm.Section;
+
+                            _articleCategoryService.Edit(category);
+
+                            // Commit
+                            unitOfWork.Commit();
+
+                            ShowMessage(new GenericMessageViewModel
+                            {
+                                Message = "Kategorien blev redigeret.",
+                                MessageType = GenericMessages.success
+                            });
+                            return RedirectToAction("Section", "CMS", new { section = category.ArticleSection });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        unitOfWork.Rollback();
+                        LoggingService.Error(ex);
+
+                        // Fejl besked
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = LocalizationService.GetResourceString("Errors.GenericMessage"),
+                            MessageType = GenericMessages.danger
+                        });
+
+                        // Sætter AvailableSections ind igen
+                        vm.AvailableSections =
+                            new SelectList(new List<ArticleSection>
+                            {
+                                ArticleSection.Nyhed,
+                                ArticleSection.Video,
+                                ArticleSection.Test
+                            });
+
+                        return View(vm);
+                    }
+                }
+            }
+            // Ingen permission til Edit
+            return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
+        }
+
+        // POST: /cms/deletecategory/
+        [Authorize]
+        public ActionResult DeleteCategory(string slug)
+        {
+            if (slug == null)
+                return RedirectToAction("Index");
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                try
+                {
+                    // Get
+                    var category = _articleCategoryService.Get(slug);
+                    if (category == null)
+                        return HttpNotFound();
+
+                    var permissions = RoleService.GetPermissions(null, UsersRole);
+                    if (permissions["Access CMS"].IsTicked)
+                    {
+                        // Slet 
+                        _articleCategoryService.Delete(category);
+
+                        // Commit
+                        unitOfWork.Commit();
+
+                        ShowMessage(new GenericMessageViewModel
+                        {
+                            Message = "Kategorien blev slettet.",
+                            MessageType = GenericMessages.success
+                        });
+                        return RedirectToAction("Section", new { section = category.ArticleSection });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
+            }
+            // Ingen permission til Delete
             return ErrorToCMSDashboard(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
@@ -611,7 +854,7 @@ namespace MVCForum.Website.Controllers
                 try
                 {
                     var permissions = RoleService.GetPermissions(null, UsersRole);
-                    if (permissions["Edit tags"].IsTicked)
+                    if (permissions["Edit Tags"].IsTicked)
                     {
                         var articleTag = _articleTagService.Get(id.Value);
                         if (articleTag == null)
@@ -745,5 +988,35 @@ namespace MVCForum.Website.Controllers
             return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename +
                    "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
+
+        #region Helpers
+
+        public List<SelectListItem> CategoriesToSelectListItems(IEnumerable<ArticleCategory> categories)
+        {
+            var items = new List<SelectListItem>();
+            var nyhedGroup = new SelectListGroup { Name = "Nyhed" };
+            var videoGroup = new SelectListGroup { Name = "Video" };
+            var testGroup = new SelectListGroup { Name = "Test" };
+
+            foreach (var category in categories)
+            {
+                var item = new SelectListItem
+                {
+                    Text = category.Name,
+                    Value = category.Slug
+                };
+                if (category.ArticleSection == ArticleSection.Nyhed)
+                    item.Group = nyhedGroup;
+                if (category.ArticleSection == ArticleSection.Video)
+                    item.Group = videoGroup;
+                if (category.ArticleSection == ArticleSection.Test)
+                    item.Group = testGroup;
+                items.Add(item);
+            }
+            return items;
+        }
+
+        #endregion
+
     }
 }

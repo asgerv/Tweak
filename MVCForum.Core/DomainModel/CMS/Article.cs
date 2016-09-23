@@ -27,6 +27,7 @@ namespace MVCForum.Domain.DomainModel.CMS
         public int Views { get; set; }
         public bool IsPublished { get; set; }
         public virtual MembershipUser User { get; set; }
+        public virtual ArticleCategory ArticleCategory { get; set; }
         public virtual IList<ArticleTag> Tags { get; set; }
         public virtual IList<ArticleComment> Comments { get; set; }
     }

@@ -59,6 +59,7 @@ namespace MVCForum.Services.Data.Context
         public DbSet<ArticleComment> ArticleComment { get; set; }
         public DbSet<ArticleTag> ArticleTag { get; set; }
         public DbSet<CMSSettings> CMSSetting { get; set; }
+        public DbSet<ArticleCategory> ArticleCategory { get; set; }
 
         public override int SaveChanges()
         {

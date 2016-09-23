@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MVCForum.Domain.DomainModel.Enums
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -80,6 +81,24 @@
                             <a href="@Url.Action("Tags", "CMS")"><i class="fa fa-tags fa-fw"></i> Tags</a>
                         </li>
                         <li>
+                            <a href="#"><i class="fa fa-folder-open-o fa-fw"></i> Kategorier<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("NewCategory", "CMS")">Opret kategori</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Section", "CMS", new {section = ArticleSection.Nyhed})">Nyhed</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Section", "CMS", new {section = ArticleSection.Video})">Video</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Section", "CMS", new {section = ArticleSection.Test})">Test</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Indstillinger<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -105,10 +124,6 @@
             @RenderBody()
         </div>
     </div>
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Tweak.dk</p>
-    </footer>
     @*<script src="~/Scripts/jquery-1.11.3.min.js"></script>*@
     <script src="~/Scripts/jquery-3.1.0.min.js"></script>
     <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>

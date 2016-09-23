@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MVCForum.Domain.DomainModel.CMS.CMSSettings">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAAAAAEAAAAAAAAAQAAIAAAAAAAAAAAAAI=</HashCode>
+      <FileName>DomainModel\CMS\CMSSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCForum.Domain.DomainModel.CMS.ArticleTag">
+    <Position X="8" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DomainModel\CMS\ArticleTag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCForum.Domain.DomainModel.CMS.ArticleComment">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgADAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAEAQAAAAA=</HashCode>
+      <FileName>DomainModel\CMS\ArticleComment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCForum.Domain.DomainModel.CMS.ArticleCategory">
+    <Position X="4.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBAAIAAAgACAAAAAAAAQAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>DomainModel\CMS\ArticleCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCForum.Domain.DomainModel.CMS.Article">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgADAAAAAAAgAAAACAAJAAQAAAAAAFAAAAABABQAIAA=</HashCode>
+      <FileName>DomainModel\CMS\Article.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="MVCForum.Domain.DomainModel.Enums.ArticleSection">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAACAAAAAg=</HashCode>
+      <FileName>DomainModel\Enums\ArticleSections.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

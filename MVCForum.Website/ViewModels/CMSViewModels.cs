@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 
 namespace MVCForum.Website.ViewModels
 {
@@ -58,6 +59,10 @@ namespace MVCForum.Website.ViewModels
         public IEnumerable<string> SelectedTags { get; set; }
 
         public IEnumerable<SelectListItem> AvailableTags { get; set; }
+
+        [Display(Name = "Kategori")]
+        public string Category { get; set; }
+        public List<SelectListItem> AvailableCategories { get; set; }
     }
 
     public class EditArticleViewModel
@@ -85,6 +90,10 @@ namespace MVCForum.Website.ViewModels
         [Display(Name = "Tags")]
         public IEnumerable<string> SelectedTags { get; set; }
         public IEnumerable<SelectListItem> AvailableTags { get; set; }
+
+        [Display(Name = "Kategori")]
+        public string Category { get; set; }
+        public List<SelectListItem> AvailableCategories { get; set; }
     }
 
     public class ArticlesViewModel
@@ -102,7 +111,8 @@ namespace MVCForum.Website.ViewModels
         public List<ArticleTag> ArticleTags { get; set; }
     }
 
-    public class ArticleTagViewModel{
+    public class ArticleTagViewModel
+    {
         public Guid id { get; set; }
         public string Name { get; set; }
         public int ArticleCount { get; set; }
@@ -111,5 +121,43 @@ namespace MVCForum.Website.ViewModels
     public class StatisticsViewModel
     {
 
+    }
+
+    public class AddCategoryViewModel
+    {
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Navn")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Beskrivelse")]
+        public string Description { get; set; }
+        [Required]
+        [Range(1,100, ErrorMessage = "Vælg et tal mellem 0 og 100.")]
+        [Display(Name = "Sortering")]
+        public int SortOrder { get; set; }
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Sektion")]
+        public ArticleSection Section { get; set; }
+
+        public IEnumerable<SelectListItem> AvailableSections { get; set; }
+    }
+    public class EditCategoryViewModel
+    {
+        public string Slug { get; set; }
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Navn")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Beskrivelse")]
+        public string Description { get; set; }
+        [Required]
+        [Range(1, 100, ErrorMessage = "Vælg et tal mellem 0 og 100.")]
+        [Display(Name = "Sortering")]
+        public int SortOrder { get; set; }
+        [Required(ErrorMessage = "Dette felt er krævet.")]
+        [Display(Name = "Sektion")]
+        public ArticleSection Section { get; set; }
+
+        public IEnumerable<SelectListItem> AvailableSections { get; set; }
     }
 }
