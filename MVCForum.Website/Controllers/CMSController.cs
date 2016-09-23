@@ -10,6 +10,7 @@ using MVCForum.Website.ViewModels;
 using System.Collections.Generic;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.DomainModel.Enums;
+using DoksoftUploaderLibrary;
 
 namespace MVCForum.Website.Controllers
 {
@@ -1018,5 +1019,13 @@ namespace MVCForum.Website.Controllers
 
         #endregion
 
+
+        #region Uploader
+        public void DoksoftUploader()
+        {
+            UploaderHandler uploadHandler = new UploaderHandler();
+            uploadHandler.ProcessRequest(System.Web.HttpContext.Current);
+        }
+        #endregion
     }
 }
