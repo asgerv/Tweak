@@ -70,7 +70,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DoksoftUploaderLibrary">
-      <HintPath>..\..\..\..\Desktop\New folder\doksoft_uploader_asp.net\DoksoftUploaderLibrary.dll</HintPath>
+      <HintPath>..\Externals\DoksoftUploaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="EcmaScript.NET, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
