@@ -88,9 +88,12 @@
 
                 <div class="collapse navbar-collapse" id="mvcforum-nav">
                     <ul class="nav navbar-nav navbar-left">
+                        <li>@Html.ActionLink("Nyheder", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Video", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Test", "Index", "Home")</li>
                         <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
 
-                        @Html.Action("_TagsElements", "Home")
+                        @*@Html.Action("_TagsElements", "Home")*@
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
