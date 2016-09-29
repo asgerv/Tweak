@@ -359,7 +359,7 @@ namespace MVCForum.Website.Controllers
 
                         viewmodel.Articles = permissions["Edit All Articles"].IsTicked
                             ? _articleService.GetAll()
-                            : _articleService.GetAllAllowed(LoggedOnReadOnlyUser.Id);
+                            : _articleService.GetByUserAndPublished(LoggedOnReadOnlyUser.Id);
                         return View(viewmodel);
                     }
                 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVCForum.Domain.DomainModel.Enums;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Website.ViewModels;
@@ -31,20 +33,54 @@ namespace MVCForum.Website.Controllers
         {
             using (UnitOfWorkManager.NewUnitOfWork())
             {
-                var articleSectionViewModels =
-                    _CMSSettingsService.GetOrCreate().StickyTags.Select(x => new ArticleSectionViewModel
-                    {
-                        Header = x.Name,
-                        ShowHeader = true,
-                        ArticleFrontpageViewModels = x.Articles.Take(4).Select(a => new ArticleFrontpageViewModel
-                        {
-                            Header = a.Header,
-                            Image = a.Image,
-                            Slug = a.Slug,
-                            PublishDate = a.PublishDate,
-                            UserName = a.User.UserName
-                        })
-                    });
+                // 
+
+                var articleSectionViewModels = new List<ArticleSectionViewModel>();
+                articleSectionViewModels.Add(new ArticleSectionViewModel
+                {
+                    Header = "Nyhed",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Nyhed)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                });
+                articleSectionViewModels.Add(new ArticleSectionViewModel
+                {
+                    Header = "Video",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Video)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                });
+                articleSectionViewModels.Add(new ArticleSectionViewModel
+                {
+                    Header = "Test",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Test)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                });
                 return View(articleSectionViewModels);
             }
         }
@@ -67,7 +103,7 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var articleTags = _CMSSettingsService.GetOrCreate().StickyTags;
-                var tagNavElementViewModels = articleTags.OrderByDescending(x => x.Articles.Count).Select(x => new TagNavElementViewModel {Name = x.Name});
+                var tagNavElementViewModels = articleTags.OrderByDescending(x => x.Articles.Count).Select(x => new TagNavElementViewModel { Name = x.Name });
                 return PartialView(tagNavElementViewModels);
             }
         }

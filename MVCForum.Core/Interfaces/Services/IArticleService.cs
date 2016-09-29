@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 
 namespace MVCForum.Domain.Interfaces.Services
 {
@@ -32,8 +33,10 @@ namespace MVCForum.Domain.Interfaces.Services
         IList<Article> GetRelated(Article article, int amountToTake);
         IList<Article> GetNewest(int amountToTake);
         IList<Article> GetNewestPublished(int amountToTake);
+        IList<Article> GetNewestPublished(int amountToTake, ArticleSection section);
+        IList<Article> GetNewestPublished(int amountToTake, Guid categoryId);
         IList<Article> GetByUser(Guid memberId, int amountToTake);
-        IList<Article> GetAllAllowed(Guid memberId);
+        IList<Article> GetByUserAndPublished(Guid memberId);
         IList<Article> Search(int amountToTake, string keyword);
         int Count();
         void Edit(Article article);

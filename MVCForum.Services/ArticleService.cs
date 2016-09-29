@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 using MVCForum.Domain.Interfaces;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Services.Data.Context;
@@ -128,6 +129,24 @@ namespace MVCForum.Services
                 .Take(amountToTake)
                 .ToList();
         }
+        public IList<Article> GetNewestPublished(int amountToTake, ArticleSection section)
+        {
+            return _context.Article
+                .OrderByDescending(x => x.PublishDate)
+                .Where(x => x.IsPublished)
+                .Where(x => x.ArticleCategory.ArticleSection == section)
+                .Take(amountToTake)
+                .ToList();
+        }
+        public IList<Article> GetNewestPublished(int amountToTake, Guid categoryId)
+        {
+            return _context.Article
+                .OrderByDescending(x => x.PublishDate)
+                .Where(x => x.IsPublished)
+                .Where(x => x.ArticleCategory.Id == categoryId)
+                .Take(amountToTake)
+                .ToList();
+        }
 
         public IList<Article> GetByUser(Guid memberId, int amountToTake)
         {
@@ -138,7 +157,7 @@ namespace MVCForum.Services
                 .ToList();
         }
 
-        public IList<Article> GetAllAllowed(Guid memberId)
+        public IList<Article> GetByUserAndPublished(Guid memberId)
         {
             return _context.Article
                 .Include(x => x.User)

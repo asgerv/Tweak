@@ -33,6 +33,7 @@
                                 <th>Titel</th>
                                 <th>Publiceret</th>
                                 <th>Sidst ændret</th>
+                                <th>Kategori</th>
                                 <th><i class="fa fa-user fa-fw"></i> </th>
                                 <th><i class="fa fa-eye fa-fw"></i> </th>
                                 <th><i class="fa fa-comments fa-fw"></i> </th>
@@ -45,6 +46,7 @@
                                 <th>Titel</th>
                                 <th>Publiceret</th>
                                 <th>Sidst ændret</th>
+                                <th>Kategori</th>
                                 <th><i class="fa fa-user fa-fw"></i> </th>
                                 <th><i class="fa fa-eye fa-fw"></i> </th>
                                 <th><i class="fa fa-comments fa-fw"></i> </th>
@@ -63,10 +65,11 @@
                                         // Sætter comments til 0 hvis der ikke er nogen
                                         var comments = item.Comments.Any() ? item.Comments.Count : 0;
                                     }
-                                    <td>@Html.DisplayFor(modelItem => item.Header)</td>
+                                    <td>@Html.ActionLink(item.Header, "Show", "Article", new { slug = item.Slug }, null)</td>
                                     <td>@publishDate</td>
                                     <td>@dateModified</td>
-                                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ArticleCategory.Name)</td>
+                                    <td><a href="@item.User.NiceUrl">@item.User.UserName</a></td>
                                     <td>@item.Views</td>
                                     <td>@comments</td>
                                     <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
