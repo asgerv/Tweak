@@ -49,4 +49,9 @@ namespace MVCForum.Website.ViewModels
         public IEnumerable<ArticleFrontpageViewModel> ArticleFrontpageViewModels { get; set; }
     }
 
+    public class ArticleSubCategoryViewModel
+    {
+        public IEnumerable<ArticleCategory> Categories { get; set; }
+    }
+
 }

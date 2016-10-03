@@ -925,6 +925,7 @@
     <Content Include="Content\Tweak\FlipSwitch.css" />
     <Content Include="Content\Tweak\Nyhed.css" />
     <Content Include="Content\Tweak\ArticleSection.css" />
+    <Content Include="Content\Tweak\_SubCategories.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1715,6 +1716,11 @@
     <Content Include="Views\CMS\EditCategory.cshtml" />
     <Content Include="Views\CMS\NewCategory.cshtml" />
     <Content Include="Views\CMS\Section.cshtml" />
+    <Content Include="Views\Article\Nyheder.cshtml" />
+    <Content Include="Views\Article\_SubCategories.cshtml" />
+    <Content Include="Views\Article\Video.cshtml" />
+    <Content Include="Views\Article\Test.cshtml" />
+    <Content Include="Views\Article\SubCategory.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

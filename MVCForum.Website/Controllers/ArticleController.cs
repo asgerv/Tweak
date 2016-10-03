@@ -8,6 +8,7 @@ using MVCForum.Utilities;
 using MVCForum.Website.Application;
 using MVCForum.Website.ViewModels;
 using RssItem = MVCForum.Domain.DomainModel.RssItem;
+using MVCForum.Domain.DomainModel.Enums;
 //using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
 
 namespace MVCForum.Website.Controllers
@@ -18,13 +19,14 @@ namespace MVCForum.Website.Controllers
         private readonly IArticleService _articleService;
         private readonly IArticleTagService _articleTagService;
         private readonly ICMSSettingsService _CMSSettingsService;
+        private readonly IArticleCategoryService _articleCategoryService;
 
         public ArticleController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService,
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService,
             IArticleService articleService,
             IArticleCommentService articleCommentService, IArticleTagService articleTagService,
-            ICMSSettingsService cmsSettingsService)
+            ICMSSettingsService cmsSettingsService, IArticleCategoryService articleCategoryService)
             : base(
                 loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
@@ -32,6 +34,7 @@ namespace MVCForum.Website.Controllers
             _articleCommentService = articleCommentService;
             _articleTagService = articleTagService;
             _CMSSettingsService = cmsSettingsService;
+            _articleCategoryService = articleCategoryService;
         }
 
         public ActionResult _LatestArticles()
@@ -151,6 +154,137 @@ namespace MVCForum.Website.Controllers
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
+
+        public ActionResult Category(string slug)
+        {
+
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+         
+                var articleSectionViewModel = new ArticleSectionViewModel();
+                articleSectionViewModel = new ArticleSectionViewModel
+                {
+                    Header = slug,
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleCategoryService.Get(slug).Articles
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                };
+                return View("SubCategory", articleSectionViewModel);
+            }
+        }
+
+
+        public ActionResult Nyheder()
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var articleSectionViewModel = new ArticleSectionViewModel();
+                articleSectionViewModel = new ArticleSectionViewModel
+                {
+                    Header = "Seneste Nyheder",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Nyhed)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                };
+                return View(articleSectionViewModel);
+            }
+        }
+        public ActionResult Video()
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var articleSectionViewModel = new ArticleSectionViewModel();
+                articleSectionViewModel = new ArticleSectionViewModel
+                {
+                    Header = "Seneste Videoer",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Video)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                };
+                return View(articleSectionViewModel);
+            }
+        }
+
+        public ActionResult Test()
+        {
+            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var articleSectionViewModel = new ArticleSectionViewModel();
+                articleSectionViewModel = new ArticleSectionViewModel
+                {
+                    Header = "Seneste Test",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels =
+                        _articleService.GetNewestPublished(4, ArticleSection.Test)
+                            .Select(a => new ArticleFrontpageViewModel
+                            {
+                                Header = a.Header,
+                                Image = a.Image,
+                                Slug = a.Slug,
+                                PublishDate = a.PublishDate,
+                                UserName = a.User.UserName
+                            })
+                };
+                return View(articleSectionViewModel);
+            }
+        }
+
+        public ActionResult _SubCategories(int id)
+        {
+            var viewmodel = new ArticleSubCategoryViewModel();
+            switch (id)
+            {
+                case 1:
+                    { 
+                   var categories = _articleCategoryService.GetAllBySection(ArticleSection.Nyhed);
+                    viewmodel.Categories = categories;
+                    }
+                    break;
+                case 2:
+                    {
+                     var categories = _articleCategoryService.GetAllBySection(ArticleSection.Test);
+                        viewmodel.Categories = categories;
+                    }
+                    break;
+                case 3:
+                    {
+                        var categories = _articleCategoryService.GetAllBySection(ArticleSection.Video);
+                        viewmodel.Categories = categories;
+                    }
+                    break;
+                default:
+                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
+
+            }
+        
+          
+            return PartialView(viewmodel);
+        }
+
 
         public ActionResult _Comments(Guid article)
         {
