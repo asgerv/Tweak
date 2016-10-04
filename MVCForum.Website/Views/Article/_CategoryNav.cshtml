@@ -1,0 +1,6 @@
+﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleCategoryNavViewModel>
+@foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder))
+{
+    <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
+}
+

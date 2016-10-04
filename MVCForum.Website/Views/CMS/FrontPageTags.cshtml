@@ -49,10 +49,10 @@
                                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                         <td>@item.ArticleCount</td>
                                         <td>
-                                            @Html.ActionLink("Smid på forsiden", "SetStickyTag", new { id = item.id }, new { onclick = "return confirm('Er du sikker?');" }) |
+                                            @Html.ActionLink("Smid på forsiden", "SetStickyTag", new { id = item.Id }, new { onclick = "return confirm('Er du sikker?');" }) |
                                             @if (item.IsFrontpage)
                                             {
-                                                @Html.ActionLink("Fjern fra forside", "RemoveStickyTag", new { id = item.id }, new { onclick = "return confirm('Er du sikker?');" })
+                                                @Html.ActionLink("Fjern fra forside", "RemoveStickyTag", new { id = item.Id }, new { onclick = "return confirm('Er du sikker?');" })
                                             }
 
 

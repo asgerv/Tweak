@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
-using MVCForum.Domain.DomainModel;
-using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 
 namespace MVCForum.Website.ViewModels
 {
@@ -49,11 +48,18 @@ namespace MVCForum.Website.ViewModels
         public IEnumerable<ArticleFrontpageViewModel> ArticleFrontpageViewModels { get; set; }
     }
 
-    public class ArticleSubCategoryViewModel
+    public class ArticleCategoryNavViewModel
     {
         public string Name { get; set; }
         public string Slug { get; set; }
         public int SortOrder { get; set; }
+    }
+
+    public class ArticleCategoryViewModel
+    {
+        public string CategoryName { get; set; }
+        public ArticleSection ArticleSection { get; set; }
+        public ArticleSectionViewModel ArticleSectionViewModel { get; set; }
     }
 
 }
