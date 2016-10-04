@@ -1,4 +1,5 @@
-﻿@model MVCForum.Website.ViewModels.ArticleSectionViewModel
+﻿@using MVCForum.Domain.DomainModel.Enums
+@model MVCForum.Website.ViewModels.ArticleSectionViewModel
 @{
     ViewBag.Title = "Nyheder";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -8,7 +9,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul>
-                    @Html.Action("_SubCategories", new { id = 1 })
+                    @Html.Action("_SubCategories", new { section = ArticleSection.Nyhed })
                 </ul>
             </div>
         </div>

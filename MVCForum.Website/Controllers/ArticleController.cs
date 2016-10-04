@@ -253,36 +253,13 @@ namespace MVCForum.Website.Controllers
             }
         }
 
-        public ActionResult _SubCategories(int id)
+        public ActionResult _SubCategories(ArticleSection section)
         {
-            var viewmodel = new ArticleSubCategoryViewModel();
-            switch (id)
+            var vms = _articleCategoryService.GetAllBySection(section).Select(x => new ArticleSubCategoryViewModel
             {
-                case 1:
-                    { 
-                   var categories = _articleCategoryService.GetAllBySection(ArticleSection.Nyhed);
-                    viewmodel.Categories = categories;
-                    }
-                    break;
-                case 2:
-                    {
-                     var categories = _articleCategoryService.GetAllBySection(ArticleSection.Test);
-                        viewmodel.Categories = categories;
-                    }
-                    break;
-                case 3:
-                    {
-                        var categories = _articleCategoryService.GetAllBySection(ArticleSection.Video);
-                        viewmodel.Categories = categories;
-                    }
-                    break;
-                default:
-                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
-
-            }
-        
-          
-            return PartialView(viewmodel);
+                Name = x.Name, Slug = x.Slug, SortOrder = x.SortOrder
+            });
+            return PartialView(vms);
         }
 
 

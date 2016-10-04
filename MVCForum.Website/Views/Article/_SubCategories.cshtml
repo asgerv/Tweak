@@ -1,6 +1,6 @@
-﻿@model MVCForum.Website.ViewModels.ArticleSubCategoryViewModel
-        @foreach (var subCategory in Model.Categories)
-        {
-            <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
-        }
+﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleSubCategoryViewModel>
+@foreach (var subCategory in Model)
+{
+    <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
+}
 

@@ -51,7 +51,9 @@ namespace MVCForum.Website.ViewModels
 
     public class ArticleSubCategoryViewModel
     {
-        public IEnumerable<ArticleCategory> Categories { get; set; }
+        public string Name { get; set; }
+        public string Slug { get; set; }
+        public int SortOrder { get; set; }
     }
 
 }
