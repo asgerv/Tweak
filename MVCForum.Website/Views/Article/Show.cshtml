@@ -4,9 +4,7 @@
     ViewBag.Title = Model.Header;
     ViewBag.MetaDesc = Model.Description;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-    var timeAgo = DateTime.Now - Model.PublishDate;
 }
-
 
 @section Header{
 
@@ -29,7 +27,7 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>*@
 <SCRIPT language="JavaScript">
-
+    // Kan dette ikke flyttes til section Footer?
 
     function newwindow() {
         window.open('http://facebook.com/sharer.php?u=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=300,resizable=no');
@@ -44,9 +42,6 @@
     }
 
 </SCRIPT>
-
-
-
 <div class="row">
     <div class="col-md-4">
 
@@ -60,31 +55,11 @@
                 af <a href="@Model.User.NiceUrl">@Model.User.UserName</a>
                 i @Html.ActionLink(Model.CategoryName, "Category", new { @slug = Model.CategorySlug }) 
             </p>
-            @*<p class="shentox">
-                Skrevet for
-                @if (timeAgo.Days > 0)
-                {
-                    <span>@timeAgo.Days dage siden</span>
-                }
-                else
-                {
-                    <span> @timeAgo.Hours timer siden</span>
-                }
-                , af: @Html.DisplayFor(model => model.User.UserName)
-            </p>*@
             <img src="@Model.Image" class="img-responsive">
             <br />
-
-
-
-
             @Html.Raw(Model.Body)
-
             <br />
-
-
-
-
+            
             <ul class="cv-social-media">
                 <a class="animated fadeIn" href="javascript:newwindow()"><li id="facebook" class="icon-facebook facebook"></li></a>
                 <a class="animated fadeIn" href="javascript:newwindow2()"><li id="gplus" class="icon-gplus"></li></a>
@@ -93,7 +68,7 @@
             <br />
             @foreach (var tag in Model.Tags)
             {
-               <span>| </span> @Html.ActionLink("#" + tag, "Index","ArticleTag",new { @tag = tag },new { @class = "Tag" });
+               <span>| </span> @Html.ActionLink("#" + tag, "Index","ArticleTag",new { tag },new { @class = "Tag" });
             }
             |
 
