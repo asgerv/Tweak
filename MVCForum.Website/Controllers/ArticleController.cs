@@ -134,7 +134,22 @@ namespace MVCForum.Website.Controllers
                         // Commit the transaction
                         unitOfWork.Commit();
 
-                        return View(article);
+                        var vm = new ArticleShowViewModel
+                        {
+                            Body = article.Body,
+                            Description = article.Description,
+                            Header = article.Header,
+                            Image = article.Image,
+                            PublishDate = article.PublishDate,
+                            Slug = article.Slug,
+                            Tags = article.Tags.Select(t => t.Name).ToList(),
+                            User = article.User,
+                            Id = article.Id,
+                            CategoryName = article.ArticleCategory.Name,
+                            CategorySlug = article.ArticleCategory.Slug
+                        };
+
+                        return View(vm);
                     }
                 }
                 catch (Exception ex)
@@ -171,7 +186,7 @@ namespace MVCForum.Website.Controllers
                     ArticleSection = category.ArticleSection,
                     ArticleSectionViewModel = new ArticleSectionViewModel
                     {
-                        Header = slug,
+                        Header = category.Name,
                         ShowHeader = true,
                         ArticleFrontpageViewModels = articles.Select(a => new ArticleFrontpageViewModel
                         {

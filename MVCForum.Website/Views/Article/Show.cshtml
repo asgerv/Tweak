@@ -1,5 +1,5 @@
-﻿@model MVCForum.Domain.DomainModel.CMS.Article
-
+﻿@model MVCForum.Website.ViewModels.ArticleShowViewModel
+    
 @{
     ViewBag.Title = Model.Header;
     ViewBag.MetaDesc = Model.Description;
@@ -52,16 +52,26 @@
 
     </div>
     <div class="col-md-4">
-        <div style="word-break:break-word">
+        <div style="word-wrap: break-word">
 
             <h1 class="description">@Html.DisplayFor(model => model.Header)</h1>
-            <p class="shentox">
+            <p>
+                Skrevet for @Html.DisplayFor(model => model.PublishDate)
+                af <a href="@Model.User.NiceUrl">@Model.User.UserName</a>
+                i @Html.ActionLink(Model.CategoryName, "Category", new { @slug = Model.CategorySlug }) 
+            </p>
+            @*<p class="shentox">
                 Skrevet for
                 @if (timeAgo.Days > 0)
-                {<span>@timeAgo.Days dage siden</span>}
+                {
+                    <span>@timeAgo.Days dage siden</span>
+                }
                 else
-                {<span> @timeAgo.Hours timer siden</span>}, af: @Html.DisplayFor(model => model.User.UserName)
-            </p>
+                {
+                    <span> @timeAgo.Hours timer siden</span>
+                }
+                , af: @Html.DisplayFor(model => model.User.UserName)
+            </p>*@
             <img src="@Model.Image" class="img-responsive">
             <br />
 
@@ -81,9 +91,9 @@
                 <a class="animated fadeIn" href="javascript:newwindow3()"><li id="twitter" class="icon-twitter"></li></a>
             </ul>
             <br />
-            @foreach (var Tag in Model.Tags)
+            @foreach (var tag in Model.Tags)
             {
-               <span>| </span> @Html.ActionLink("#" + @Tag.Name, "Index","ArticleTag",new { @tag = Tag.Name },new { @class = "Tag" });
+               <span>| </span> @Html.ActionLink("#" + tag, "Index","ArticleTag",new { @tag = tag },new { @class = "Tag" });
             }
             |
 
