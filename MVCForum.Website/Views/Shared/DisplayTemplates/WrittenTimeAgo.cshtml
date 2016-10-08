@@ -22,8 +22,12 @@ else
     {
         <span>@timeAgo.Value.Hours time siden</span>
     }
-    else if (timeAgo.Value.Minutes > 0)
+    else if (timeAgo.Value.Minutes > 5)
     {
         <span>@timeAgo.Value.Minutes minutter siden</span>
+    }
+    else
+    {
+  <span>et øjeblik siden</span>
     }
 }
