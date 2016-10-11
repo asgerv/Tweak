@@ -1717,10 +1717,11 @@
     <Content Include="Views\CMS\NewCategory.cshtml" />
     <Content Include="Views\CMS\Section.cshtml" />
     <Content Include="Views\Article\Nyheder.cshtml" />
-    <Content Include="Views\Article\_SubCategories.cshtml" />
+    <Content Include="Views\Article\_CategoryNav.cshtml" />
     <Content Include="Views\Article\Video.cshtml" />
     <Content Include="Views\Article\Test.cshtml" />
-    <Content Include="Views\Article\SubCategory.cshtml" />
+    <Content Include="Views\Article\Category.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\WrittenTimeAgo.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

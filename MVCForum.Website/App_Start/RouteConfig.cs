@@ -51,7 +51,7 @@ namespace MVCForum.Website
 
             routes.MapRoute(
                 "articleUrls", // Route name
-                "nyhed/{slug}", // URL with parameters
+                "artikel/{slug}", // URL with parameters
                 new { controller = "Article", action = "Show", slug = UrlParameter.Optional } // Parameter defaults
             );
 
@@ -86,6 +86,26 @@ namespace MVCForum.Website
                 "tag/{tag}", // URL with parameters
                 new { controller = "ArticleTag", action = "Index", tag = UrlParameter.Optional } // Parameter defaults
             );
+            routes.MapRoute(
+                "articleNyhedUrl", // Route name
+                "artikler/sektion/nyheder", // URL with parameters
+                new { controller = "Article", action = "Nyheder" } // Parameter defaults
+            );
+            routes.MapRoute(
+                "articleVideoUrl", // Route name
+                "artikler/sektion/video", // URL with parameters
+                new { controller = "Article", action = "Video" } // Parameter defaults
+            );
+            routes.MapRoute(
+                "articleTestUrl", // Route name
+                "artikler/sektion/test", // URL with parameters
+                new { controller = "Article", action = "Test" } // Parameter defaults
+            );
+            routes.MapRoute(
+               "articleCategoryUrl", // Route name
+               "artikler/{section}/{slug}", // URL with parameters
+               new { controller = "Article", action = "Category", slug = UrlParameter.Optional } // Parameter defaults
+           );
 
             // End på custom
 

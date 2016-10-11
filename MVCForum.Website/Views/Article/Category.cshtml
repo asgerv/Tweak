@@ -1,6 +1,6 @@
-﻿@model MVCForum.Website.ViewModels.ArticleSectionViewModel
+﻿@model MVCForum.Website.ViewModels.ArticleCategoryViewModel
 @{
-    ViewBag.Title = Model.Header;
+    ViewBag.Title = Model.CategoryName;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 <section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
@@ -8,12 +8,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul>
-                    @Html.Action("_SubCategories", new { id = 1 })
+                    @Html.Action("_CategoryNav", new { section = Model.ArticleSection })
                 </ul>
             </div>
         </div>
     </div>
 </section>
 
-@Html.Partial("_ArticleSection", Model)
+@Html.Partial("_ArticleSection", Model.ArticleSectionViewModel)
 

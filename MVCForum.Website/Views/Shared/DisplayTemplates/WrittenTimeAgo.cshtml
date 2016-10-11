@@ -1,0 +1,33 @@
+﻿@model DateTime?
+@if (!Model.HasValue)
+{
+    <p>No value.</p>
+}
+else
+{
+    var timeAgo = DateTime.Now - Model;
+    if (timeAgo.Value.Days > 1)
+    {
+        <span>@timeAgo.Value.Days dage siden</span>
+    }
+    else if (timeAgo.Value.Days > 0)
+    {
+        <span>@timeAgo.Value.Days dag siden</span>
+    }
+    else if (timeAgo.Value.Hours > 1)
+    {
+        <span>@timeAgo.Value.Hours timer siden</span>
+    }
+    else if (timeAgo.Value.Hours > 0)
+    {
+        <span>@timeAgo.Value.Hours time siden</span>
+    }
+    else if (timeAgo.Value.Minutes > 5)
+    {
+        <span>@timeAgo.Value.Minutes minutter siden</span>
+    }
+    else
+    {
+  <span>et øjeblik siden</span>
+    }
+}

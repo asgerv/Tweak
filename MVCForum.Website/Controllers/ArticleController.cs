@@ -2,24 +2,24 @@
 using System.Linq;
 using System.Web.Mvc;
 using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
 using MVCForum.Utilities;
 using MVCForum.Website.Application;
 using MVCForum.Website.ViewModels;
 using RssItem = MVCForum.Domain.DomainModel.RssItem;
-using MVCForum.Domain.DomainModel.Enums;
-//using static MVCForum.Website.ViewModels.ArticleViewModels; wtf nicklas :D 
+
+// ReSharper disable InconsistentNaming
 
 namespace MVCForum.Website.Controllers
 {
     public class ArticleController : BaseController
     {
+        private readonly IArticleCategoryService _articleCategoryService;
         private readonly IArticleCommentService _articleCommentService;
         private readonly IArticleService _articleService;
-        private readonly IArticleTagService _articleTagService;
         private readonly ICMSSettingsService _CMSSettingsService;
-        private readonly IArticleCategoryService _articleCategoryService;
 
         public ArticleController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService,
@@ -32,7 +32,6 @@ namespace MVCForum.Website.Controllers
         {
             _articleService = articleService;
             _articleCommentService = articleCommentService;
-            _articleTagService = articleTagService;
             _CMSSettingsService = cmsSettingsService;
             _articleCategoryService = articleCategoryService;
         }
@@ -41,27 +40,24 @@ namespace MVCForum.Website.Controllers
         {
             using (UnitOfWorkManager.NewUnitOfWork())
             {
-
-
-                    // Får artikler
-                    var articles = _articleService.GetNewestPublished(4);
-                    // Laver dem om til viewmodels
-                    var articleSectionViewModel = new ArticleSectionViewModel
+                // Får artikler
+                var articles = _articleService.GetNewestPublished(4);
+                // Laver dem om til viewmodels
+                var articleSectionViewModel = new ArticleSectionViewModel
+                {
+                    Header = "Seneste artikler",
+                    ShowHeader = true,
+                    ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
                     {
-                        Header = "Seneste artikler",
-                        ShowHeader = true,
-                        ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
-                        {
-                            Header = x.Header,
-                            Slug = x.Slug,
-                            PublishDate = x.PublishDate,
-                            Image = x.Image,
-                            UserName = x.User.UserName
-                        })
-                    };
+                        Header = x.Header,
+                        Slug = x.Slug,
+                        PublishDate = x.PublishDate,
+                        Image = x.Image,
+                        UserName = x.User.UserName
+                    })
+                };
 
-                    return PartialView("_ArticleSection", articleSectionViewModel);
-                
+                return PartialView("_ArticleSection", articleSectionViewModel);
             }
         }
 
@@ -70,8 +66,8 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var settings = _CMSSettingsService.GetOrCreate();
-                if (settings.StickyArticle1 == null || settings.StickyArticle2 == null ||
-                    settings.StickyArticle3 == null || settings.StickyArticle4 == null)
+                if ((settings.StickyArticle1 == null) || (settings.StickyArticle2 == null) ||
+                    (settings.StickyArticle3 == null) || (settings.StickyArticle4 == null))
                     return new EmptyResult();
                 var articleMainViewModel = new ArticleMainViewModel
                 {
@@ -138,7 +134,22 @@ namespace MVCForum.Website.Controllers
                         // Commit the transaction
                         unitOfWork.Commit();
 
-                        return View(article);
+                        var vm = new ArticleShowViewModel
+                        {
+                            Body = article.Body,
+                            Description = article.Description,
+                            Header = article.Header,
+                            Image = article.Image,
+                            PublishDate = article.PublishDate,
+                            Slug = article.Slug,
+                            Tags = article.Tags.Select(t => t.Name).ToList(),
+                            User = article.User,
+                            Id = article.Id,
+                            CategoryName = article.ArticleCategory.Name,
+                            CategorySlug = article.ArticleCategory.Slug
+                        };
+
+                        return View(vm);
                     }
                 }
                 catch (Exception ex)
@@ -157,37 +168,47 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Category(string slug)
         {
+            if (slug == null)
+                return ErrorToHomePage("Kategorien blev ikke fundet.");
 
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-         
-                var articleSectionViewModel = new ArticleSectionViewModel();
-                articleSectionViewModel = new ArticleSectionViewModel
+                var category = _articleCategoryService.Get(slug);
+                if (category == null)
+                    return ErrorToHomePage("Kategorien blev ikke fundet.");
+
+                var articles = _articleService.GetNewestPublished(50, category.Id);
+
+
+                var categoryvm = new ArticleCategoryViewModel
                 {
-                    Header = slug,
-                    ShowHeader = true,
-                    ArticleFrontpageViewModels =
-                        _articleCategoryService.Get(slug).Articles
-                            .Select(a => new ArticleFrontpageViewModel
-                            {
-                                Header = a.Header,
-                                Image = a.Image,
-                                Slug = a.Slug,
-                                PublishDate = a.PublishDate,
-                                UserName = a.User.UserName
-                            })
+                    CategoryName = category.Name,
+                    ArticleSection = category.ArticleSection,
+                    ArticleSectionViewModel = new ArticleSectionViewModel
+                    {
+                        Header = category.Name,
+                        ShowHeader = true,
+                        ArticleFrontpageViewModels = articles.Select(a => new ArticleFrontpageViewModel
+                        {
+                            Header = a.Header,
+                            Image = a.Image,
+                            Slug = a.Slug,
+                            PublishDate = a.PublishDate,
+                            UserName = a.User.UserName
+                        })
+                    }
                 };
-                return View("SubCategory", articleSectionViewModel);
+
+                return View("Category", categoryvm);
             }
         }
 
 
         public ActionResult Nyheder()
         {
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                var articleSectionViewModel = new ArticleSectionViewModel();
-                articleSectionViewModel = new ArticleSectionViewModel
+                var articleSectionViewModel = new ArticleSectionViewModel
                 {
                     Header = "Seneste Nyheder",
                     ShowHeader = true,
@@ -205,12 +226,12 @@ namespace MVCForum.Website.Controllers
                 return View(articleSectionViewModel);
             }
         }
+
         public ActionResult Video()
         {
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                var articleSectionViewModel = new ArticleSectionViewModel();
-                articleSectionViewModel = new ArticleSectionViewModel
+                var articleSectionViewModel = new ArticleSectionViewModel
                 {
                     Header = "Seneste Videoer",
                     ShowHeader = true,
@@ -231,10 +252,9 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Test()
         {
-            using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
+            using (UnitOfWorkManager.NewUnitOfWork())
             {
-                var articleSectionViewModel = new ArticleSectionViewModel();
-                articleSectionViewModel = new ArticleSectionViewModel
+                var articleSectionViewModel = new ArticleSectionViewModel
                 {
                     Header = "Seneste Test",
                     ShowHeader = true,
@@ -253,36 +273,15 @@ namespace MVCForum.Website.Controllers
             }
         }
 
-        public ActionResult _SubCategories(int id)
+        public ActionResult _CategoryNav(ArticleSection section)
         {
-            var viewmodel = new ArticleSubCategoryViewModel();
-            switch (id)
+            var vms = _articleCategoryService.GetAllBySection(section).Select(x => new ArticleCategoryNavViewModel
             {
-                case 1:
-                    { 
-                   var categories = _articleCategoryService.GetAllBySection(ArticleSection.Nyhed);
-                    viewmodel.Categories = categories;
-                    }
-                    break;
-                case 2:
-                    {
-                     var categories = _articleCategoryService.GetAllBySection(ArticleSection.Test);
-                        viewmodel.Categories = categories;
-                    }
-                    break;
-                case 3:
-                    {
-                        var categories = _articleCategoryService.GetAllBySection(ArticleSection.Video);
-                        viewmodel.Categories = categories;
-                    }
-                    break;
-                default:
-                    return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
-
-            }
-        
-          
-            return PartialView(viewmodel);
+                Name = x.Name,
+                Slug = x.Slug,
+                SortOrder = x.SortOrder
+            });
+            return PartialView(vms);
         }
 
 
@@ -306,30 +305,30 @@ namespace MVCForum.Website.Controllers
                     throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                 }
             }
-            return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
         }
 
         [HttpGet]
         public ActionResult _Comment(Article model)
         {
-            var viewmodel = new CommentViewModel();
-            viewmodel.ArticleSlug = model.Slug;
-            viewmodel.ArticleId = model.Id;
+            var viewmodel = new CommentViewModel
+            {
+                ArticleSlug = model.Slug,
+                ArticleId = model.Id
+            };
             return PartialView(viewmodel);
         }
 
         [HttpPost]
         public ActionResult _Comment(CommentViewModel vm)
         {
-            ArticleComment newComment;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 if (ModelState.IsValid)
-                {
                     try
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId, loggedOnUser);
+                        var newComment = _articleCommentService.Add(vm.CommentBody, vm.InReplyTo, vm.ArticleId,
+                            loggedOnUser);
                         unitOfWork.Commit();
                         return RedirectToAction("Show", new {slug = newComment.Article.Slug});
                     }
@@ -339,16 +338,14 @@ namespace MVCForum.Website.Controllers
                         LoggingService.Error(ex);
                         throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     }
-                }
             }
 
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
 
         // Mangler ikke permission da den tjekker logged on.
-        public ActionResult _CommentsDelete(Guid commentId, Guid ArticleId)
+        public ActionResult _CommentsDelete(Guid commentId, Guid articleId)
         {
-            Article article;
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 try
@@ -357,22 +354,23 @@ namespace MVCForum.Website.Controllers
                     {
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
                         var permissions = RoleService.GetPermissions(null, UsersRole);
-                        if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
+                        if (permissions["Comment Moderation"].IsTicked ||
+                            (loggedOnUser == _articleCommentService.GetComment(commentId).User))
                         {
                             _articleCommentService.Delete(commentId);
-                            article = _articleService.Get(ArticleId);
+                            var article = _articleService.Get(articleId);
                             unitOfWork.Commit();
-                            return RedirectToAction("Show", new { slug = article.Slug });
+                            return RedirectToAction("Show", new {slug = article.Slug});
                         }
                     }
-            }
+                }
                 catch (Exception ex)
-            {
-                unitOfWork.Rollback();
-                LoggingService.Error(ex);
-                throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                {
+                    unitOfWork.Rollback();
+                    LoggingService.Error(ex);
+                    throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
+                }
             }
-        }
 
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
@@ -383,14 +381,13 @@ namespace MVCForum.Website.Controllers
             {
                 try
                 {
-                    if (commentId == null)
-                        return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     var comment = _articleCommentService.GetComment(commentId);
                     if (comment == null)
                         return ErrorToHomePage(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     var permissions = RoleService.GetPermissions(null, UsersRole);
                     var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                    if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(commentId).User)
+                    if (permissions["Comment Moderation"].IsTicked ||
+                        (loggedOnUser == _articleCommentService.GetComment(commentId).User))
                     {
                         var vm = new CommentViewModel
                         {
@@ -416,24 +413,24 @@ namespace MVCForum.Website.Controllers
             using (var unitOfWork = UnitOfWorkManager.NewUnitOfWork())
             {
                 if (ModelState.IsValid)
-                {
                     try
                     {
                         var permissions = RoleService.GetPermissions(null, UsersRole);
                         var loggedOnUser = MembershipService.GetUser(LoggedOnReadOnlyUser.Id);
-                        if (permissions["Comment Moderation"].IsTicked || loggedOnUser == _articleCommentService.GetComment(comment.CommentId).User)
+                        if (permissions["Comment Moderation"].IsTicked ||
+                            (loggedOnUser == _articleCommentService.GetComment(comment.CommentId).User))
                         {
                             // Henter comment fra Id fra viewmodel
-                            var Comment = _articleCommentService.GetComment(comment.CommentId);
+                            var articleComment = _articleCommentService.GetComment(comment.CommentId);
 
                             // Overfører data
-                            Comment.CommentBody = comment.CommentBody;
+                            articleComment.CommentBody = comment.CommentBody;
 
-                            _articleCommentService.Update(Comment);
+                            _articleCommentService.Update(articleComment);
 
                             // Commit
                             unitOfWork.Commit();
-                            return RedirectToAction("Show", new { slug = comment.ArticleSlug });
+                            return RedirectToAction("Show", new {slug = comment.ArticleSlug});
                         }
                     }
                     catch (Exception ex)
@@ -442,7 +439,6 @@ namespace MVCForum.Website.Controllers
                         LoggingService.Error(ex);
                         throw new Exception(LocalizationService.GetResourceString("Errors.GenericMessage"));
                     }
-                }
             }
             return ErrorToHomePage(LocalizationService.GetResourceString("Errors.NoPermission"));
         }
@@ -469,8 +465,11 @@ namespace MVCForum.Website.Controllers
                     ShowHeader = false,
                     ArticleFrontpageViewModels = articles.Select(x => new ArticleFrontpageViewModel
                     {
-                        Header = x.Header, Image = x.Image, PublishDate = x.PublishDate,
-                        Slug = x.Slug, UserName = x.User.UserName
+                        Header = x.Header,
+                        Image = x.Image,
+                        PublishDate = x.PublishDate,
+                        Slug = x.Slug,
+                        UserName = x.User.UserName
                     })
                 };
                 return PartialView("_ArticleSection", articleSectionViewModel);

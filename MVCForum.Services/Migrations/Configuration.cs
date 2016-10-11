@@ -343,6 +343,11 @@ namespace MVCForum.Services.Migrations
                         var p = new Permission { Name = "Edit Frontpage", IsGlobal = true };
                         context.Permission.Add(p);
                     }
+                    if (context.Permission.FirstOrDefault(x => x.Name == "Edit Article Categories") == null)
+                    {
+                        var p = new Permission { Name = "Edit Article Categories", IsGlobal = true };
+                        context.Permission.Add(p);
+                    }
                     // -- CMS -->
 
                     // == End på custom ==

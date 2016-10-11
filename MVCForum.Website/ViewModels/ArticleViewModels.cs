@@ -4,10 +4,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
-using MVCForum.Domain.DomainModel.CMS;
+using MVCForum.Domain.DomainModel.Enums;
 
 namespace MVCForum.Website.ViewModels
 {
+    public class ArticleShowViewModel
+    {
+        public string Slug { get; set; }
+        public Guid Id { get; set; }
+        public string Header { get; set; }
+        public string Description { get; set; }
+        public string Body { get; set; }
+        [UIHint("WrittenTimeAgo")]
+        public DateTime PublishDate { get; set; }
+        public string Image { get; set; }
+        public MembershipUser User { get; set; }
+        public string CategoryName { get; set; }
+        public string CategorySlug { get; set; }
+        public List<string> Tags { get; set; }
+    }
     public class ArticleSearchViewModel
     {
         public string Slug { get; set; }
@@ -20,6 +35,7 @@ namespace MVCForum.Website.ViewModels
     {
         public string Slug { get; set; }
         public string Header { get; set; }
+        [UIHint("WrittenTimeAgo")]
         public DateTime PublishDate { get; set; }
         public string UserName { get; set; }
         public string Image { get; set; }
@@ -49,9 +65,18 @@ namespace MVCForum.Website.ViewModels
         public IEnumerable<ArticleFrontpageViewModel> ArticleFrontpageViewModels { get; set; }
     }
 
-    public class ArticleSubCategoryViewModel
+    public class ArticleCategoryNavViewModel
     {
-        public IEnumerable<ArticleCategory> Categories { get; set; }
+        public string Name { get; set; }
+        public string Slug { get; set; }
+        public int SortOrder { get; set; }
+    }
+
+    public class ArticleCategoryViewModel
+    {
+        public string CategoryName { get; set; }
+        public ArticleSection ArticleSection { get; set; }
+        public ArticleSectionViewModel ArticleSectionViewModel { get; set; }
     }
 
 }

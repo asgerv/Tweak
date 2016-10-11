@@ -415,7 +415,7 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var permissions = RoleService.GetPermissions(null, UsersRole);
-                if (permissions["Access CMS"].IsTicked) // add ny permission
+                if (permissions["Edit Article Categories"].IsTicked) // add ny permission
                 {
                     var articles = _articleCategoryService.GetAllBySection(section);
                     ViewBag.SectionName = section;
@@ -432,11 +432,11 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var permissions = RoleService.GetPermissions(null, UsersRole);
-                if (permissions["Access CMS"].IsTicked) // add ny permission
+                if (permissions["Edit Article Categories"].IsTicked) // add ny permission
                 {
                     var vm = new AddCategoryViewModel
                     {
-                        SortOrder = 1,
+                        SortOrder = 0,
                         AvailableSections = new SelectList(new List<ArticleSection> { ArticleSection.Nyhed, ArticleSection.Video, ArticleSection.Test })
                     };
                     return View(vm);
@@ -458,7 +458,7 @@ namespace MVCForum.Website.Controllers
                     try
                     {
                         var permissions = RoleService.GetPermissions(null, UsersRole);
-                        if (permissions["Access CMS"].IsTicked) // add ny permission
+                        if (permissions["Edit Article Categories"].IsTicked) // add ny permission
                         {
                             var category = _articleCategoryService.Add(vm.Name, vm.Description, vm.SortOrder, vm.Section);
                             unitOfWork.Commit();
@@ -502,7 +502,7 @@ namespace MVCForum.Website.Controllers
                         return HttpNotFound();
 
                     var permissions = RoleService.GetPermissions(null, UsersRole);
-                    if (permissions["Access CMS"].IsTicked)
+                    if (permissions["Edit Article Categories"].IsTicked)
                     {
                         var vm = new EditCategoryViewModel
                         {
@@ -541,7 +541,7 @@ namespace MVCForum.Website.Controllers
                         var category = _articleCategoryService.Get(vm.Slug);
 
                         var permissions = RoleService.GetPermissions(null, UsersRole);
-                        if (permissions["Access CMS"].IsTicked)
+                        if (permissions["Edit Article Categories"].IsTicked)
                         {
                             // Overfører data
                             category.Name = vm.Name;
@@ -607,7 +607,7 @@ namespace MVCForum.Website.Controllers
                         return HttpNotFound();
 
                     var permissions = RoleService.GetPermissions(null, UsersRole);
-                    if (permissions["Access CMS"].IsTicked)
+                    if (permissions["Edit Article Categories"].IsTicked)
                     {
                         // Slet 
                         _articleCategoryService.Delete(category);
@@ -729,7 +729,7 @@ namespace MVCForum.Website.Controllers
                     foreach (var item in tags.ArticleTags)
                     {
                         model.ArticleCount = item.Articles.Count();
-                        model.id = item.Id;
+                        model.Id = item.Id;
                         model.Name = item.Name;
                         if (settings.StickyTags.Contains(item))
                             model.IsFrontpage = true;
