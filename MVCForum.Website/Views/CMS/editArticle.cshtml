@@ -51,7 +51,15 @@
                                         </div>
                                     </div>
                                     @* /Description *@
-
+                                    @* Image *@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    @* /Image *@
                                     @* Category *@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Category, new {@class = "control-label col-md-2"})
@@ -78,17 +86,6 @@
                                         </div>
                                     </div>
                                     @* /Body *@
-
-                                    @* Image *@
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Image, new {@class = "control-label col-md-2"})
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Image, new {htmlAttributes = new {@class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Image, "", new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                    @* /Image *@
-
                                     @* IsPublished *@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.IsPublished, new {@class = "control-label col-md-2"})
@@ -113,6 +110,14 @@
                                 </div>
                             }
                         </div>
+                        <div class="col-lg-6">
+                            <label for="UploadImg">Upload artikel billede</label>
+                            <input name="file" type="file" id="UploadImg">
+                            <br />
+                            <label>Nuværende artikel billede.</label>
+                            <img id="imgPreview" src="@Model.Image" class="img-responsive grid-image" />
+                            <br />
+                        </div>
                         <!-- /.col-lg-6 (nested) -->
                     </div>
                     <!-- /.row (nested) -->
@@ -131,13 +136,43 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/select2.min.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
         $('#SelectedTags')
             .select2({
                 tags: true,
                 tokenSeparators: [','],
                 placeholder: "Tilføj tags her"
             });
+
         $('#Category').select2();
-    </script>
+
+        $("#Image").keyup(function () {
+            $('#imgPreview').attr('src', $('#Image').val());
+        })
+
+        $("#UploadImg").change(function () {
+            var data = new FormData();
+            var files = $("#UploadImg").get(0).files;
+            if (files.length > 0) {
+                data.append("MyImages", files[0]);
+            }
+
+            $.ajax({
+                url: "/CMS/UploadFile",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function (response) {
+                    //code after success
+                    $("#Image").val('/Images/' +response);
+                    $("#imgPreview").attr('src', '/Images/' + response);
+                },
+                error: function (er) {
+                    alert(er);
+                }
+
+            });
+        });
+</script>
 }

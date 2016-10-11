@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using MVCForum.Domain.DomainModel.CMS;
 using MVCForum.Domain.DomainModel.Enums;
 using DoksoftUploaderLibrary;
+using System.Web.Helpers;
 
 namespace MVCForum.Website.Controllers
 {
@@ -989,6 +990,43 @@ namespace MVCForum.Website.Controllers
             return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename +
                    "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult UploadFile()
+        {
+            string _imgname = string.Empty;
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var pic = System.Web.HttpContext.Current.Request.Files["MyImages"];
+                if (pic.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(pic.FileName);
+                    var _ext = Path.GetExtension(pic.FileName);
+                    _imgname = fileName;
+
+                    //_imgname = Guid.NewGuid().ToString();
+                    var _comPath = Server.MapPath("~/Images/Forside/") + _imgname;
+             
+                    ViewBag.Msg = _comPath;
+                    var path = _comPath;
+
+                    // Saving Image in Original Mode
+                    pic.SaveAs(path);
+
+                    // resizing image
+                    MemoryStream ms = new MemoryStream();
+                    WebImage img = new WebImage(_comPath);
+
+                    //if (img.Width > 200)
+                    //    img.Resize(200, 200);
+                    img.Save(_comPath);
+                    // end resize
+                }
+            }
+            return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
+        }
+
+
 
         #region Helpers
 
