@@ -1306,6 +1306,13 @@
     <Content Include="Scripts\ckeditor\styles.js" />
     <Content Include="Scripts\cms\metismenu\metisMenu.js" />
     <Content Include="Scripts\cms\metismenu\metisMenu.min.js" />
+    <Content Include="Scripts\cms\neweditarticle.es5.js">
+      <DependentUpon>neweditarticle.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\cms\neweditarticle.es5.min.js">
+      <DependentUpon>neweditarticle.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\cms\neweditarticle.js" />
     <Content Include="Scripts\cms\sb-admin-2.js" />
     <Content Include="Scripts\cms\tinymceeditor.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -1915,6 +1922,8 @@
     <Folder Include="Content\languagepacks\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Content\uploads\" />
+    <Folder Include="Images\ArticleImages\" />
+    <Folder Include="Images\Gallery\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

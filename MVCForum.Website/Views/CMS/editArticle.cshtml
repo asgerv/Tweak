@@ -6,9 +6,9 @@
 }
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css"/>
-    <link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet"/>
-    <link href="~/Content/css/select2.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/tinymce.css" />
+    <link href="~/Content/Tweak/FlipSwitch.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" type="text/css" />
 }
 <div id="page-wrapper">
     <div class="row">
@@ -30,24 +30,24 @@
                             {
                                 @Html.AntiForgeryToken()
                                 <div class="form-horizontal">
-                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                                     @* Header *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Header, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.Header, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Header, new {htmlAttributes = new {@class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Header, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.Header, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Header, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     @* /Header *@
 
                                     @* Description *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
-                                            @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     @* /Description *@
@@ -62,48 +62,48 @@
                                     @* /Image *@
                                     @* Category *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Category, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.Category, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(m => m.Category, Model.AvailableCategories, new {style = "width:100%"})
+                                            @Html.DropDownListFor(m => m.Category, Model.AvailableCategories, new { style = "width:100%" })
                                         </div>
                                     </div>
 
                                     @* Tags *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SelectedTags, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.SelectedTags, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.ListBoxFor(m => m.SelectedTags, Model.AvailableTags, new {style = "width:100%"})
+                                            @Html.ListBoxFor(m => m.SelectedTags, Model.AvailableTags, new { style = "width:100%" })
                                         </div>
                                     </div>
                                     @* /Tags *@
 
                                     @* Body *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Body, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.TextAreaFor(model => model.Body, new {@class = "form-control mceEditor", id = "my_editor"})
-                                            @Html.ValidationMessageFor(model => model.Body, "", new {@class = "text-danger"})
+                                            @Html.TextAreaFor(model => model.Body, new { @class = "form-control mceEditor", id = "my_editor" })
+                                            @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     @* /Body *@
                                     @* IsPublished *@
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.IsPublished, new {@class = "control-label col-md-2"})
+                                        @Html.LabelFor(model => model.IsPublished, new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
                                             <div class="onoffswitch">
-                                                @Html.CheckBoxFor(model => model.IsPublished, new {@class = "form-control onoffswitch-checkbox", id = "onoffswitch"})
+                                                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-control onoffswitch-checkbox", id = "onoffswitch" })
                                                 <label class="onoffswitch-label" for="onoffswitch">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
                                                 </label>
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.IsPublished, "", new {@class = "text-danger"})
+                                            @Html.ValidationMessageFor(model => model.IsPublished, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     @* /IsPublished *@
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Gem" class="btn btn-success"/>
+                                            <input type="submit" value="Gem" class="btn btn-success" />
                                             <a href="@Url.Action("Articles")" class="btn btn-warning" role="button">Annuller</a>
                                         </div>
                                     </div>
@@ -133,46 +133,8 @@
 <!-- /#page-wrapper -->
 @section scripts
 {
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/select2.min.js"></script>
-<script type="text/javascript">
-        $('#SelectedTags')
-            .select2({
-                tags: true,
-                tokenSeparators: [','],
-                placeholder: "Tilføj tags her"
-            });
-
-        $('#Category').select2();
-
-        $("#Image").keyup(function () {
-            $('#imgPreview').attr('src', $('#Image').val());
-        })
-
-        $("#UploadImg").change(function () {
-            var data = new FormData();
-            var files = $("#UploadImg").get(0).files;
-            if (files.length > 0) {
-                data.append("MyImages", files[0]);
-            }
-
-            $.ajax({
-                url: "/CMS/UploadFile",
-                type: "POST",
-                processData: false,
-                contentType: false,
-                data: data,
-                success: function (response) {
-                    //code after success
-                    $("#Image").val('/Images/' +response);
-                    $("#imgPreview").attr('src', '/Images/' + response);
-                },
-                error: function (er) {
-                    alert(er);
-                }
-
-            });
-        });
-</script>
+    <script src="~/Scripts/cms/neweditarticle.es5.min.js"></script>
 }

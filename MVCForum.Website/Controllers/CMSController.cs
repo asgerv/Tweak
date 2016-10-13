@@ -991,6 +991,11 @@ namespace MVCForum.Website.Controllers
                    "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
 
+
+        /// <summary>
+        ///     Upload metode til NewArticle og EditArticle (Article.Image)
+        /// </summary>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
         public JsonResult UploadFile()
         {
@@ -1005,7 +1010,7 @@ namespace MVCForum.Website.Controllers
                     _imgname = fileName;
 
                     //_imgname = Guid.NewGuid().ToString();
-                    var _comPath = Server.MapPath("~/Images/Forside/") + _imgname;
+                    var _comPath = Server.MapPath("~/Images/ArticleImages/") + _imgname;
              
                     ViewBag.Msg = _comPath;
                     var path = _comPath;
