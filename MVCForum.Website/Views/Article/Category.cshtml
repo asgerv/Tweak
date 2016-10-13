@@ -3,17 +3,8 @@
     ViewBag.Title = Model.CategoryName;
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
-<section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
-    <div class="container sub-nav-container">
-        <div class="row">
-            <div class="col-sm-12">
-                <ul>
-                    @Html.Action("_CategoryNav", new { section = Model.ArticleSection })
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+
+@Html.Action("_CategoryNav", new { section = Model.ArticleSection })
 
 @Html.Partial("_ArticleSection", Model.ArticleSectionViewModel)
 

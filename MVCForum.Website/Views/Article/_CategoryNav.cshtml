@@ -1,6 +1,35 @@
 ﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleCategoryNavViewModel>
-@foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder))
-{
-    <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
-}
+
+<section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
+    <div class="container sub-nav-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul>
+                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Take(5))
+                    {
+                        <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
+                    }
+                    @if (Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(5).Any())
+                    {
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Flere..
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(5))
+                                    {
+                                        <li><a href="@Url.Action("Category", new {slug = subCategory.Slug})" class="button"><span>@subCategory.Name</span></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
 
