@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleCategoryNavViewModel>
-
+@{
+    // Antal nav elementer inden "Flere". Resten vil være i dropdown.
+    const int amountBeforeDropdown = 9;
+}
 <section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
     <div class="container sub-nav-container">
         <div class="row">
             <div class="col-sm-12">
                 <ul>
-                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Take(5))
+                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Take(amountBeforeDropdown))
                     {
                         <li><a href="@Url.Action("Category", new {slug = subCategory.Slug })" class="button"><span>@subCategory.Name</span></a></li>
                     }
-                    @if (Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(5).Any())
+                    @if (Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(amountBeforeDropdown).Any())
                     {
                         <li>
                             <div class="dropdown">
@@ -18,7 +21,7 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(5))
+                                    @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(amountBeforeDropdown))
                                     {
                                         <li><a href="@Url.Action("Category", new {slug = subCategory.Slug})" class="button"><span>@subCategory.Name</span></a></li>
                                     }
