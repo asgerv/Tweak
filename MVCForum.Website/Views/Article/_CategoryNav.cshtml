@@ -15,19 +15,19 @@
                     @if (Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(amountBeforeDropdown).Any())
                     {
                         <li>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Flere..
                                     <span class="caret"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <div class="dropdown-menu">
                                     @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(amountBeforeDropdown))
                                     {
-                                        <li><a href="@Url.Action("Category", new {slug = subCategory.Slug})" class="button"><span>@subCategory.Name</span></a></li>
+                                        <a href="@Url.Action("Category", new {slug = subCategory.Slug})" class="dropdown-item">@subCategory.Name</a>
                                     }
-                                </ul>
+                                </div>
                             </div>
-                        </li>
+</li>
                     }
                 </ul>
             </div>
