@@ -20,12 +20,12 @@
                                     Flere..
                                     <span class="caret"></span>
                                 </button>
-                                <div class="dropdown-menu">
+                                <ul class="dropdown-menu scrollable-menu" role="menu" >
                                     @foreach (var subCategory in Model.OrderBy(x => x.SortOrder == 0).ThenBy(x => x.SortOrder).Skip(amountBeforeDropdown))
                                     {
                                         <a href="@Url.Action("Category", new {slug = subCategory.Slug})" class="dropdown-item">@subCategory.Name</a>
                                     }
-                                </div>
+                                </ul>
                             </div>
 </li>
                     }
