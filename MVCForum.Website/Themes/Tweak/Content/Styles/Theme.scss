@@ -81,6 +81,12 @@ $media-query-mobile: 600px;
     }
 }
 
+.scrollable-menu {
+        height: auto;
+    max-height: 40vh;
+    overflow-x: hidden;
+}
+
 .sticky {
     position: fixed;
     width: 100%;
