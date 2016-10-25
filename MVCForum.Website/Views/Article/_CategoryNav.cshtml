@@ -1,8 +1,81 @@
-﻿@model IEnumerable<MVCForum.Website.ViewModels.ArticleCategoryNavViewModel>
+﻿@using System.Diagnostics
+@using MVCForum.Domain.DomainModel.Enums
+@using MVCForum.Website.ViewModels
+@model IEnumerable<MVCForum.Website.ViewModels.ArticleCategoryNavViewModel>
 @{
     // Antal nav elementer inden "Flere". Resten vil være i dropdown.
     const int amountBeforeDropdown = 9;
 }
+<nav class="pushy pushy-left">
+    <ul>
+        <li><a href="@Url.Action("Index", "Home")">Forside</a></li>
+        @{
+            var first = Model.FirstOrDefault();
+            if (first == null)
+            {
+                <li><a href="@Url.Action("Nyheder", "Article")">Nyheder</a></li>
+                <li><a href="@Url.Action("Video", "Article")">Video</a></li>
+                <li><a href="@Url.Action("Test", "Article")">Test</a></li>
+            }
+
+            else if (first.ArticleSection == ArticleSection.Nyhed)
+            {
+                <li class="pushy-submenu">
+                    <a href="#">Nyheder</a>
+                    <ul>
+                        <li class="pushy-link"><a href="#">Item 1</a></li>
+                        <li class="pushy-link"><a href="#">Item 2</a></li>
+                        <li class="pushy-link"><a href="#">Item 3</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.Action("Video", "Article")">Video</a></li>
+                    <li><a href="@Url.Action("Test", "Article")">Test</a></li>
+            }
+            else if (first.ArticleSection == ArticleSection.Video)
+            {
+                <li><a href="@Url.Action("Nyheder", "Article")">Nyheder</a></li>
+                <li class="pushy-submenu">
+                    <a href="#">Video</a>
+                    <ul>
+                        <li class="pushy-link"><a href="#">Item 1</a></li>
+                        <li class="pushy-link"><a href="#">Item 2</a></li>
+                        <li class="pushy-link"><a href="#">Item 3</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="@Url.Action("Test", "Article")">Test</a></li>
+            }
+            else if (first.ArticleSection == ArticleSection.Test)
+            {
+                <li><a href="@Url.Action("Nyheder", "Article")">Nyheder</a></li>
+                <li><a href="@Url.Action("Video", "Article")">Video</a></li>
+                <li class="pushy-submenu">
+                    <a href="#">Test</a>
+                    <ul>
+                        <li class="pushy-link"><a href="#">Item 1</a></li>
+                        <li class="pushy-link"><a href="#">Item 2</a></li>
+                        <li class="pushy-link"><a href="#">Item 3</a></li>
+                    </ul>
+                </li>
+
+            }
+        }
+        <li><a href="@Url.Action("Index", "Forum")">Forum</a></li>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Action("SideAdminPanel", "Members", new { isDropDown = false })
+        }
+        else
+        {
+            if (Html.Settings().SuspendRegistration != true)
+            {
+                <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+            }
+            <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
+        }
+    </ul>
+</nav>
 <section class="content-strip content-strip-@(User.Identity.IsAuthenticated.ToString().ToLower())">
     <div class="container sub-nav-container">
         <div class="row">
