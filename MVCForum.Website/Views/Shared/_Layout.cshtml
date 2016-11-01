@@ -32,6 +32,7 @@
     <link rel="shortcut icon" href="@Url.Content(theme.ThemePath + "/content/images/favicon.ico")">
     <link rel="apple-touch-icon-precomposed" href="@Url.Content(theme.ThemePath + "/content/images/apple-touch-icon-57-precomposed.png")">
     @Html.Partial("_JavaScript", theme)
+    <link href="~/Scripts/pushy/pushy.css" rel="stylesheet" />
     @if (!Context.IsMobileDevice())
     {
         <script src="~/Themes/Tweak/Content/Scripts/general.js"></script>
@@ -47,12 +48,21 @@
 
     <nav class="pushy pushy-left">
         <ul>
-            <li><a href="@Url.Action("Index", "Forum")">Forum</a></li>
-            @Html.Action("_TagsElements", "Home")
+            <li><a href="@Url.Action("Index", "Home")">Forside</a></li>
+            <li><a href="@Url.Action("Nyheder", "Article")">Nyheder</a></li>
+            <li><a href="@Url.Action("Video", "Article")">Video</a></li>
+            <li><a href="@Url.Action("Test", "Article")">Test</a></li>
+            @*<li><a href="@Url.Action("Index", "Forum")">Forum</a></li>*@
+            <li class="pushy-submenu">
+                <a href="#">Forum</a>
+                <ul>
+                    @Html.Partial("SubNavigation")
+                </ul>
+            </li>
 
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.Action("SideAdminPanel", "Members", new {isDropDown = false})
+                @Html.Action("SideAdminPanel", "Members", new { isDropDown = false })
             }
             else
             {
@@ -62,8 +72,6 @@
                 }
                 <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
             }
-            <li><a href="@Url.Action("Index", "Category")">@Html.LanguageString("Category.AllCategories")</a></li>
-            @Html.Partial("SubNavigation")
         </ul>
     </nav>
     <div class="site-overlay"></div>
@@ -82,23 +90,16 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a href="@Url.Action("Index", "Home")">
-                        <img style="max-height: 40px;
-    overflow: visible;
-    padding-top: 0;
-    padding-bottom: 0;" class="navbar-brand" src="~/Images/tweaklogo_new.png">
+                        <img style="max-height: 40px; overflow: visible; padding-top: 0; padding-bottom: 0;" class="navbar-brand" src="~/Images/tweaklogo_new.png">
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="mvcforum-nav">
-
                     <ul class="nav navbar-nav navbar-left">
                         <li>@Html.ActionLink("Nyheder", "Nyheder", "Article")</li>
                         <li>@Html.ActionLink("Video", "Video", "Article")</li>
                         <li>@Html.ActionLink("Test", "Test", "Article")</li>
                         <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
-
-                        @*@Html.Action("_TagsElements", "Home")*@
-
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -144,7 +145,6 @@
         </div>
     </section>
 
-
     <footer>
         <div class="container">
 
@@ -174,5 +174,6 @@
     {
         @Html.Raw(Html.Settings().CustomFooterCode)
     }
+    <script src="~/Scripts/pushy/pushy.js"></script>
 </body>
 </html>

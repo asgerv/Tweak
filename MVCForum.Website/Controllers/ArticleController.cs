@@ -279,7 +279,8 @@ namespace MVCForum.Website.Controllers
             {
                 Name = x.Name,
                 Slug = x.Slug,
-                SortOrder = x.SortOrder
+                SortOrder = x.SortOrder,
+                ArticleSection = section
             });
             return PartialView(vms);
         }

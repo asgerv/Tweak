@@ -26,7 +26,7 @@
     @RenderSection("SocialMeta", false)
     @ViewBag.Canonical
     @Html.Partial("_StyleSheets", theme)
-
+    <link href="~/Scripts/pushy/pushy.css" rel="stylesheet" />
     <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -48,8 +48,11 @@
 
     <nav class="pushy pushy-left">
         <ul>
+            <li><a href="@Url.Action("Index", "Home")">Forside</a></li>
+            <li><a href="@Url.Action("Nyheder", "Article")">Nyheder</a></li>
+            <li><a href="@Url.Action("Video", "Article")">Video</a></li>
+            <li><a href="@Url.Action("Test", "Article")">Test</a></li>
             <li><a href="@Url.Action("Index", "Forum")">Forum</a></li>
-            @Html.Action("_TagsElements", "Home")
 
             @if (User.Identity.IsAuthenticated)
             {
@@ -68,7 +71,9 @@
     <div class="site-overlay"></div>
 
     <header>
+
         @Html.Partial("_Blackbar")
+
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -79,10 +84,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a href="@Url.Action("Index", "Home")">
-                        <img style="max-height: 40px;
-    overflow: visible;
-    padding-top: 0;
-    padding-bottom: 0;" class="navbar-brand" src="~/Images/tweaklogo_new.png">
+                        <img style="max-height: 40px; overflow: visible; padding-top: 0; padding-bottom: 0;" class="navbar-brand" src="~/Images/tweaklogo_new.png">
                     </a>
                 </div>
 
@@ -92,10 +94,8 @@
                         <li>@Html.ActionLink("Video", "Video", "Article")</li>
                         <li>@Html.ActionLink("Test", "Test", "Article")</li>
                         <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
-
-                        @*@Html.Action("_TagsElements", "Home")*@
-
                     </ul>
+
                     <ul class="nav navbar-nav navbar-right">
                         @if (!User.Identity.IsAuthenticated)
                         {
@@ -110,14 +110,10 @@
                             @Html.Action("SideAdminPanel", "Members", new { isDropDown = true })
                         }
                     </ul>
-
-
                 </div>
             </div>
         </nav>
     </header>
-
-
 
     <section class="container-fluid main-section">
         @Html.Partial("_GenericMessage")
@@ -129,7 +125,6 @@
 
         </div>
     </section>
-
 
     <footer>
         <div class="container">
@@ -160,5 +155,6 @@
             {
         @Html.Raw(Html.Settings().CustomFooterCode)
     }
+    <script src="~/Scripts/pushy/pushy.js"></script>
 </body>
 </html>

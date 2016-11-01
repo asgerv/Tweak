@@ -1390,6 +1390,7 @@
     <Content Include="Content\bootstrap\fonts\Shentox-W01-Bold.woff2" />
     <None Include="Properties\PublishProfiles\tweakbeta - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\img\arrow.svg" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
     <Content Include="Scripts\jquery-3.1.0.slim.js" />
