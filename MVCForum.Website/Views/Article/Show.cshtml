@@ -66,14 +66,17 @@
                 <a class="animated fadeIn" href="javascript:newwindow3()"><li id="twitter" class="icon-twitter"></li></a>
             </ul>
             <br />
+            Tags:
             @foreach (var tag in Model.Tags)
             {
-               <span>| </span> @Html.ActionLink("#" + tag, "Index","ArticleTag",new { tag },new { @class = "Tag" });
+               @Html.ActionLink(" #" + tag, "Index","ArticleTag",new { tag },new { @class = "Tag" });
             }
-            |
-
+            
+            
+            <br/><br/><hr/>
+            <h1>Kommentarer</h1>
             @Html.Action("_Comments", new { article = Model.Id })
-
+            <br/>
             @if (User.Identity.IsAuthenticated)
             { Html.RenderAction("_Comment", Model); }
 

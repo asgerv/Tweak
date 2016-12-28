@@ -152,9 +152,10 @@
 .pushy-submenu-open {
   /* Submenu Icon */
 }
-.pushy-submenu-open ul {
+/* Commented out because of: https://github.com/christophery/pushy/issues/100 */
+/*.pushy-submenu-open ul {
   max-height: 1000px;
-}
+}*/
 .pushy-submenu-open .pushy-link {
   opacity: 1;
 }

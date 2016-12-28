@@ -5,8 +5,7 @@
 <link href="~/Content/Tweak/_Comments.css" rel="stylesheet" />
 
 <div class="comments-container">
-    <h1 class="description">Kommentarer</h1>
-
+    
 
 
     <ul id="comments-list" class="comments-list">
@@ -30,13 +29,16 @@
                                     @{var timeAgo = DateTime.Now - comment.DateCreated; }
                                   @if (timeAgo.Days > 0)
                                   {<span>@timeAgo.Days dage siden</span>}
-                                  else {<span> @timeAgo.Hours timer siden</span>}
-                                    <i onclick="return reply('@comment.User.UserName','@comment.Id')" class="fa fa-reply"></i>
+                                  else
+                                  {<span> @timeAgo.Hours timer siden</span>}
+                                    <i onclick="return reply('@comment.User.UserName', '@comment.Id')" class="fa fa-reply"></i>
                                     @if (comment.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
-                                    {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = comment.Id, @ArticleId = comment.Article.Id})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
+                                    {
+                                        <a href="@Url.Action("_CommentsDelete", "Article", new {@commentId = comment.Id, @ArticleId = comment.Article.Id})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
                                     }
                                     @if (comment.User.UserName == User.Identity.Name)
-                                    { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = comment.Id})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
+                                    {
+                                        <a href="@Url.Action("CommentEdit", "Article", new {@commentId = comment.Id})" onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
                                     }
 
                                 </span>
@@ -68,12 +70,15 @@
                                         @{var timeAgo = DateTime.Now - comment.DateCreated; }
                                         @if (timeAgo.Days > 0)
                                         {<span>@timeAgo.Days dage siden</span>}
-                                        else {<span> @timeAgo.Hours timer siden</span>}
+                                        else
+                                        {<span> @timeAgo.Hours timer siden</span>}
                                         @if (reply.User.UserName == User.Identity.Name || User.IsInRole(AppConstants.AdminRoleName))
-                                        {      <a href="@Url.Action("_CommentsDelete", "Article", new { @commentId = reply.Id, @ArticleId = comment.Article.Id}) " onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
+                                        {
+                                            <a href="@Url.Action("_CommentsDelete", "Article", new {@commentId = reply.Id, @ArticleId = comment.Article.Id}) " onclick = "return confirm('Er du sikker?');" ><i class="fa fa-trash"></i></a>
                                         }
                                         @if (reply.User.UserName == User.Identity.Name)
-                                        { <a href="@Url.Action("CommentEdit", "Article", new { @commentId = reply.Id}) "onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
+                                        {
+                                            <a href="@Url.Action("CommentEdit", "Article", new {@commentId = reply.Id}) "onclick = "return confirm('Er du sikker?');" ><i class="fa fa-pencil"></i></a>
                                         }
                                     </span>
                                 </div>
@@ -107,5 +112,5 @@
 }
 else {
 
-    <h1>Der er endnu ikke nogen kommentarer til dette indlæg.</h1>
+    <p>Der er endnu ikke nogen kommentarer til dette indlæg.</p>
 }
