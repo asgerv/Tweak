@@ -268,6 +268,7 @@
     <Compile Include="Areas\Admin\Controllers\BatchController.cs" />
     <Compile Include="Areas\Admin\Controllers\BannedWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\AdvertisementController.cs" />
     <Compile Include="Controllers\ArticleTagController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CMSController.cs" />
@@ -1730,6 +1731,7 @@
     <Content Include="Views\Article\Test.cshtml" />
     <Content Include="Views\Article\Category.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\WrittenTimeAgo.cshtml" />
+    <Content Include="Views\Shared\_RenderAd.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1925,6 +1927,7 @@
     <Folder Include="Content\uploads\" />
     <Folder Include="Images\ArticleImages\" />
     <Folder Include="Images\Gallery\" />
+    <Folder Include="Views\Advertisement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

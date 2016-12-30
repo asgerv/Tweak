@@ -1,8 +1,9 @@
 ﻿@model MVCForum.Website.ViewModels.ArticleSectionViewModel
-<link href="~/Content/Tweak/ArticleSection.css" rel="stylesheet"/>
+<link href="~/Content/Tweak/ArticleSection.css" rel="stylesheet" />
 <div class="dynamicHeightSection">
     <div class="section">
         <div class="container">
+            @Html.Action("_RenderAd", "Advertisement", new { i = 3 })
             @if (Model.ShowHeader)
             {
                 <h1 class="description">@Model.Header</h1>
@@ -12,10 +13,11 @@
                 <p>Ingen resultater fundet.</p>
             }
             <div class="row">
+       
                 @foreach (var article in Model.ArticleFrontpageViewModels)
-            {
-                Html.RenderPartial("_ArticleBox", article);
-            }
+                {
+                    Html.RenderPartial("_ArticleBox", article);
+                }
             </div>
         </div>
     </div>

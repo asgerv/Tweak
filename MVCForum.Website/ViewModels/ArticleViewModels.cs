@@ -87,4 +87,13 @@ namespace MVCForum.Website.ViewModels
         public ArticleSection ArticleSection { get; set; }
         public ArticleSectionViewModel ArticleSectionViewModel { get; set; }
     }
+
+
+    public class AdViewModel
+    {
+        public int zone { get; set; }
+        public int width { get; set; }
+        public int height { get; set; }
+        public int id { get; set; }
+    }
 }
