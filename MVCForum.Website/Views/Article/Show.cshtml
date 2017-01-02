@@ -8,12 +8,12 @@
 
 @section Header{
 
-    <link href="~/Content/Tweak/Article.css" rel="stylesheet" />
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7.css" rel="stylesheet" />
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7-codes.css" rel="stylesheet" />
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-codes.css" rel="stylesheet" />
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-embedded.css" rel="stylesheet" />
-    <link href="~/Content/Tweak/SocialMedia/animate.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/Article.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7-codes.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-codes.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-embedded.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/SocialMedia/animate.css" rel="stylesheet"/>
 
 }
 <div id="fb-root"></div>
@@ -21,15 +21,21 @@
     // Kan dette ikke flyttes til section Footer?
 
     function newwindow() {
-        window.open('http://facebook.com/sharer.php?u=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=300,resizable=no');
+        window.open('http://facebook.com/sharer.php?u=@Request.Url.AbsoluteUri',
+            'jav',
+            'width=660,height=300,resizable=no');
     }
 
     function newwindow2() {
-        window.open('https://plus.google.com/share?url=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=450,resizable=no');
+        window.open('https://plus.google.com/share?url=@Request.Url.AbsoluteUri',
+            'jav',
+            'width=660,height=450,resizable=no');
     }
 
     function newwindow3() {
-        window.open('https://twitter.com/share?url=@Request.Url.AbsoluteUri', 'jav', 'width=660,height=450,resizable=no');
+        window.open('https://twitter.com/share?url=@Request.Url.AbsoluteUri',
+            'jav',
+            'width=660,height=450,resizable=no');
     }
 
 </SCRIPT>
@@ -40,30 +46,36 @@
         <div class="col-sm-8 blog-main">
             <div class="blog-post">
                 <h2 class="blog-post-title"> @Html.DisplayFor(model => model.Header) </h2>
-                <p class="blog-post-meta">For @Html.DisplayFor(model => model.PublishDate) af <a href="@Model.User.NiceUrl">@Model.User.UserName</a> i @Html.ActionLink(Model.CategoryName, "Category", new { @slug = Model.CategorySlug })</p>
+                <p class="blog-post-meta">For @Html.DisplayFor(model => model.PublishDate) af <a href="@Model.User.NiceUrl">@Model.User.UserName</a> i @Html.ActionLink(Model.CategoryName, "Category", new {slug = Model.CategorySlug})</p>
 
                 @Html.Raw(Model.Body)
-            
+
                 <div class="article-tags">
                     <p>
                         Tags:
                         @foreach (var tag in Model.Tags)
                         {
-                            @Html.ActionLink(" #" + tag, "Index", "ArticleTag", new { tag }, new { @class = "Tag" })
+                            @Html.ActionLink(" #" + tag, "Index", "ArticleTag", new {tag}, new {@class = "Tag"})
                         }
                     </p>
                 </div>
 
                 <ul class="cv-social-media">
-                    <a class="animated fadeIn" href="javascript:newwindow()"><li id="facebook" class="icon-facebook facebook"></li></a>
-                    <a class="animated fadeIn" href="javascript:newwindow2()"><li id="gplus" class="icon-gplus"></li></a>
-                    <a class="animated fadeIn" href="javascript:newwindow3()"><li id="twitter" class="icon-twitter"></li></a>
+                    <a class="animated fadeIn" href="javascript:newwindow()">
+                        <li id="facebook" class="icon-facebook facebook"></li>
+                    </a>
+                    <a class="animateasnd fadeIn" href="javascript:newwindow2()">
+                        <li id="gplus" class="icon-gplus"></li>
+                    </a>
+                    <a class="animated fadeIn" href="javascript:newwindow3()">
+                        <li id="twitter" class="icon-twitter"></li>
+                    </a>
                 </ul>
-                <hr />
+                <hr/>
                 <div class="article-comments">
                     <h1>Kommentarer</h1>
-                    @Html.Action("_Comments", new { article = Model.Id })
-                    <br />
+                    @Html.Action("_Comments", new {article = Model.Id})
+                    <br/>
                     @if (User.Identity.IsAuthenticated)
                     {
                         Html.RenderAction("_Comment", Model);
@@ -76,34 +88,22 @@
             <div class="sidebar-module">
                 <h4>Populære</h4>
                 <ol class="list-unstyled">
-                    <li><a href="#">March 2014</a></li>
-                    <li><a href="#">February 2014</a></li>
-                    <li><a href="#">January 2014</a></li>
-                    <li><a href="#">December 2013</a></li>
-                    <li><a href="#">November 2013</a></li>
-                    <li><a href="#">October 2013</a></li>
-                    <li><a href="#">September 2013</a></li>
-                    <li><a href="#">August 2013</a></li>
-                    <li><a href="#">July 2013</a></li>
-                    <li><a href="#">June 2013</a></li>
-                    <li><a href="#">May 2013</a></li>
-                    <li><a href="#">April 2013</a></li>
+                    @foreach (var article in Model.MostPopularArticles)
+                    {
+                        <li>@Html.ActionLink(article.Header, "Show", new {slug = article.Slug})</li>
+                    }
                 </ol>
             </div>
             <div class="sidebar-module">
                 <h4>Seneste</h4>
                 <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
+                    @foreach (var article in Model.LatestArticles)
+                    {
+                        <li>@Html.ActionLink(article.Header, "Show", new {slug = article.Slug})</li>
+                    }
                 </ol>
             </div>
         </div><!-- /.blog-sidebar -->
     </div><!-- /.row -->
 </div><!-- /.container -->
-
-
-@Html.Action("_LatestArticles", "Article")
-
-
-
+@Html.Partial("_ArticleSection", Model.RelatedArticles)

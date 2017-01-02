@@ -134,6 +134,10 @@ namespace MVCForum.Website.Controllers
                         // Commit the transaction
                         unitOfWork.Commit();
 
+                        var MostPopularArticles = _articleService.GetMostPopular(article.Id, 7, 10);
+                        var LatestArticles = _articleService.GetNewest(10);
+                        var RelatedArticles = _articleService.GetRelated(article, 8);
+
                         var vm = new ArticleShowViewModel
                         {
                             Body = article.Body,
@@ -147,6 +151,41 @@ namespace MVCForum.Website.Controllers
                             Id = article.Id,
                             CategoryName = article.ArticleCategory.Name,
                             CategorySlug = article.ArticleCategory.Slug
+                        };
+
+                        vm.MostPopularArticles = MostPopularArticles
+                            .Select(x => new ArticleFrontpageViewModel
+                            {
+                                Header = x.Header,
+                                Image = x.Image,
+                                PublishDate = x.PublishDate,
+                                Slug = x.Slug,
+                                UserName = x.User.UserName
+                            }).ToList();
+
+                        vm.LatestArticles = LatestArticles
+                            .Select(x => new ArticleFrontpageViewModel
+                            {
+                                Header = x.Header,
+                                Image = x.Image,
+                                PublishDate = x.PublishDate,
+                                Slug = x.Slug,
+                                UserName = x.User.UserName
+                            }).ToList();
+
+                        vm.RelatedArticles = new ArticleSectionViewModel
+                        {
+                            Header = "Relaterede nyheder",
+                            ShowHeader = true,
+                            ArticleFrontpageViewModels = RelatedArticles
+                                .Select(x => new ArticleFrontpageViewModel
+                                {
+                                    Header = x.Header,
+                                    Image = x.Image,
+                                    PublishDate = x.PublishDate,
+                                    Slug = x.Slug,
+                                    UserName = x.User.UserName
+                                }).ToList()
                         };
 
                         return View(vm);
