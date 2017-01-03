@@ -24,6 +24,9 @@ namespace MVCForum.Website.ViewModels
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
         public List<string> Tags { get; set; }
+        public List<ArticleFrontpageViewModel> MostPopularArticles { get; set; }
+        public List<ArticleFrontpageViewModel> LatestArticles { get; set; }
+        public ArticleSectionViewModel RelatedArticles { get; set; }
     }
 
     public class ArticleSearchViewModel
