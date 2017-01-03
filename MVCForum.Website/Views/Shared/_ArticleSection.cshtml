@@ -13,7 +13,6 @@
                 <p>Ingen resultater fundet.</p>
             }
             <div class="row">
-       
                 @foreach (var article in Model.ArticleFrontpageViewModels)
                 {
                     Html.RenderPartial("_ArticleBox", article);
