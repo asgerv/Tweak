@@ -8,12 +8,12 @@
 
 @section Header{
 
-    <link href="~/Content/Tweak/Article.css" rel="stylesheet"/>
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7.css" rel="stylesheet"/>
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7-codes.css" rel="stylesheet"/>
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-codes.css" rel="stylesheet"/>
-    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-embedded.css" rel="stylesheet"/>
-    <link href="~/Content/Tweak/SocialMedia/animate.css" rel="stylesheet"/>
+    <link href="~/Content/Tweak/Article.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-ie7-codes.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-codes.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/socialIconsFont/creativeverse_social-embedded.css" rel="stylesheet" />
+    <link href="~/Content/Tweak/SocialMedia/animate.css" rel="stylesheet" />
 
 }
 <div id="fb-root"></div>
@@ -58,7 +58,7 @@
                         Tags:
                         @foreach (var tag in Model.Tags)
                         {
-                            @Html.ActionLink(" #" + tag, "Index", "ArticleTag", new {tag}, new {@class = "Tag"})
+                        @Html.ActionLink(" #" + tag, "Index", "ArticleTag", new {tag}, new {@class = "Tag"})
                         }
                     </p>
                 </div>
@@ -74,11 +74,11 @@
                         <li id="twitter" class="icon-twitter"></li>
                     </a>
                 </ul>
-                <hr/>
+                <hr />
                 <div class="article-comments">
                     <h1>Kommentarer</h1>
                     @Html.Action("_Comments", new {article = Model.Id})
-                    <br/>
+                    <br />
                     @if (User.Identity.IsAuthenticated)
                     {
                         Html.RenderAction("_Comment", Model);
@@ -89,24 +89,27 @@
 
         <div class="col-sm-3 offset-sm-1 blog-sidebar">
             <div class="sidebar-module">
-                <br/><br /><br /><br /><br /><br /><br /><br /><br />
+                <br /><br /><br /><br /><br /><br /><br /><br /><br />
                 <h4>Populære</h4>
                 <ol class="list-unstyled">
                     @foreach (var article in Model.MostPopularArticles)
                     {
-                        <li>@Html.ActionLink(article.Header, "Show", new {slug = article.Slug})</li>
+                        <li>@Html.ActionLink(article.Header, "Show", new { slug = article.Slug })</li>
                     }
                 </ol>
             </div>
+            @Html.Action("_RenderAd", "Advertisement", new { i = 6 })
             <div class="sidebar-module">
                 <h4>Seneste</h4>
                 <ol class="list-unstyled">
                     @foreach (var article in Model.LatestArticles)
                     {
-                        <li>@Html.ActionLink(article.Header, "Show", new {slug = article.Slug})</li>
+                        <li>@Html.ActionLink(article.Header, "Show", new { slug = article.Slug })</li>
                     }
                 </ol>
             </div>
+            @Html.Action("_RenderAd", "Advertisement", new { i = 5 })
+            @Html.Action("_RenderAd", "Advertisement", new { i = 7 })
         </div><!-- /.blog-sidebar -->
     </div><!-- /.row -->
 </div><!-- /.container -->

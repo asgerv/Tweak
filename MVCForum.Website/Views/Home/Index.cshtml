@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Tweak";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var count = 1;
 }
 @section Header{
     <link href="~/Content/Tweak/Frontpage.css" rel="stylesheet" />
@@ -9,13 +10,20 @@
 
 
 @Html.Action("_ArticleMain", "Article")
-<br />
-<br />
-<br />
+
+@Html.Action("_RenderAd", "Advertisement", new { i = 3 })
+
+
 @Html.Action("_LatestArticles", "Article")
+
+    @Html.Action("_RenderAd", "Advertisement", new { i = 3 })
 
 @foreach (var section in Model)
 {
+
+        @Html.Action("_RenderAd", "Advertisement", new { i = count })
+  
     Html.RenderPartial("_ArticleSection", section);
+    count++;
 }
 
