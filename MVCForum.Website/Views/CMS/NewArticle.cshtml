@@ -55,12 +55,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Image, "Artikel billede URL", new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
-                                                <label for="UploadImg">Upload artikel billede</label>
-                                                <input name="file" type="file" id="UploadImg">
-                                                <br />
-                                                <label>Nuværende artikel billede.</label>
-                                                <img id="imgPreview" src="@Model.Image" class="img-responsive grid-image" />
-                                                <br />
+
                                                 @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                                             </div>
@@ -112,6 +107,12 @@
                                 }
                             </div>
                             <div class="col-lg-6">
+                                <label for="UploadImg">Upload artikel billede</label>
+                                <input name="file" type="file" id="UploadImg">
+                                <br />
+                                <label>Nuværende artikel billede.</label>
+                                <img id="imgPreview" src="@Model.Image" class="img-responsive grid-image" />
+                                <br />
                             </div>
                             <!-- /.col-lg-6 (nested) -->
                         </div>

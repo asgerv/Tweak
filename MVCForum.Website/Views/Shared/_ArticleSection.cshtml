@@ -3,7 +3,7 @@
 <div class="dynamicHeightSection">
     <div class="section">
         <div class="container">
-    
+            @Html.Action("_RenderAd", "Advertisement", new { i = 3 })
             @if (Model.ShowHeader)
             {
                 <h1 class="description">@Model.Header</h1>
