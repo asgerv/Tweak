@@ -2,8 +2,7 @@
 <link href="~/Content/Tweak/ArticleSection.css" rel="stylesheet" />
 <div class="dynamicHeightSection">
     <div class="section">
-        <div class="container">
-            @Html.Action("_RenderAd", "Advertisement", new { i = 3 })
+        <div class="container">            
             @if (Model.ShowHeader)
             {
                 <h1 class="description">@Model.Header</h1>
