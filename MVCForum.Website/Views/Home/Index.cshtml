@@ -17,10 +17,12 @@
 
 @Html.Action("_RenderAd", "Advertisement", new { i = 3 })
 
+
 @foreach (var section in Model)
 {
-    @Html.Action("_RenderAd", "Advertisement", new { i = count })
+
     Html.RenderPartial("_ArticleSection", section);
+    @Html.Action("_RenderAd", "Advertisement", new { i = count })
     count++;
 }
 
